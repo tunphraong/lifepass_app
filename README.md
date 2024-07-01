@@ -1,5 +1,6 @@
-# Mantine Next Template
+# LifePass customer facing app
 
-Get started with the template by clicking `Use this template` button on the top of the page.
 
-[Documentation](https://mantine.dev/guides/next/)
+Installation
+1. Run "npm install" to install packages
+2. Run "npm run dev" to run the app on local
