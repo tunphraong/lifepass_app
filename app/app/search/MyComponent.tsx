@@ -58,11 +58,6 @@ export default function MyComponent() {
               <StudioCard key={studio.id} studio={studio} />
         ))}
       </Stack>
-      {/* <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 w-full">
-        {studios?.map((studio) => (
-          <StudioCard key={studio.id} studio={studio} /> // Render the StudioCard
-        ))}
-      </div> */}
     </>
   );
 }

@@ -28,7 +28,7 @@ const myColor: MantineColorsTuple = [
 
 const theme = createTheme({
   colors: {
-    'my-color': myColor,
+    'yellow': myColor,
   },
   autoContrast: true,
   luminanceThreshold: 0.31,

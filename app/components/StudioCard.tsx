@@ -59,9 +59,10 @@ export default function StudioCard({ studio }: any) {
         <Grid.Col span={4}>
           <Card.Section>
             <Link
+              target="_blank"
               key={studio.id}
               href={`/app/studios/${studio.id}`}
-              className="block text-decoration-none"
+              style={{ textDecoration: "none" }}
             >
               <Image
                 src={
@@ -84,7 +85,8 @@ export default function StudioCard({ studio }: any) {
             <Link
               key={studio.id}
               href={`/app/studios/${studio.id}`}
-              className="block text-decoration-none"
+              style={{ textDecoration: "none" }}
+              target="_blank"
             >
               <Text fw={500}>{name}</Text>
             </Link>

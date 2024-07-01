@@ -1,9 +1,46 @@
-// import { CardWithStats } from "../../components/CardWithStats";
+"use client";
+import useSWR from "swr";
+import { Center, Text, Loader, Image } from "@mantine/core";
+const fetcher = (url) => fetch(url).then((res) => res.json());
+import React from "react";
+import StudioImagesCarousel from "../../../components/StudioImagesCarousel";
+import { StudioInfo } from "../../../components/StudioInfo";
+import StudioSchedule from "../../../components/StudioSchedule";
 
-export default function Home() {
+
+const StudioPage = ({ params }) => {
+  const { id } = params;
+  const {
+    data: studio,
+    error,
+    isLoading,
+  } = useSWR(`/api/studio/${id}`, fetcher);
+
+  if (error) {
+    return (
+      <Center className="my-6">
+        <Text>Error loading studios.</Text>
+      </Center>
+    );
+  }
+
+  if (isLoading) {
+    return (
+      <Center className="my-6">
+        <Loader />
+      </Center>
+    );
+  }
+  
+
+  if (!studio) return <div>Studio not found</div>;
   return (
     <>
-      <p>Hello</p>
+      <StudioImagesCarousel studio={studio} isLoading={isLoading} />
+      <StudioInfo studio={studio}></StudioInfo>
+      {/* <StudioSchedule studioId={studio.id}></StudioSchedule> */}
     </>
   );
-}
+};
+
+export default StudioPage;

@@ -1,0 +1,68 @@
+"use client";
+import React from "react";
+import AliceCarousel from "react-alice-carousel";
+import "react-alice-carousel/lib/alice-carousel.css";
+// import { supabase } from "@/lib/supabaseClient"; // Your Supabase client
+import { createClient } from "../../utils/supabase/client";
+import { Image, Skeleton } from "@mantine/core"; // Use Mantine's Image component
+
+interface StudioCarouselProps {
+  //   studio: Studio;
+  studio: any; // Assuming you have a Studio interface defined
+  isLoading: boolean; // Indicate if data is still loading
+}
+
+const StudioImagesCarousel: React.FC<StudioCarouselProps> = ({
+  studio,
+  isLoading,
+}) => {
+  const supabase = createClient();
+  // Responsive settings for different screen sizes
+  const responsive = {
+    superSmall: { items: 1 }, // Example breakpoint, customize as needed
+    small: { items: 2 }, // Example breakpoint, customize as needed
+    medium: { items: 3 }, // Example breakpoint, customize as needed
+  };
+
+//   console.log(studio);
+
+  // Fetch image URLs from Supabase Storage
+  const imageUrls = studio.images.map((imagePath) => {
+    console.log(imagePath);
+    const url = supabase.storage.from("public_photos").getPublicUrl(imagePath)
+      .data.publicUrl;
+    return url;
+  });
+
+  if (isLoading) {
+    return <Skeleton height={200} radius="md" />; // Placeholder while loading
+  }
+
+  return (
+    <div className="mt-4">
+      {/* Add margin-top to space carousel from other content */}
+      <AliceCarousel
+        items={imageUrls.map((imageUrl) => (
+          <Image
+            src={imageUrl}
+            key={imageUrl}
+            alt={studio.name}
+            width={200}
+            height={200}
+            fit="cover"
+          />
+        ))}
+        mouseTracking
+        responsive={responsive}
+        autoPlay={false}
+        // autoPlay={studio.images.length > 1} // Autoplay only if there are multiple images
+        // autoPlayInterval={2000}
+        // infinite={true} // Make carousel loop infinitely
+        disableDotsControls
+        // disableButtonsControls
+      />
+    </div>
+  );
+};
+
+export default StudioImagesCarousel;

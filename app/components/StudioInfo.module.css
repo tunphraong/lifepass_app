@@ -1,0 +1,26 @@
+/* StudioInfo.module.css */
+.container {
+    /* Add your desired styles for the container here */
+    /* For example, to add a margin to the top: */
+    margin-top: 1rem; 
+}
+
+.tabPanel {
+    /* Add your desired styles for the tab panel here */
+    /* For example, to add padding: */
+    /* padding: 1rem; */
+    margin-top: 1rem;
+}
+
+.link {
+    /* Add your desired styles for the link here */
+    /* For example, to change the color: */
+    color: blue;
+}
+
+.amenitiesGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(100px, 1fr)); /* Responsive columns */
+  gap: 1rem;
+  margin-top: 1rem;
+}
