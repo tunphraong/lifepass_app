@@ -1,6 +1,15 @@
-import { Card, Image, Text, Group, Badge, Grid, Spoiler, CardSection } from "@mantine/core";
+import {
+  Card,
+  Image,
+  Text,
+  Group,
+  Badge,
+  Grid,
+  Spoiler,
+  CardSection,
+} from "@mantine/core";
 import { createClient } from "../../utils/supabase/client";
-import { theme } from "../../theme";
+import Link from "next/link";
 
 // interface StudioCardProps {
 //   studio: Studio; // Assuming you have a Studio interface defined
@@ -49,24 +58,37 @@ export default function StudioCard({ studio }: any) {
       <Grid>
         <Grid.Col span={4}>
           <Card.Section>
-            <Image
-              src={
-                supabase.storage.from("public_photos").getPublicUrl(imageUrl)
-                  .data.publicUrl
-              }
-              // fit="contain"
-              width="auto"
-              height={150}
-              fit="contain"
-              radius="sm"
-              alt={name}
-            />
+            <Link
+              key={studio.id}
+              href={`/app/studios/${studio.id}`}
+              className="block text-decoration-none"
+            >
+              <Image
+                src={
+                  supabase.storage.from("public_photos").getPublicUrl(imageUrl)
+                    .data.publicUrl
+                }
+                // fit="contain"
+                width="auto"
+                height={150}
+                fit="contain"
+                radius="sm"
+                alt={name}
+              />
+            </Link>
           </Card.Section>
         </Grid.Col>
 
         <Grid.Col span={8}>
           <Group>
-            <Text fw={500}>{name}</Text>
+            <Link
+              key={studio.id}
+              href={`/app/studios/${studio.id}`}
+              className="block text-decoration-none"
+            >
+              <Text fw={500}>{name}</Text>
+            </Link>
+
             {/* <Badge color="pink" variant="light">
               4.9 (2500+)
             </Badge> */}
