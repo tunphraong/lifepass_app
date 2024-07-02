@@ -1,0 +1,11 @@
+/* Home.module.css */
+.address {
+  white-space: nowrap;
+}
+
+@media (max-width: 600px) {
+  .address {
+    white-space: normal;
+    word-break: break-all;
+  }
+}

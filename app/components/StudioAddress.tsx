@@ -1,6 +1,7 @@
 import { Group, Text, ThemeIcon } from "@mantine/core";
 import Link from "next/link";
 import { IconMapPin } from "@tabler/icons-react"; // Assuming you use Tabler Icons for map pin
+import styles from "./StudioAddress.module.css";
 
 const StudioAddress = ({ address }) => {
   // Replace `address` with the actual address string you have
@@ -14,8 +15,8 @@ const StudioAddress = ({ address }) => {
       <ThemeIcon size={24} radius="md">
         <IconMapPin size={16} />
       </ThemeIcon>
-      <Text size="sm" color="dimmed">
-        <Link href={googleMapsUrl} target="_blank" rel="noopener noreferrer">
+      <Text size="sm" className={styles.address}>
+        <Link href={googleMapsUrl} target="_blank">
           {address}
         </Link>
       </Text>

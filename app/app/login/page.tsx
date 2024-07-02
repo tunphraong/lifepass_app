@@ -1,0 +1,15 @@
+import { redirect } from "next/navigation";
+import { revalidatePath } from "next/cache";
+import { createClient } from "../../../utils/supabase/server";
+import LoginPage from "./LoginPage";
+
+export default async function Login() {
+  const supabase = createClient();
+  const { data, error } = await supabase.auth.getUser();
+  console.log(data);
+  if (data?.user) {
+    redirect("/app/search");
+  }
+
+  return <LoginPage></LoginPage>;
+}

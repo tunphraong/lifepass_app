@@ -11,6 +11,7 @@ import {
   Tabs,
   Divider,
   ActionIcon,
+  Stack,
   Space,
   Spoiler,
 } from "@mantine/core";
@@ -58,7 +59,7 @@ export function StudioInfo({ studio }: StudioInfoProps) {
     prepare,
   } = studio;
 
-  console.log(studio);
+  // console.log(studio);
 
   // Map amenities to corresponding icons (you'll need to import these icons)
   const amenityIcons = {
@@ -225,8 +226,7 @@ export function StudioInfo({ studio }: StudioInfoProps) {
 
           <div>
             <Title order={3}>How to prepare</Title>
-            <Text size="md" 
-            style={{ marginBottom: "1rem" }}>
+            <Text size="md" style={{ marginBottom: "1rem" }}>
               {prepare}
             </Text>
           </div>
@@ -238,13 +238,21 @@ export function StudioInfo({ studio }: StudioInfoProps) {
             <div className={styles.amenitiesGrid}>
               {" "}
               {/* Apply grid layout from CSS module */}
-              {amenities.map((amenity) => (
+              {/* {amenities.map((amenity) => (
                 <Group key={amenity} spacing="xs">
                   <ThemeIcon size={35} radius="md">
                     {amenityIcons[amenity]}
                   </ThemeIcon>
                   <Text size="md">{amenity}</Text>
                 </Group>
+              ))} */}
+              {amenities.map((amenity) => (
+                <Stack key={amenity} align="center" spacing="xs">
+                  <ThemeIcon size={35} radius="md">
+                    {amenityIcons[amenity]}
+                  </ThemeIcon>
+                  <Text size="md">{amenity}</Text>
+                </Stack>
               ))}
             </div>
           </div>

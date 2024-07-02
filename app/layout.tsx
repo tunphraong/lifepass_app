@@ -6,7 +6,7 @@ import {
   MantineColorsTuple,
   ColorSchemeScript,
 } from "@mantine/core";
-// import { theme } from "../theme";
+import { Notifications } from "@mantine/notifications";
 
 export const metadata = {
   title: "Lifepass",
@@ -26,9 +26,23 @@ const myColor: MantineColorsTuple = [
   "#a96b00",
 ];
 
+const nudgeWhite: MantineColorsTuple = [
+  "#f8f4f1",
+  "#eae6e4",
+  "#d7cac3",
+  "#c3ab9f",
+  "#b49281",
+  "#ab826d",
+  "#a77862",
+  "#926752",
+  "#835b47",
+  "#744d3a",
+];
+
 const theme = createTheme({
   colors: {
     'yellow': myColor,
+    'white': nudgeWhite
   },
   autoContrast: true,
   luminanceThreshold: 0.31,
@@ -46,7 +60,10 @@ export default function RootLayout({ children }: { children: any }) {
         />
       </head>
       <body>
-        <MantineProvider theme={theme}>{children}</MantineProvider>
+        <MantineProvider theme={theme}>
+          <Notifications position="top-center" zIndex={1000} />
+          {children}
+        </MantineProvider>
       </body>
     </html>
   );
