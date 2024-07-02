@@ -2,6 +2,7 @@
 // import HowItWorks from "./components/HowItWorks";
 import Content from "./components/Content";
 import Header from "./components/Header";
+import { FooterCentered } from "./components/FooterCentered";
 
 export default function Home() {
   return (
@@ -87,6 +88,7 @@ export default function Home() {
         </div>
       </section>
       <Content></Content>
+      <FooterCentered />
     </main>
   );
 }

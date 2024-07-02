@@ -14,7 +14,7 @@
     "@mantine/dates": "^7.11.0",
     "@mantine/form": "^7.11.0",
     "@mantine/hooks": "7.11.0",
-    "@mantine/notifications": "^7.11.0",
+    "@mantine/notifications": "^7.11.1",
     "@supabase/ssr": "^0.4.0",
     "@supabase/supabase-js": "^2.44.2",
     "@tabler/icons-react": "^3.7.0",
