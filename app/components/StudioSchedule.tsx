@@ -130,8 +130,7 @@ const StudioSchedule = ({ studioId }) => {
             </Center>
 
             <Text>
-              Reservation for {selectedSchedule?.classes?.name} has been booked
-              successfully!
+              Your enrollment for has been booked successfully!
             </Text>
 
             <Button fullWidth color="yellow" onClick={handleCloseModal}>
