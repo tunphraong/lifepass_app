@@ -1,31 +1,17 @@
-'use client'
-import { Container, Group, Anchor } from "@mantine/core";
-import classes from "./Footer.module.css";
-import Link from "next/link";
 
-const links = [
-  { link: "/contact", label: "Contact" },
-  { link: "#", label: "Privacy" },
-  { link: "#", label: "Blog" },
-//   { link: "#", label: "Careers" },
-];
-
+import styles from '../app/Footer.module.css';
 
 export default function Footer() {
-  const items = links.map((link) => (
-    <Anchor<"a"> c="dimmed" key={link.label} href={link.link} size="sm">
-      <Link href={link.link}></Link>
-      {link.label}
-    </Anchor>
-  ));
-
   return (
-    <div className={classes.footer}>
-      <Container className={classes.inner}>
-        {/* <MantineLogo size={28} /> */}
-        <Group __size={28}>LifePass</Group>
-        <Group className={classes.links}>{items}</Group>
-      </Container>
-    </div>
+    <footer className={styles.footer}>
+      <div className={styles.container}>
+        <p>&copy; 2024 LifePass. All rights reserved.</p>
+        <ul className={styles.footerLinks}>
+          <li><a href="/terms">Terms of Service</a></li>
+          <li><a href="/privacy">Privacy Policy</a></li>
+          <li><a href="/contact">Contact Us</a></li>
+        </ul>
+      </div>
+    </footer>
   );
 }
