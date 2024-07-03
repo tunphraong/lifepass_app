@@ -1,15 +1,11 @@
 'use client';
 
-import { Anchor, Group, ActionIcon, rem } from '@mantine/core';
-import { IconBrandTwitter, IconBrandYoutube, IconBrandInstagram } from '@tabler/icons-react';
+import { Anchor, Group, Container, Text} from '@mantine/core';
 import classes from './FooterCentered.module.css';
+import Link from 'next/link';
 
 const links = [
-  { link: '#', label: 'Contact' },
-  { link: '#', label: 'Privacy' },
-  { link: '#', label: 'Blog' },
-  { link: '#', label: 'Store' },
-  { link: '#', label: 'Careers' },
+  { link: '/contact', label: 'Contact' },
 ];
 
 export function FooterCentered() {
@@ -19,32 +15,20 @@ export function FooterCentered() {
       key={link.label}
       href={link.link}
       lh={1}
-      onClick={(event) => event.preventDefault()}
       size="sm"
     >
+      <Link href={link.link}></Link>
       {link.label}
     </Anchor>
   ));
 
   return (
     <div className={classes.footer}>
-      <div className={classes.inner}>
-        <div className={classes.logo}>Lifepass</div>
-
+      <Container className={classes.inner}>
+        {/* <MantineLogo size={28} /> */}
+        <Group __size={28}>LifePass</Group>
         <Group className={classes.links}>{items}</Group>
-
-        <Group gap="xs" justify="flex-end" wrap="nowrap">
-          <ActionIcon size="lg" variant="default" radius="xl">
-            <IconBrandTwitter style={{ width: rem(18), height: rem(18) }} stroke={1.5} />
-          </ActionIcon>
-          <ActionIcon size="lg" variant="default" radius="xl">
-            <IconBrandYoutube style={{ width: rem(18), height: rem(18) }} stroke={1.5} />
-          </ActionIcon>
-          <ActionIcon size="lg" variant="default" radius="xl">
-            <IconBrandInstagram style={{ width: rem(18), height: rem(18) }} stroke={1.5} />
-          </ActionIcon>
-        </Group>
-      </div>
+      </Container>
     </div>
   );
 }
