@@ -1,4 +1,4 @@
-import styles from './app/page.module.css';
+import styles from './Home.module.css';
 import Content from "./components/Content";
 import Header from "./components/Header";
 import { FooterCentered } from "./components/FooterCentered";

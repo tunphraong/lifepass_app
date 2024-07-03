@@ -6,7 +6,7 @@ import BoxingImage from "../../public/boxing.jpg";
 import PilatesImage from "../../public/pilates.jpg";
 import RockClimbingImage from "../../public/rock-climbing.jpg";
 import SalonImage from "../../public/salon.jpg";
-import styles from '../app/content.module.css';
+import styles from './content.module.css';
 export default function Content() {
   return (
     <section className={styles.section}>

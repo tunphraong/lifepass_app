@@ -1,5 +1,6 @@
 import React from 'react';
-import styles from '../app/header.module.css'; // Import CSS module
+// import styles from '/header.module.css'; // Import CSS module
+import styles from "./header.module.css"
 
 export default function Content() {
     return (

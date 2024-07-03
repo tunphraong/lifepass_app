@@ -1,6 +1,6 @@
 'use client';
 
-import { Anchor, Group, Container, Text} from '@mantine/core';
+import { Anchor, Group, Container, Text, Title} from '@mantine/core';
 import classes from './FooterCentered.module.css';
 import Link from 'next/link';
 
@@ -26,7 +26,9 @@ export function FooterCentered() {
     <div className={classes.footer}>
       <Container className={classes.inner}>
         {/* <MantineLogo size={28} /> */}
-        <Group __size={28}>LifePass</Group>
+        <Title order={2} c={"yellow"}>
+          LifePass
+        </Title>
         <Group className={classes.links}>{items}</Group>
       </Container>
     </div>
