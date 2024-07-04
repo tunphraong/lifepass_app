@@ -17,7 +17,7 @@ import dayjs from "dayjs";
 import { IconArrowLeft, IconArrowRight } from "@tabler/icons-react"; // Import arrow icons
 import styles from "./StudioSchedule.module.css";
 import { useDisclosure } from "@mantine/hooks";
-import { notifications } from "@mantine/notifications";
+import { useRouter } from "next/navigation";
 
 const fetcher = async (url) => {
   const response = await fetch(url);
@@ -31,6 +31,7 @@ const fetcher = async (url) => {
 };
 
 const StudioSchedule = ({ studioId }) => {
+  const router = useRouter();
   const [opened, { open, close }] = useDisclosure(false);
   const [selectedSchedule, setSelectedSchedule] = useState(null);
   const [date, setDate] = useState(dayjs().format("YYYY-MM-DD"));
@@ -46,60 +47,69 @@ const StudioSchedule = ({ studioId }) => {
     close();
     setSelectedSchedule(null);
   };
-  const handleEnroll = async () => {
-    if (!selectedSchedule) return;
 
-    console.log(selectedSchedule);
-
-    try {
-      const response = await fetch("/api/bookings", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          schedule_id: selectedSchedule.id,
-          // Add other necessary booking details here
-        }),
-      });
-
-      if (!response.ok) {
-        // notifications.show({
-        //   color: "red",
-        //   position: "top-right",
-        //   title: "Default notification",
-        //   message: "Hey there, your code is awesome! 🤥",
-        //   classNames: styles,
-        // });
-        throw new Error("Failed to book the schedule");
-      }
-
-      // Optionally, update the local data to reflect the new booking
-      mutate(`/api/studio/${studioId}/schedules?date=${date}`);
-
-      setReservationSuccess(true); // Set success state
-    } catch (error) {
-      console.error("Error booking the schedule:", error);
-         
-      // let errorMessage = "An unexpected error occurred";
-      // if (error.message === "Unauthorized") {
-      //   errorMessage = "You must be logged in to book a class.";
-      // } else if (error.message === "Class is fully booked") {
-      //   errorMessage = "The class is fully booked. Please try another class.";
-      // } else if (error.message === "Failed to book the schedule") {
-      //   errorMessage = "Failed to book the class. Please try again later.";
-      // } else if (error.message.includes("supabase")) {
-      //   errorMessage =
-      //     "Error communicating with the server. Please try again later.";
-      // }
-
-      // notifications.show({
-      //   title: "Booking failed",
-      //   message: errorMessage,
-      //   color: "red",
-      // });
-    }
+  const handleEnroll = (schedule: any) => {
+    // setSelectedSchedule(schedule);
+    router.push(`/app/payment?scheduleId=${selectedSchedule?.id}`);
   };
+
+
+  // const handleEnroll = async () => {
+  //   if (!selectedSchedule) return;
+
+  //   console.log(selectedSchedule);
+
+  //   try {
+  //     const response = await fetch("/api/bookings", {
+  //       method: "POST",
+  //       headers: {
+  //         "Content-Type": "application/json",
+  //       },
+  //       body: JSON.stringify({
+  //         schedule_id: selectedSchedule.id,
+  //         // Add other necessary booking details here
+  //       }),
+  //     });
+
+  //     if (!response.ok) {
+  //       // notifications.show({
+  //       //   color: "red",
+  //       //   position: "top-right",
+  //       //   title: "Default notification",
+  //       //   message: "Hey there, your code is awesome! 🤥",
+  //       //   classNames: styles,
+  //       // });
+  //       throw new Error("Failed to book the schedule");
+  //     }
+
+  //     // Optionally, update the local data to reflect the new booking
+  //     mutate(`/api/studio/${studioId}/schedules?date=${date}`);
+
+  //     setReservationSuccess(true); // Set success state
+  //   } catch (error) {
+  //     console.error("Error booking the schedule:", error);
+
+  //     // let errorMessage = "An unexpected error occurred";
+  //     // if (error.message === "Unauthorized") {
+  //     //   errorMessage = "You must be logged in to book a class.";
+  //     // } else if (error.message === "Class is fully booked") {
+  //     //   errorMessage = "The class is fully booked. Please try another class.";
+  //     // } else if (error.message === "Failed to book the schedule") {
+  //     //   errorMessage = "Failed to book the class. Please try again later.";
+  //     // } else if (error.message.includes("supabase")) {
+  //     //   errorMessage =
+  //     //     "Error communicating with the server. Please try again later.";
+  //     // }
+
+  //     // notifications.show({
+  //     //   title: "Booking failed",
+  //     //   message: errorMessage,
+  //     //   color: "red",
+  //     // });
+  //   }
+  // };
+
+
 
   const {
     data: schedules,
@@ -124,14 +134,12 @@ const StudioSchedule = ({ studioId }) => {
     <>
       <Modal opened={opened} onClose={handleCloseModal} title="Confirmation">
         {reservationSuccess ? (
-          <Stack spacing="md">
+          <Stack gap="md">
             <Center>
               <Title order={3}> {selectedSchedule?.classes?.name}</Title>
             </Center>
 
-            <Text>
-              Your enrollment for has been booked successfully!
-            </Text>
+            <Text>Your enrollment for has been booked successfully!</Text>
 
             <Button fullWidth color="yellow" onClick={handleCloseModal}>
               Close
@@ -139,9 +147,9 @@ const StudioSchedule = ({ studioId }) => {
           </Stack>
         ) : (
           selectedSchedule && (
-            <Stack spacing="md">
+            <Stack gap="md">
               <Text weight={500}>{selectedSchedule.classes.name}</Text>
-              <Text size="sm" color="dimmed">
+              <Text size="sm" c="dimmed">
                 {selectedSchedule.classes.description}
               </Text>
               <Group>

@@ -1,15 +1,16 @@
 "use client";
 import useSWR from "swr";
 import { Center, Text, Loader, Image } from "@mantine/core";
-const fetcher = (url) => fetch(url).then((res) => res.json());
+const fetcher = (url: any) => fetch(url).then((res) => res.json());
 import React from "react";
 import StudioImagesCarousel from "../../../components/StudioImagesCarousel";
 import { StudioInfo } from "../../../components/StudioInfo";
 import StudioSchedule from "../../../components/StudioSchedule";
 
 
-const StudioPage = ({ params }) => {
+const StudioPage = ({ params }: any) => {
   const { id } = params;
+  console.log('id', id);
   const {
     data: studio,
     error,
