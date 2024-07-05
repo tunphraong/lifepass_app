@@ -29,12 +29,9 @@ interface User {
   // Add other necessary user fields here
 }
 
-interface PaymentPageComponentProps {
-  user: User;
-}
 
-const PaymentPageComponent = ({ user }) => {
-  console.log("user", user);
+const PaymentPageComponent = ({ userId }) => {
+  // console.log("user", );
 
   const searchParams = useSearchParams();
   const scheduleId = searchParams.get("scheduleId") ?? null;
@@ -95,7 +92,7 @@ const PaymentPageComponent = ({ user }) => {
       amount: schedule.price,
       bank_code: "zalopayapp",
       schedule_id: schedule.id,
-      user_id: user.id,
+      user_id: userId
     };
 
     fetch("/api/zalopay", {
