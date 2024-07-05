@@ -12,14 +12,62 @@ import {
 import { useDisclosure } from "@mantine/hooks";
 // import { MantineLogo } from '@mantinex/mantine-logo';
 import classes from "./Navbar.module.css";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Link from "next/link";
+import { createClient } from "../../utils/supabase/client";
 
 export default function MobileNavbar({
   children,
+  isLoggedIn,
 }: Readonly<{
   children: React.ReactNode;
+  isLoggedIn: boolean;
 }>) {
+  const supabase = createClient();
+  console.log("isLoggedIn", isLoggedIn);
+  // useEffect(() => {
+  //   const getSession = async () => {
+  //     const {
+  //       data: { session },
+  //       error,
+  //     } = await supabase.auth.getSession();
+  //     if (error) {
+  //       console.error("Error getting session:", error);
+  //       return;
+  //     }
+
+  //     if (session && session.access_token && session.user) {
+  //       console.log("get here");
+  //       setIsLoggedIn(true);
+  //     } else {
+  //       setIsLoggedIn(false);
+  //     }
+
+  //     console.log("session", session);
+  //     // setIsLoggedIn(!!session); // Set login status based on session existence
+  //   };
+
+  //   getSession();
+  // }, []);
+
+  const handleLoginLogout = async () => {
+    if (isLoggedIn) {
+      // Perform logout logic here
+      const { error } = await supabase.auth.signOut();
+      if (error) {
+        console.error("Error logging out:", error);
+      } else {
+        console.log("Logged out successfully");
+        // setIsLoggedIn(false);
+      }
+    } else {
+      // Perform login logic here (you might redirect to a login page or show a login modal)
+      console.log("Redirect to login page...");
+      // Example: Redirect to login page
+      window.location.href = "/app/login";
+    }
+  };
+
   const [opened, { toggle }] = useDisclosure();
   const [currentLocale, setCurrentLocale] = useState("en"); // Initial locale, 'en' for English
   const switchLocale = (locale) => {
@@ -29,6 +77,8 @@ export default function MobileNavbar({
   };
 
   const [openedLocale, setOpened] = useState(false);
+
+  // const { data: { user } } = await supabase.auth.getUser()
   return (
     <AppShell
       header={{ height: 60 }}
@@ -51,9 +101,16 @@ export default function MobileNavbar({
                   Home
                 </UnstyledButton>
               </Link>
-              <Link href="/app/login" className={classes.link} passHref>
-                <UnstyledButton className={`${classes.control}`}>
-                  Đăng Nhập
+              <Link
+                href={isLoggedIn ? "/app/logout" : "/app/login"}
+                className={classes.link}
+                passHref
+              >
+                <UnstyledButton
+                  className={`${classes.control}`}
+                  // onClick={handleLoginLogout}
+                >
+                  {isLoggedIn ? "Đăng Xuất" : "Đăng Nhập"}
                 </UnstyledButton>
               </Link>
             </Group>
@@ -65,9 +122,21 @@ export default function MobileNavbar({
         <Link href="/app/search" className={classes.link} passHref>
           <UnstyledButton className={`${classes.control}`}>Home</UnstyledButton>
         </Link>
-        <Link href="/app/login" className={classes.link} passHref>
+        {/* <Link href="/app/login" className={classes.link} passHref>
           <UnstyledButton className={`${classes.control}`}>
             Đăng Nhập
+          </UnstyledButton>
+        </Link> */}
+        <Link
+          href={isLoggedIn ? "/app/logout" : "/app/login"}
+          className={classes.link}
+          passHref
+        >
+          <UnstyledButton
+            className={`${classes.control}`}
+            // onClick={handleLoginLogout}
+          >
+            {isLoggedIn ? "Đăng Xuất" : "Đăng Nhập"}
           </UnstyledButton>
         </Link>
       </AppShell.Navbar>
