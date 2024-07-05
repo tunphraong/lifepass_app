@@ -4,12 +4,15 @@ import {
   Burger,
   Group,
   Skeleton,
+  Menu,
+  MenuItem,
+  Button,
   UnstyledButton,
 } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
 // import { MantineLogo } from '@mantinex/mantine-logo';
 import classes from "./Navbar.module.css";
-
+import React, { useState } from "react";
 
 export default function MobileNavbar({
   children,
@@ -17,6 +20,14 @@ export default function MobileNavbar({
   children: React.ReactNode;
 }>) {
   const [opened, { toggle }] = useDisclosure();
+  const [currentLocale, setCurrentLocale] = useState("en"); // Initial locale, 'en' for English
+  const switchLocale = (locale) => {
+    setCurrentLocale(locale);
+    // Optionally, you can set a cookie or localStorage value to persist the selected locale
+    // localStorage.setItem('app_locale', locale);
+  };
+
+  const [openedLocale, setOpened] = useState(false);
   return (
     <AppShell
       header={{ height: 60 }}
@@ -41,6 +52,21 @@ export default function MobileNavbar({
               <UnstyledButton className={classes.control}>
                 Log In
               </UnstyledButton>
+              <Menu>
+                <Menu.Target>
+                  <Button>Toggle menu</Button>
+                </Menu.Target>
+
+                <Menu.Dropdown>
+                  <Menu.Item
+                    disabled
+                  >
+                    Search
+                  </Menu.Item>
+
+                  {/* Other items ... */}
+                </Menu.Dropdown>
+              </Menu>
             </Group>
           </Group>
         </Group>

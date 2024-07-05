@@ -103,7 +103,7 @@ export async function POST(request: NextRequest) {
 
     return NextResponse.json({
       message: "Booking successful",
-      bookingId: bookingData?.id,
+      // bookingId: bookingData.id,
     });
   } catch (error) {
     console.error("Error in booking:", error);

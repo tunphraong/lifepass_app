@@ -6,7 +6,6 @@ import {
   MantineColorsTuple,
   ColorSchemeScript,
 } from "@mantine/core";
-import { Notifications } from "@mantine/notifications";
 
 export const metadata = {
   title: "Lifepass",
@@ -61,7 +60,6 @@ export default function RootLayout({ children }: { children: any }) {
       </head>
       <body>
         <MantineProvider theme={theme}>
-          <Notifications position="top-center" zIndex={1000} />
           {children}
         </MantineProvider>
       </body>

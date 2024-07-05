@@ -1,3 +1,5 @@
 *.js
 *.mjs
 *.cjs
+*.tsx
+*.ts
