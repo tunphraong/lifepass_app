@@ -22,10 +22,19 @@ import ZaloPayIcon from "../../../public/payments/logo-zalopay.svg"; // Replace 
 import Image from "next/image";
 import { createClient } from "../../../utils/supabase/client";
 
-const supabase = createClient();
+// Define the type for the user prop
+interface User {
+  id: string;
+  email: string;
+  // Add other necessary user fields here
+}
+
+interface PaymentPageComponentProps {
+  user: User;
+}
 
 const PaymentPageComponent = ({ user }) => {
-  console.log('user', user);
+  console.log("user", user);
 
   const searchParams = useSearchParams();
   const scheduleId = searchParams.get("scheduleId") ?? null;
@@ -82,36 +91,36 @@ const PaymentPageComponent = ({ user }) => {
     // console.log("Selected payment method:", selectedPaymentMethod);
     // console.log("Proceed to payment for schedule:", schedule);
     // Implement payment logic here based on selectedPaymentMethod
-     const paymentDetails = {
-       amount: schedule.price,
-       bank_code: "zalopayapp",
-       schedule_id: schedule.id,
-       user_id: user.id,
-     };
+    const paymentDetails = {
+      amount: schedule.price,
+      bank_code: "zalopayapp",
+      schedule_id: schedule.id,
+      user_id: user.id,
+    };
 
-     fetch("/api/zalopay", {
-       method: "POST",
-       headers: {
-         "Content-Type": "application/json",
-       },
-       body: JSON.stringify(paymentDetails),
-     })
-       .then((response) => response.json())
-       .then((data) => {
-         if (data.error) {
-           // Handle error response from API
-           console.error("Error:", data.error);
-           // Display error message to user
-         } else {
-           // Handle successful response from API
-           console.log("Success:", data);
-           // Redirect or display success message to user
-         }
-       })
-       .catch((error) => {
-         console.error("Error:", error);
-         // Display error message to user
-       });
+    fetch("/api/zalopay", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(paymentDetails),
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        if (data.error) {
+          // Handle error response from API
+          console.error("Error:", data.error);
+          // Display error message to user
+        } else {
+          // Handle successful response from API
+          console.log("Success:", data);
+          // Redirect or display success message to user
+        }
+      })
+      .catch((error) => {
+        console.error("Error:", error);
+        // Display error message to user
+      });
   };
 
   return (

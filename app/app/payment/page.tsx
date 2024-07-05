@@ -10,5 +10,12 @@ export default async function PaymentPage() {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 
-  return <PaymentPageComponent user={data.user} />;
+  // Serialize the user data to a plain object
+  const user = {
+    id: data.user.id,
+    email: data.user.email,
+    // Add other necessary user fields here
+  };
+
+  return <PaymentPageComponent user={user} />;
 }
