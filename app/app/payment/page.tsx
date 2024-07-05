@@ -1,13 +1,14 @@
 import PaymentPageComponent from "./PaymentPageComponent";
 import { createClient } from "../../../utils/supabase/server";
 import { NextResponse } from "next/server";
+import { redirect } from 'next/navigation'
 
 
 export default async function PaymentPage() {
   const supabase = createClient();
   const { data, error } = await supabase.auth.getUser();
   if (error || !data?.user) {
-    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    redirect('/app/login')
   }
 
   // Serialize the user data to a plain object
