@@ -11,11 +11,7 @@ export default async function PaymentPage() {
   }
 
   // Serialize the user data to a plain object
-  const user = {
-    id: data.user.id,
-    email: data.user.email,
-    // Add other necessary user fields here
-  };
+  const userId = data.user.id;
 
-  return <PaymentPageComponent user={user} />;
+  return <PaymentPageComponent userId={userId} />;
 }
