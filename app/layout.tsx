@@ -7,10 +7,16 @@ import {
   ColorSchemeScript,
 } from "@mantine/core";
 
+import { i18n, type Locale } from "../i18n-config";
+
 export const metadata = {
   title: "Lifepass",
   description: "Your one-access pass to all your favorite studios.",
 };
+
+export async function generateStaticParams() {
+  return i18n.locales.map((locale) => ({ lang: locale }));
+}
 
 const myColor: MantineColorsTuple = [
   "#fff6e1",
@@ -40,16 +46,22 @@ const nudgeWhite: MantineColorsTuple = [
 
 const theme = createTheme({
   colors: {
-    'yellow': myColor,
-    'white': nudgeWhite
+    yellow: myColor,
+    white: nudgeWhite,
   },
   autoContrast: true,
   luminanceThreshold: 0.31,
 });
 
-export default function RootLayout({ children }: { children: any }) {
+export default function RootLayout({
+  children,
+  params,
+}: {
+  children: any;
+  params: { lang: Locale };
+}) {
   return (
-    <html lang="en">
+    <html lang= {params.lang}>
       <head>
         <ColorSchemeScript />
         <link rel="shortcut icon" href="/favicon.svg" />
@@ -59,9 +71,7 @@ export default function RootLayout({ children }: { children: any }) {
         />
       </head>
       <body>
-        <MantineProvider theme={theme}>
-          {children}
-        </MantineProvider>
+        <MantineProvider theme={theme}>{children}</MantineProvider>
       </body>
     </html>
   );

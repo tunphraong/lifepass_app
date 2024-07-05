@@ -108,12 +108,12 @@ export function StudioInfo({ studio }: StudioInfoProps) {
         maxHeight={50}
         showLabel={
           <Text c="my-color" size="sm">
-            Read more
+            Đọc thêm
           </Text>
         }
         hideLabel={
           <Text c="my-color" size="sm">
-            Show Less
+            Ẩn
           </Text>
         }
       >
@@ -122,8 +122,8 @@ export function StudioInfo({ studio }: StudioInfoProps) {
 
       <Tabs defaultValue="info">
         <Tabs.List grow>
-          <Tabs.Tab value="info">Info</Tabs.Tab>
-          <Tabs.Tab value="schedule">Schedule</Tabs.Tab>
+          <Tabs.Tab value="info">Thông tin</Tabs.Tab>
+          <Tabs.Tab value="schedule">Lịch</Tabs.Tab>
         </Tabs.List>
 
         <Tabs.Panel value="schedule">
@@ -145,7 +145,7 @@ export function StudioInfo({ studio }: StudioInfoProps) {
 
           <StudioAddress address={address}></StudioAddress>
 
-          <Group noWrap mb="md">
+          <Group wrap="nowrap" mb="md">
             <ThemeIcon size={24} radius="md">
               <IconPhone size={16} />
             </ThemeIcon>
@@ -155,7 +155,7 @@ export function StudioInfo({ studio }: StudioInfoProps) {
           </Group>
 
           {website && (
-            <Group noWrap mb="md">
+            <Group wrap="nowrap" mb="md">
               <ThemeIcon className={styles.iconWrapper} size={24} radius="md">
                 <IconAt size={16} />
               </ThemeIcon>
@@ -225,7 +225,7 @@ export function StudioInfo({ studio }: StudioInfoProps) {
           <Divider my="md" />
 
           <div>
-            <Title order={3}>How to prepare</Title>
+            <Title order={3}>Chuẩn bị</Title>
             <Text size="md" style={{ marginBottom: "1rem" }}>
               {prepare}
             </Text>
@@ -234,7 +234,7 @@ export function StudioInfo({ studio }: StudioInfoProps) {
           <Divider my="md" />
 
           <div>
-            <Title order={3}>Amenities</Title>
+            <Title order={3}>Tiện nghi</Title>
             <div className={styles.amenitiesGrid}>
               {" "}
               {/* Apply grid layout from CSS module */}
@@ -261,11 +261,11 @@ export function StudioInfo({ studio }: StudioInfoProps) {
 
           {/* How to Get There Section */}
           <div>
-            <Title order={3}>How to get there</Title>
+            <Title order={3}>Chỉ dẫn đường</Title>
             <Spoiler
               maxHeight={50}
-              showLabel="Read more"
-              hideLabel="Show less"
+              showLabel="Đọc thêm"
+              hideLabel="Ẩn"
               classNames={{
                 control: styles.spoilerControl,
                 content: styles.spoilerContent,

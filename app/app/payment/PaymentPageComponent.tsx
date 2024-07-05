@@ -190,23 +190,23 @@ const PaymentPageComponent = ({ user }) => {
     // </div>
 
     <Stack align="center" gap="md">
-      <Text fw={500}>Select a payment method</Text>
+      <Text fw={500}>Chọn phương thức thanh toán</Text>
       <Card shadow="sm" padding="sm" radius="md" withBorder>
         <Stack gap="lg">
-          <Text>Selected Class: {classData.name}</Text>
+          <Text>Lớp đã chọn: {classData.name}</Text>
           <Text>
-            Price:{" "}
-            {schedule.price.toLocaleString("vi-VN", {
+            Giá:{" "}
+            {classData.price.toLocaleString("vi-VN", {
               style: "currency",
               currency: "VND",
             })}
           </Text>
 
           <Text>
-            Date: {dayjs(schedule?.start_time).format("MMMM D, YYYY")}
+            Ngày: {dayjs(schedule?.start_time).format("MMMM D, YYYY")}
           </Text>
           <Text>
-            Time: {dayjs(schedule?.start_time).format("h:mm A")} -{" "}
+            Thời gian: {dayjs(schedule?.start_time).format("h:mm A")} -{" "}
             {dayjs(schedule?.start_time)
               .add(classData?.duration, "minute")
               .format("h:mm A")}
@@ -215,7 +215,8 @@ const PaymentPageComponent = ({ user }) => {
           <RadioGroup
             value={selectedPaymentMethod}
             onChange={setSelectedPaymentMethod}
-            label="Choose your payment method"
+            // label=""
+            label="Chọn phương thức thanh toán của bạn"
             required
           >
             <Radio
@@ -265,7 +266,8 @@ const PaymentPageComponent = ({ user }) => {
             />
           </RadioGroup>
           <Button fullWidth color="yellow" onClick={handlePayment}>
-            Proceed to Payment
+            Tiếp tục thanh toán
+            {/* Proceed to Payment */}
           </Button>
         </Stack>
       </Card>

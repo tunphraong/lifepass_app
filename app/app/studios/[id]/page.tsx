@@ -20,7 +20,7 @@ const StudioPage = ({ params }: any) => {
   if (error) {
     return (
       <Center className="my-6">
-        <Text>Error loading studios.</Text>
+        <Text>Lỗi hiển thì studio. Bạn vui lòng thử lại sau</Text>
       </Center>
     );
   }

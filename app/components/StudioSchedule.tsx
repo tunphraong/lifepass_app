@@ -18,6 +18,7 @@ import { IconArrowLeft, IconArrowRight } from "@tabler/icons-react"; // Import a
 import styles from "./StudioSchedule.module.css";
 import { useDisclosure } from "@mantine/hooks";
 import { useRouter } from "next/navigation";
+require("dayjs/locale/vi");
 
 const fetcher = async (url) => {
   const response = await fetch(url);
@@ -139,7 +140,7 @@ const StudioSchedule = ({ studioId }) => {
               <Title order={3}> {selectedSchedule?.classes?.name}</Title>
             </Center>
 
-            <Text>Your enrollment for has been booked successfully!</Text>
+            <Text>Bạn đã ghi danh thành công cho lớp này!</Text>
 
             <Button fullWidth color="yellow" onClick={handleCloseModal}>
               Close
@@ -148,22 +149,22 @@ const StudioSchedule = ({ studioId }) => {
         ) : (
           selectedSchedule && (
             <Stack gap="md">
-              <Text weight={500}>{selectedSchedule.classes.name}</Text>
+              <Text fw={500}>{selectedSchedule.classes.name}</Text>
               <Text size="sm" c="dimmed">
                 {selectedSchedule.classes.description}
               </Text>
               <Group>
-                <Text>Instructor:</Text>
+                <Text>Huấn luyện viên:</Text>
                 <Text>{selectedSchedule.instructor_name}</Text>
               </Group>
               <Group>
-                <Text>Date:</Text>
+                <Text>Ngày:</Text>
                 <Text>
                   {dayjs(selectedSchedule.start_time).format("MMM D, YYYY")}
                 </Text>
               </Group>
               <Group>
-                <Text>Time:</Text>
+                <Text>Giờ:</Text>
                 <Text>
                   {dayjs(selectedSchedule.start_time).format("h:mm A")} -{" "}
                   {dayjs(selectedSchedule.start_time)
@@ -172,11 +173,11 @@ const StudioSchedule = ({ studioId }) => {
                 </Text>
               </Group>
               <Group>
-                <Text>Price:</Text>
+                <Text>Giá:</Text>
                 <Text>{formatPrice(selectedSchedule.price)}</Text>
               </Group>
               <Button fullWidth color="yellow" onClick={handleEnroll}>
-                Enroll
+                Tham gia
               </Button>
             </Stack>
           )
@@ -194,7 +195,7 @@ const StudioSchedule = ({ studioId }) => {
           >
             <IconArrowLeft />
           </ActionIcon>
-          <Text>{dayjs(date).format("MMMM D, YYYY")}</Text>
+          <Text>{dayjs(date).locale('vi').format("DD, MMMM, YYYY")}</Text>
           <ActionIcon
             variant="filled"
             color="black"
@@ -225,7 +226,7 @@ const StudioSchedule = ({ studioId }) => {
                       .format("h:mm A")}
                   </Text>
                 </div>
-                <Text>Instructor: {schedule.instructor_name}</Text>
+                <Text>Huấn luyện viên: {schedule.instructor_name}</Text>
 
                 <Button
                   className={styles.button}
@@ -259,7 +260,7 @@ const StudioSchedule = ({ studioId }) => {
             </Card>
           ))
         ) : (
-          <Text>No classes scheduled for this day.</Text>
+          <Text>Không có lớp nào được lên lịch cho ngày này.</Text>
         )}
       </Stack>
     </>

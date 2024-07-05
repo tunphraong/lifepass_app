@@ -13,6 +13,7 @@ import { useDisclosure } from "@mantine/hooks";
 // import { MantineLogo } from '@mantinex/mantine-logo';
 import classes from "./Navbar.module.css";
 import React, { useState } from "react";
+import Link from "next/link";
 
 export default function MobileNavbar({
   children,
@@ -45,39 +46,30 @@ export default function MobileNavbar({
             {/* <MantineLogo size={30} /> */}
             <p>LifePass</p>
             <Group ml="xl" gap={0} visibleFrom="sm">
-              <UnstyledButton className={classes.control}>Home</UnstyledButton>
-              <UnstyledButton className={classes.control}>
-                How Credits Work
-              </UnstyledButton>
-              <UnstyledButton className={classes.control}>
-                Log In
-              </UnstyledButton>
-              <Menu>
-                <Menu.Target>
-                  <Button>Toggle menu</Button>
-                </Menu.Target>
-
-                <Menu.Dropdown>
-                  <Menu.Item
-                    disabled
-                  >
-                    Search
-                  </Menu.Item>
-
-                  {/* Other items ... */}
-                </Menu.Dropdown>
-              </Menu>
+              <Link href="/app/search" className={classes.link} passHref>
+                <UnstyledButton className={`${classes.control}`}>
+                  Home
+                </UnstyledButton>
+              </Link>
+              <Link href="/app/login" className={classes.link} passHref>
+                <UnstyledButton className={`${classes.control}`}>
+                  Đăng Nhập
+                </UnstyledButton>
+              </Link>
             </Group>
           </Group>
         </Group>
       </AppShell.Header>
 
       <AppShell.Navbar py="md" px={4}>
-        <UnstyledButton className={classes.control}>Home</UnstyledButton>
-        <UnstyledButton className={classes.control}>
-          How Credits Work
-        </UnstyledButton>
-        <UnstyledButton className={classes.control}>Log In</UnstyledButton>
+        <Link href="/app/search" className={classes.link} passHref>
+          <UnstyledButton className={`${classes.control}`}>Home</UnstyledButton>
+        </Link>
+        <Link href="/app/login" className={classes.link} passHref>
+          <UnstyledButton className={`${classes.control}`}>
+            Đăng Nhập
+          </UnstyledButton>
+        </Link>
       </AppShell.Navbar>
 
       <AppShell.Main>
