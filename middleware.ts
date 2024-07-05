@@ -1,7 +1,5 @@
 import { type NextRequest } from 'next/server'
 import { updateSession } from './utils/supabase/middleware'
-import { match as matchLocale } from "@formatjs/intl-localematcher";
-import Negotiator from "negotiator";
 import { i18n } from "./i18n-config";
 import { NextResponse } from "next/server";
 

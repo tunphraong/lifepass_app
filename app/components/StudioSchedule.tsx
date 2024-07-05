@@ -184,7 +184,7 @@ const StudioSchedule = ({ studioId }) => {
         )}
       </Modal>
       <Space h="md" />
-      <Stack spacing="md">
+      <Stack gap="md">
         <Group justify="center" style={{ width: "100%" }}>
           <ActionIcon
             variant="filled"
@@ -195,7 +195,7 @@ const StudioSchedule = ({ studioId }) => {
           >
             <IconArrowLeft />
           </ActionIcon>
-          <Text>{dayjs(date).locale('vi').format("DD, MMMM, YYYY")}</Text>
+          <Text>{dayjs(date).locale("vi").format("DD, MMMM, YYYY")}</Text>
           <ActionIcon
             variant="filled"
             color="black"
@@ -216,7 +216,7 @@ const StudioSchedule = ({ studioId }) => {
               radius="md"
               withBorder
             >
-              <Group position="apart" grow>
+              <Group justify="space-between" grow>
                 <div>
                   <Text>{schedule.classes.name}</Text>
                   <Text size="sm" c="dimmed">

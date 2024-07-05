@@ -73,7 +73,7 @@ export function StudioInfo({ studio }: StudioInfoProps) {
 
   return (
     <div className="mt-4">
-      <Group position="apart">
+      <Group justify="space-between">
         <Title order={2}>{name}</Title>
         <Space w="md" />
         <Image
@@ -172,7 +172,7 @@ export function StudioInfo({ studio }: StudioInfoProps) {
 
           {/* Social Media Links */}
           {socialMedia && (
-            <Group spacing="xs" mb="md">
+            <Group gap="xs" mb="md">
               {socialMedia.instagram && (
                 <a
                   href={socialMedia.instagram}
@@ -247,7 +247,7 @@ export function StudioInfo({ studio }: StudioInfoProps) {
                 </Group>
               ))} */}
               {amenities.map((amenity) => (
-                <Stack key={amenity} align="center" spacing="xs">
+                <Stack key={amenity} align="center" gap="xs">
                   <ThemeIcon size={35} radius="md">
                     {amenityIcons[amenity]}
                   </ThemeIcon>
