@@ -1,9 +1,9 @@
-// pages/app/logout.tsx
-
+'use client'
 import { useEffect } from "react";
-import { useRouter } from "next/router";
+import { useRouter } from "next/navigation";
 // import { supabase } from "../../lib/supabaseClient"; // Adjust the import path as needed
-import { createClient } from "../../../utils/supabase/server";
+import { createClient } from "../../../utils/supabase/client";
+
 
 export default function Logout() {
   const supabase = createClient();
@@ -18,7 +18,7 @@ export default function Logout() {
         // Handle error (optional)
       } else {
         console.log("Logged out successfully");
-        router.push("/app/search"); // Redirect to home page or login page
+        router.push("/app/login"); // Redirect to home page or login page
       }
     }
 

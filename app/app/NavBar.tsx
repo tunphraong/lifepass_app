@@ -7,113 +7,199 @@ import {
   Menu,
   MenuItem,
   Button,
+  Modal,
   UnstyledButton,
 } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
-// import { MantineLogo } from '@mantinex/mantine-logo';
 import classes from "./Navbar.module.css";
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import { createClient } from "../../utils/supabase/client";
+import { useRouter } from "next/navigation";
+import { Session } from "@supabase/supabase-js"; // Import Session type
+import LoginForm from "../components/LoginForm"; // Import LoginForm component
 
 export default function MobileNavbar({
   children,
-  isLoggedIn,
-}: Readonly<{
+}: // isLoggedIn,
+Readonly<{
   children: React.ReactNode;
-  isLoggedIn: boolean;
+  // isLoggedIn: boolean;
 }>) {
+  const router = useRouter();
   const supabase = createClient();
-  // useEffect(() => {
-  //   const getSession = async () => {
-  //     const {
-  //       data: { session },
-  //       error,
-  //     } = await supabase.auth.getSession();
-  //     if (error) {
-  //       console.error("Error getting session:", error);
-  //       return;
-  //     }
+  const [session, setSession] = useState<Session | null>(null);
+  const [isLoading, setIsLoading] = useState<boolean>(true);
+  const [isError, setIsError] = useState<boolean>(false);
+  const [loginModalOpened, { open, close }] = useDisclosure(false);
 
-  //     if (session && session.access_token && session.user) {
-  //       console.log("get here");
-  //       setIsLoggedIn(true);
-  //     } else {
-  //       setIsLoggedIn(false);
-  //     }
+  useEffect(() => {
+    const fetchSession = async () => {
+      const {
+        data: { session },
+        error,
+      } = await supabase.auth.getSession();
+      if (error) {
+        console.error("Error fetching session:", error);
+        setIsLoading(false);
+        return;
+      }
+      setSession(session);
+      setIsLoading(false);
+    };
 
-  //     console.log("session", session);
-  //     // setIsLoggedIn(!!session); // Set login status based on session existence
-  //   };
+    fetchSession();
 
-  //   getSession();
-  // }, []);
+    const {
+      data: { subscription },
+    } = supabase.auth.onAuthStateChange((_event, session) => {
+      console.log("Auth state changed:", session);
+      setSession(session);
+    });
 
+    return () => subscription.unsubscribe();
+  }, [supabase]);
+
+  // const isLoggedIn = !!user;
+  const handleLogout = async () => {
+    try {
+      const { error } = await supabase.auth.signOut();
+      if (error) throw error;
+      router.push("/app/");
+    } catch (error) {
+      console.error("Error logging out:", error);
+    }
+  };
 
   const [opened, { toggle }] = useDisclosure();
 
+  if (isLoading) {
+    return <Skeleton />;
+  }
+
   // const { data: { user } } = await supabase.auth.getUser()
   return (
-    <AppShell
-      header={{ height: 60 }}
-      navbar={{
-        width: 300,
-        breakpoint: "sm",
-        collapsed: { desktop: true, mobile: !opened },
-      }}
-      padding="md"
-    >
-      <AppShell.Header>
-        <Group h="100%" px="md">
-          <Burger opened={opened} onClick={toggle} hiddenFrom="sm" size="sm" />
-          <Group justify="space-between" style={{ flex: 1 }}>
-            {/* <MantineLogo size={30} /> */}
-            <p>LifePass</p>
-            <Group ml="xl" gap={0} visibleFrom="sm">
-              <Link href="/app/search" className={classes.link} passHref>
-                <UnstyledButton className={`${classes.control}`}>
-                  Home
-                </UnstyledButton>
-              </Link>
-              <Link
-                href={isLoggedIn ? "/app/logout" : "/app/login"}
-                className={classes.link}
-                passHref
-              >
+    <>
+      <AppShell
+        header={{ height: 60 }}
+        navbar={{
+          width: 300,
+          breakpoint: "sm",
+          collapsed: { desktop: true, mobile: !opened },
+        }}
+        padding="md"
+      >
+        <AppShell.Header>
+          <Group h="100%" px="md">
+            <Burger
+              opened={opened}
+              onClick={toggle}
+              hiddenFrom="sm"
+              size="sm"
+            />
+            <Group justify="space-between" style={{ flex: 1 }}>
+              {/* <MantineLogo size={30} /> */}
+              <p>LifePass</p>
+              <Group ml="xl" gap={0} visibleFrom="sm">
+                <Link href="/app/search" className={classes.link} passHref>
+                  <UnstyledButton className={`${classes.control}`}>
+                    Home
+                  </UnstyledButton>
+                </Link>
+                {/* {session ? (
                 <UnstyledButton
                   className={`${classes.control}`}
+                  onClick={handleLogout}
                 >
-                  {isLoggedIn ? "Đăng Xuất" : "Đăng Nhập"}
+                  Đăng Xuất
                 </UnstyledButton>
-              </Link>
+              ) : (
+                <Link href="/app/login" className={classes.link} passHref>
+                  <UnstyledButton className={`${classes.control}`}>
+                    Đăng Nhập
+                  </UnstyledButton>
+                </Link>
+              )} */}
+                {session ? (
+                  <Group>
+                    <Button
+                      variant="subtle"
+                      onClick={() => {
+                        handleLogout();
+                        toggle();
+                      }}
+                    >
+                      Logout
+                    </Button>
+                  </Group>
+                ) : (
+                  <Button
+                    variant="subtle"
+                    onClick={() => {
+                      open();
+                      toggle();
+                    }}
+                  >
+                    Login
+                  </Button>
+                )}
+              </Group>
             </Group>
           </Group>
-        </Group>
-      </AppShell.Header>
+        </AppShell.Header>
 
-      <AppShell.Navbar py="md" px={4}>
-        <Link href="/app/search" className={classes.link} passHref>
-          <UnstyledButton className={`${classes.control}`}>Home</UnstyledButton>
-        </Link>
-        <Link
-          href={isLoggedIn ? "/app/logout" : "/app/login"}
-          className={classes.link}
-          passHref
-        >
-          <UnstyledButton
-            className={`${classes.control}`}
+        <AppShell.Navbar py="md" px={4}>
+          <Link href="/app/search" className={classes.link} passHref>
+            <UnstyledButton className={`${classes.control}`} onClick={toggle}>
+              Home
+            </UnstyledButton>
+          </Link>
+          {/* <Link
+            href={session ? "/app/logout" : "/app/login"}
+            className={classes.link}
+            passHref
           >
-            {isLoggedIn ? "Đăng Xuất" : "Đăng Nhập"}
-          </UnstyledButton>
-        </Link>
-      </AppShell.Navbar>
+            <UnstyledButton className={`${classes.control}`}>
+              {session ? "Đăng Xuất" : "Đăng Nhập"}
+            </UnstyledButton>
+          </Link> */}
 
-      <AppShell.Main>
-        {/* Navbar is only visible on mobile, links that are rendered in the header
+          {session ? (
+            <Group>
+              <UnstyledButton
+                className={`${classes.control}`}
+                onClick={() => {
+                  handleLogout();
+                  toggle();
+                }}
+              >
+                Logout
+              </UnstyledButton>
+            </Group>
+          ) : (
+            <UnstyledButton
+              className={`${classes.control}`}
+              onClick={() => {
+                open();
+                toggle();
+              }}
+            >
+              Login
+            </UnstyledButton>
+          )}
+        </AppShell.Navbar>
+
+        <AppShell.Main>
+          {/* Navbar is only visible on mobile, links that are rendered in the header
         on desktop are hidden on mobile in header and rendered in navbar
         instead. */}
-        {children}
-      </AppShell.Main>
-    </AppShell>
+          {children}
+        </AppShell.Main>
+      </AppShell>
+
+      <Modal opened={loginModalOpened} onClose={close} title="Login">
+        <LoginForm onClose={close} />
+      </Modal>
+    </>
   );
 }
