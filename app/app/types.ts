@@ -55,3 +55,15 @@ export interface BookingWithDetails {
   classes: Class;
   studios: Studio;
 }
+
+interface ZaloPaymentTransaction {
+  id: string; // Unique identifier for the payment order
+  user_id: string; // ID of the user making the payment
+  schedule_id: string; // ID of the schedule being paid for
+  zalo_transaction_token: string; // Unique ZaloPay order ID (apptransid)
+  transaction_id: string; // ZaloPay transaction ID
+  amount: number; // Payment amount
+  status: string; // Payment status (e.g., 'pending', 'successful', 'failed')
+  created_at: string; // Timestamp when the payment order was created
+  updated_at: string; // Timestamp when the payment order was last updated
+}

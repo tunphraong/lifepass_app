@@ -29,9 +29,8 @@ interface User {
   // Add other necessary user fields here
 }
 
-
 const PaymentPageComponent = ({ userId }) => {
-  
+  const router = useRouter();
   const searchParams = useSearchParams();
   const scheduleId = searchParams.get("scheduleId") ?? null;
   const [selectedPaymentMethod, setSelectedPaymentMethod] =
@@ -91,7 +90,7 @@ const PaymentPageComponent = ({ userId }) => {
       amount: schedule.price,
       bank_code: "zalopayapp",
       schedule_id: schedule.id,
-      user_id: userId
+      user_id: userId,
     };
 
     fetch("/api/zalopay", {
@@ -110,6 +109,7 @@ const PaymentPageComponent = ({ userId }) => {
         } else {
           // Handle successful response from API
           console.log("Success:", data);
+          router.push(data.order_url);
           // Redirect or display success message to user
         }
       })
@@ -118,8 +118,6 @@ const PaymentPageComponent = ({ userId }) => {
         // Display error message to user
       });
   };
-
-    
 
   return (
     // <p>hello</p>
@@ -240,14 +238,14 @@ const PaymentPageComponent = ({ userId }) => {
                 </Group>
               }
             />
-            <Radio
+            {/* <Radio
               value="visa-mastercard-jcb"
               label={
                 <div>
                   <Text>Visa, Mastercard, JCB (qua cổng ZaloPay)</Text>
                 </div>
               }
-            />
+            /> */}
 
             {/* <Radio
               value="zalopay"
@@ -263,14 +261,14 @@ const PaymentPageComponent = ({ userId }) => {
                 </div>
               }
             /> */}
-            <Radio
+            {/* <Radio
               value="atm"
               label={
                 <div>
                   <Text>Thẻ ATM (qua cổng ZaloPay)</Text>
                 </div>
               }
-            />
+            /> */}
           </RadioGroup>
           <Button fullWidth color="yellow" onClick={handlePayment}>
             Tiếp tục thanh toán

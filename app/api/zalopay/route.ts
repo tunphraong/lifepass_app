@@ -1,11 +1,25 @@
 // const crypto = require("crypto");
 import { createHmac } from "crypto";
+import { randomBytes } from "crypto";
 
-const ZALOPAY_APP_ID = process.env.ZALOPAY_APP_ID;
+const ZALOPAY_APP_ID = parseInt(process.env.ZALOPAY_APP_ID);
 const ZALOPAY_KEY1 = process.env.ZALOPAY_KEY1;
 const ZALOPAY_CREATE_ORDER_ENDPOINT = "https://sb-openapi.zalopay.vn/v2/create";
 import { NextResponse } from "next/server";
 import { NextRequest } from "next/server";
+import { createClient } from "../../../utils/supabase/server";
+
+function generateUniqueCode(length: number): string {
+  const characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+  let code = "";
+
+  for (let i = 0; i < length; i++) {
+    const randomIndex = Math.floor(Math.random() * characters.length);
+    code += characters[randomIndex];
+  }
+
+  return code;
+}
 
 function generateMac(appid, reqtime, key1, hmac_algorithm = "sha256") {
   const dataToHash = `${appid}|${reqtime}`;
@@ -14,14 +28,20 @@ function generateMac(appid, reqtime, key1, hmac_algorithm = "sha256") {
   return hmac.digest("hex");
 }
 
-const generateOrderId = (userId, scheduleId) => {
+const generateOrderId = (unique_code) => {
   const now = new Date();
   const YY = String(now.getFullYear()).slice(-2);
   const MM = String(now.getMonth() + 1).padStart(2, "0");
   const DD = String(now.getDate()).padStart(2, "0");
-  const uniquePart = `${userId}${scheduleId}${now.getTime()}`;
+  // const randomStr = randomBytes(4).toString("hex");
+  // const uniquePart = `${now.getTime()}${userId.toString()}${randomStr}}`;
+  // const maxLength = 40;
+  // const uniquePart = generateUniqueCode(7);
+  
+  return `${YY}${MM}${DD}_${unique_code}`;
 
-  return `${YY}${MM}${DD}${uniquePart}`;
+    
+  // return `${YY}${MM}${DD}_${uniquePart}`.slice(0, maxLength);
 };
 
 function generateMacOrder(
@@ -36,7 +56,7 @@ function generateMacOrder(
   item
 ) {
   const hmac = createHmac(hmac_algorithm, key1);
-//   hmac_input: app_id +”|”+ app_trans_id +”|”+ app_user +”|”+ amount +"|"+ app_time +”|”+ embed_data +"|"+ item
+  //   hmac_input: app_id +”|”+ app_trans_id +”|”+ app_user +”|”+ amount +"|"+ app_time +”|”+ embed_data +"|"+ item
   const data = `${ZALOPAY_APP_ID}|${app_trans_id}|${app_user}|${amount}|${reqtime}|${embed_data}|${item}`;
   console.log(data);
   hmac.update(data);
@@ -44,7 +64,9 @@ function generateMacOrder(
 }
 
 export async function POST(req: NextRequest) {
-  const { amount, user_id, schedule_id } = await req.json();
+  const { user_id, schedule_id } = await req.json();
+  console.log('user id', user_id);
+  let amount = 20000;
 
   console.log(amount, user_id, schedule_id);
   const reqtime = Date.now();
@@ -52,10 +74,10 @@ export async function POST(req: NextRequest) {
   const bank_code = "";
   const description = "Test";
   const embed_data = {
-    preferred_payment_method: ["vietqr"],
+    preferred_payment_method: [],
   };
-
-  const app_trans_id = generateOrderId(user_id, schedule_id);
+  const unique_code = generateUniqueCode(7);
+  const app_trans_id = generateOrderId(unique_code);
   const item = [
     {
       itemid: "knb",
@@ -73,8 +95,8 @@ export async function POST(req: NextRequest) {
     app_trans_id,
     user_id,
     amount,
-    embed_data,
-    item
+    JSON.stringify(embed_data),
+    JSON.stringify(item)
   );
   console.log("Generated MAC:", mac);
 
@@ -115,21 +137,12 @@ export async function POST(req: NextRequest) {
     app_id: ZALOPAY_APP_ID,
     app_user: user_id,
     app_time: reqtime,
-    app_trans_id: generateOrderId(user_id, schedule_id),
+    app_trans_id: app_trans_id,
     amount: amount,
     bank_code: "",
     description: "Test",
-    embed_data: {
-      preferred_payment_method: ["vietqr"],
-    },
-    item: [
-      {
-        itemid: "knb",
-        itename: "kim nguyen bao",
-        itemprice: 198400,
-        itemquantity: 1,
-      },
-    ],
+    embed_data: JSON.stringify(embed_data),
+    item: JSON.stringify(item),
     mac: mac,
   };
 
@@ -146,6 +159,32 @@ export async function POST(req: NextRequest) {
 
     const result = await response.json();
     if (result.return_code === 1) {
+      console.log(result);
+      const supabase = createClient();
+
+      // Insert payment order into Supabase after successful order creation
+      const { data, error } = await supabase
+        .from("zalo_payment_transactions")
+        .insert([
+          {
+            user_id: user_id,
+            schedule_id: schedule_id,
+            transaction_id: app_trans_id,
+            amount: amount,
+            status: "pending",
+            zalo_transaction_token: result.zp_trans_token,
+            payment_code: unique_code
+          },
+        ]);
+
+      if (error) {
+        console.error("Error inserting payment order:", error);
+        return NextResponse.json(
+          { error: "Failed to create payment order in database" },
+          { status: 500 }
+        );
+      }
+
       return NextResponse.json(result, { status: 200 });
     } else {
       console.log(result);
@@ -157,8 +196,6 @@ export async function POST(req: NextRequest) {
       { status: 500 }
     );
   }
-
-  return NextResponse.json("success", { status: 200 });
 }
 
 export async function GET(request: Request) {}

@@ -20,6 +20,7 @@
     "@tabler/icons-react": "^3.7.0",
     "dayjs": "^1.11.11",
     "embla-carousel-react": "^7.1.0",
+    "ics": "^3.7.6",
     "next": "14.2.4",
     "react": "18.3.1",
     "react-alice-carousel": "^2.9.1",
