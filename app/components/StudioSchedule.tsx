@@ -18,6 +18,7 @@ import { IconArrowLeft, IconArrowRight } from "@tabler/icons-react"; // Import a
 import styles from "./StudioSchedule.module.css";
 import { useDisclosure } from "@mantine/hooks";
 import { useRouter } from "next/navigation";
+import { IconChevronRight } from "@tabler/icons-react";
 require("dayjs/locale/vi");
 
 const fetcher = async (url) => {
@@ -49,10 +50,14 @@ const StudioSchedule = ({ studioId }) => {
     setSelectedSchedule(null);
   };
 
-  const handleEnroll = (schedule: any) => {
-    // setSelectedSchedule(schedule);
-    router.push(`/app/payment?scheduleId=${selectedSchedule?.id}`);
-  };
+  // const handleEnroll = (schedule: any) => {
+  //   // setSelectedSchedule(schedule);
+  //   router.push(`/app/payment?scheduleId=${selectedSchedule?.id}`);
+  // };
+
+    const handleEnroll = (schedule) => {
+      router.push(`/app/payment?scheduleId=${schedule.id}`);
+    };
 
 
   // const handleEnroll = async () => {
@@ -228,19 +233,16 @@ const StudioSchedule = ({ studioId }) => {
                 </div>
                 <Text>Huấn luyện viên: {schedule.instructor_name}</Text>
 
-                <Button
-                  className={styles.button}
-                  fullWidth
-                  color="yellow"
-                  onClick={() => handleOpenModal(schedule)}
-                  variant="filled"
-                >
-                  {formatPrice(schedule.price)}
-                </Button>
-
-                {/* <Badge color="pink" variant="light">
-                  {schedule.classes.difficulty}
-                </Badge> */}
+                
+                  <Button
+                    className={styles.button}
+                    fullWidth
+                    color="yellow"
+                    onClick={() => handleEnroll(schedule) }
+                    variant="filled"
+                  >
+                    {formatPrice(schedule.price)}
+                  </Button>
               </Group>
               {/* <Text size="sm" color="dimmed">
               {schedule.classes.description}

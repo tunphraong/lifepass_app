@@ -13,6 +13,7 @@ import {
   Loader,
   Radio,
   RadioGroup,
+  Title,
 } from "@mantine/core";
 import { Schedule, Class, Studio } from "../types";
 import useSWR from "swr";
@@ -198,6 +199,7 @@ const PaymentPageComponent = ({ userId }) => {
       <Text fw={500}>Chọn phương thức thanh toán</Text>
       <Card shadow="sm" padding="sm" radius="md" withBorder>
         <Stack gap="lg">
+          <Title order={3}>{studioData.name}</Title>
           <Text>Lớp đã chọn: {classData.name}</Text>
           <Text>
             Giá:{" "}
