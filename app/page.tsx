@@ -14,6 +14,7 @@ import { IconCheck } from "@tabler/icons-react";
 // import image from "./19333424.jpg";
 import image from "./10172354_8225.svg";
 import classes from "./HeroBullets.module.css";
+import Link from "next/link";
 
 export default function HeroBullets() {
   return (
@@ -43,7 +44,8 @@ export default function HeroBullets() {
             }
           >
             <ListItem>
-              <b>Tiết kiệm chi phí</b> – Đặt lịch trên LifePass luôn tiết kiệm chi phí so với việc mua vé lẻ
+              <b>Tiết kiệm chi phí</b> – Đặt lịch trên LifePass luôn tiết kiệm
+              chi phí so với việc mua vé lẻ
             </ListItem>
             <ListItem>
               <b>Tiện lợi</b> – dễ dàng tìm kiếm và đặt lịch tham gia các lớp
@@ -57,9 +59,16 @@ export default function HeroBullets() {
           </List>
 
           <Group mt={30}>
-            <Button radius="xl" size="md" className={classes.control}>
-              Tìm Lớp
-            </Button>
+            <Link href="/app/search" passHref>
+              <Button
+                radius="xl"
+                size="md"
+                className={classes.control}
+                component="a"
+              >
+                Tìm Lớp
+              </Button>
+            </Link>
             <Button
               variant="default"
               radius="xl"

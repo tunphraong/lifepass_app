@@ -17,19 +17,11 @@ export async function POST(req) {
   const body = await req.json();
 
   const { data, mac, type } = body;
-  // console.log("data", data);
-  // const {apptransid} = data;
-  // console.log(typeof(data));
-  // console.log("transid", apptransid);
 
   const parsedData = JSON.parse(data); // Parse the JSON string
   const { app_trans_id } = parsedData; // Destructure the app_trans_id property
-  // console.log("transid", app_trans_id);
-
   const generatedMac = verifyMacOrder(ZALOPAY_KEY2, data);
 
-  // console.log("mac", mac);
-  // console.log("generatedMac", generatedMac);
   if (mac !== generatedMac) {
     // console.log('mac difference')
     return NextResponse.json({ error: "Invalid signature" }, { status: 400 });
@@ -37,54 +29,58 @@ export async function POST(req) {
 
   const supabase = createClient();
 
+  try {
+    const { data: paymentTransaction, error: paymentError } = await supabase
+      .from("zalo_payment_transactions")
+      .select("*")
+      .eq("transaction_id", app_trans_id)
+      .single();
 
+    if (paymentError || !paymentTransaction) {
+      return NextResponse.json(
+        { error: "Payment order not found" },
+        { status: 404 }
+      );
+    }
 
-  // const { error: roleError } = await supabase.rpc("set_role_to_callback_role");
+    const { schedule_id, user_id } = paymentTransaction;
 
-  
-  const { data: paymentOrder, error } = await supabase
-    .from("zalo_payment_transactions")
-    .select("*")
-    .eq("transaction_id", app_trans_id)
-    .single();
+    const { error: bookingError } = await supabase.from("bookings").insert({
+      user_id: user_id,
+      schedule_id: schedule_id,
+      status: "confirmed",
+      updated_at: new Date(),
+    });
 
-  if (error || !paymentOrder) {
+    if (bookingError) {
+      return NextResponse.json(
+        { error: bookingError.message },
+        { status: 500 }
+      );
+    }
+
+    const { data: updateOrder, error: updateError } = await supabase.rpc(
+      "update_payment_status",
+      {
+        apptransid: app_trans_id,
+        updatedstatus: "success",
+      }
+    );
+
+    if (updateError) {
+      console.error("Error updating payment status:", updateError);
+    } else {
+      console.log("Payment status updated successfully:", updateOrder);
+    }
+
+    return NextResponse.json({ success: true }, { status: 200 });
+  } catch (error) {
+    console.error("Error creating booking or updating payment status:", error);
     return NextResponse.json(
-      { error: "Payment order not found" },
-      { status: 404 }
+      { error: "An error occurred while processing the booking" },
+      { status: 500 }
     );
   }
-
-  // const { data: updatedOrder, error: updateError } = await supabase
-  //   .from("zalo_payment_transactions")
-  //   .update({ status: "success" })
-  //   .eq("transaction_id", app_trans_id);
-
-  const { data: updateOrder, error: updateError } = await supabase.rpc("update_payment_status", {
-    apptransid: app_trans_id,
-    updatedstatus: "success",
-  });
-
-  if (updateError) {
-    console.error("Error updating payment status:", updateError);
-  } else {
-    console.log("Payment status updated successfully:", updateOrder);
-  }
-
-
-  // console.log("update order", updatedOrder);
-
-  // if (updateError) {
-  //   console.log("updateError", updateError);
-  //   return NextResponse.json(
-  //     { error: "Failed to update payment order" },
-  //     { status: 500 }
-  //   );
-  // }
-
-  console.log("app_trans_id", app_trans_id);
-
-  return NextResponse.json({ success: true }, { status: 200 });
 }
 
 export async function GET(req: Request) {

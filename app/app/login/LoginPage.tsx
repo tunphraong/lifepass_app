@@ -1,5 +1,6 @@
 "use client";
 
+import { FormEvent } from "react";
 import {
   TextInput,
   PasswordInput,
@@ -14,7 +15,7 @@ import {
   Stack,
   Center,
 } from "@mantine/core";
-import { useFormState } from "react-dom";
+// import { useFormState } from "react-dom";
 import { login, signup } from "./action";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
@@ -22,13 +23,13 @@ import { SubmitButton } from "./submit-button";
 import { useToggle, upperFirst } from "@mantine/hooks";
 import { useForm } from "@mantine/form";
 
-const initialState = {
-  errors: {}, // Add an empty errors object
-};
+// const initialState = {
+//   errors: {}, // Add an empty errors object
+// };
 
 export default function LoginPage(props: PaperProps) {
   const [type, toggle] = useToggle(["login", "register"]);
-    // const [state, formAction] = useFormState(signup, initialState)
+  // const [state, formAction] = useFormState(signup, initialState)
 
   const form = useForm({
     initialValues: {
@@ -45,19 +46,18 @@ export default function LoginPage(props: PaperProps) {
         val.length <= 6
           ? "Password should include at least 6 characters"
           : null,
-      first_name: (val) => (val.length > 0 ? null : "First name is required"),
-      last_name: (val) => (val.length > 0 ? null : "Last name is required"),
     },
   });
 
   const handleSubmit = async (values: typeof form.values) => {
+    console.log("handle submit");
     const formData = new FormData();
     formData.append("email", values.email);
     formData.append("password", values.password);
-    console.log('get here', values)
+    console.log("get here", values);
+    console.log(type);
     try {
       if (type === "login") {
-        
         await login(formData);
       } else {
         formData.append("first_name", values.first_name);
@@ -70,6 +70,58 @@ export default function LoginPage(props: PaperProps) {
       alert("Error logging in or signing up");
     }
   };
+
+  // const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
+  //   event.preventDefault();
+  //   // setIsLoading(true);
+  //   console.log("get here");
+
+  //   try {
+  //     const formData = new FormData(event.currentTarget);
+
+  //     if (type === "login") {
+  //       await login(formData);
+  //     } else if (type === "register") {
+  //       formData.append("firstName", formData.get("firstName") as string);
+  //       formData.append("lastName", formData.get("lastName") as string);
+  //       await signup(formData);
+  //     }
+  //   } catch (err) {
+  //     console.error(err);
+  //     alert("Error logging in or signing up");
+  //   } finally {
+  //     // setIsLoading(false);
+  //   }
+  // };
+
+  // const handleLogin = async () => {
+  //   // Example: Perform login logic, authenticate user
+  //   // Example: If login is successful, redirect to callback URL
+  //   try {
+  //     // Example: Perform login API call or authentication logic
+  //     // Replace with actual login logic
+  //     const loginResponse = await fetch("/api/login", {
+  //       method: "POST",
+  //       body: JSON.stringify({ email, password }),
+  //       headers: {
+  //         "Content-Type": "application/json",
+  //       },
+  //     });
+
+  //     if (loginResponse.ok) {
+  //       // Example: Get callback URL from query parameters or state
+  //       const callbackUrl = router.query.callbackUrl || "/"; // Default to homepage
+
+  //       // Redirect to callback URL after successful login
+  //       router.push(callbackUrl);
+  //     } else {
+  //       // Handle login error
+  //       console.error("Login failed");
+  //     }
+  //   } catch (error) {
+  //     console.error("Login error:", error);
+  //   }
+  // };
 
   return (
     <Center>
@@ -90,6 +142,13 @@ export default function LoginPage(props: PaperProps) {
         />
 
         <form onSubmit={form.onSubmit(handleSubmit)}>
+        {/* <form
+          onSubmit={(e) => {
+            e.preventDefault();
+            handleSubmit();
+          }}
+        > */}
+          {/* <form action={type === 'login' ? login : signup}> */}
           <Stack>
             {type === "register" && (
               <TextInput
@@ -122,7 +181,7 @@ export default function LoginPage(props: PaperProps) {
             <TextInput
               required
               label="Email"
-              placeholder="hello@mantine.dev"
+              placeholder="hello@lifepass.one"
               value={form.values.email}
               onChange={(event) =>
                 form.setFieldValue("email", event.currentTarget.value)
