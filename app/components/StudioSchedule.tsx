@@ -19,6 +19,8 @@ import styles from "./StudioSchedule.module.css";
 import { useDisclosure } from "@mantine/hooks";
 import { useRouter } from "next/navigation";
 import { IconChevronRight } from "@tabler/icons-react";
+// import createClient from "../../utils/supabase/client";
+import { createClient } from "../../utils/supabase/client";
 require("dayjs/locale/vi");
 
 const fetcher = async (url) => {
@@ -33,6 +35,15 @@ const fetcher = async (url) => {
 };
 
 const StudioSchedule = ({ studioId }) => {
+  const supabase = createClient();
+  const [userSession, setUserSession] = useState(null); // State to hold user session
+
+  useEffect(() => {
+    // Check Supabase session on component mount
+    const session = supabase.auth.getSession();
+    console.log("userSession", userSession);
+    setUserSession(session);
+  }, []);
   const router = useRouter();
   const [opened, { open, close }] = useDisclosure(false);
   const [selectedSchedule, setSelectedSchedule] = useState(null);
@@ -55,10 +66,9 @@ const StudioSchedule = ({ studioId }) => {
   //   router.push(`/app/payment?scheduleId=${selectedSchedule?.id}`);
   // };
 
-    const handleEnroll = (schedule) => {
-      router.push(`/app/payment?scheduleId=${schedule.id}`);
-    };
-
+  const handleEnroll = (schedule) => {
+    router.push(`/app/payment?scheduleId=${schedule.id}`);
+  };
 
   // const handleEnroll = async () => {
   //   if (!selectedSchedule) return;
@@ -114,8 +124,6 @@ const StudioSchedule = ({ studioId }) => {
   //     // });
   //   }
   // };
-
-
 
   const {
     data: schedules,
@@ -177,10 +185,21 @@ const StudioSchedule = ({ studioId }) => {
                     .format("h:mm A")}
                 </Text>
               </Group>
-              <Group>
-                <Text>Giá:</Text>
-                <Text>{formatPrice(selectedSchedule.price)}</Text>
-              </Group>
+              {/* {!userSession && (
+                <Button
+                  fullWidth
+                  color="blue"
+                  onClick={() => router.push("/app/login")}
+                >
+                  Đăng nhập để xem giá
+                </Button>
+              )} */}
+              {userSession && (
+                <Group>
+                  <Text>Giá:</Text>
+                  <Text>{formatPrice(selectedSchedule.price)}</Text>
+                </Group>
+              )}
               <Button fullWidth color="yellow" onClick={handleEnroll}>
                 Tham gia
               </Button>
@@ -233,16 +252,15 @@ const StudioSchedule = ({ studioId }) => {
                 </div>
                 <Text>Huấn luyện viên: {schedule.instructor_name}</Text>
 
-                
-                  <Button
-                    className={styles.button}
-                    fullWidth
-                    color="yellow"
-                    onClick={() => handleEnroll(schedule) }
-                    variant="filled"
-                  >
-                    {formatPrice(schedule.price)}
-                  </Button>
+                <Button
+                  className={styles.button}
+                  fullWidth
+                  color="yellow"
+                  onClick={() => handleEnroll(schedule)}
+                  variant="filled"
+                >
+                  {formatPrice(schedule.price)}
+                </Button>
               </Group>
               {/* <Text size="sm" color="dimmed">
               {schedule.classes.description}

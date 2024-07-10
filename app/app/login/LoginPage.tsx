@@ -1,4 +1,4 @@
-'use client'
+"use client";
 
 import {
   TextInput,
@@ -12,151 +12,168 @@ import {
   Checkbox,
   Anchor,
   Stack,
+  Center,
 } from "@mantine/core";
-import { createClient } from '../../../utils/supabase/client';
-import { login, signup } from './action'
+import { useFormState } from "react-dom";
+import { login, signup } from "./action";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { SubmitButton } from "./submit-button";
+import { useToggle, upperFirst } from "@mantine/hooks";
+import { useForm } from "@mantine/form";
 
-export default function LoginPage() {
+const initialState = {
+  errors: {}, // Add an empty errors object
+};
+
+export default function LoginPage(props: PaperProps) {
+  const [type, toggle] = useToggle(["login", "register"]);
+    const [state, formAction] = useFormState(signup, initialState)
+
+  const form = useForm({
+    initialValues: {
+      email: "",
+      first_name: "",
+      last_name: "",
+      password: "",
+      terms: true,
+    },
+
+    validate: {
+      email: (val) => (/^\S+@\S+$/.test(val) ? null : "Invalid email"),
+      password: (val) =>
+        val.length <= 6
+          ? "Password should include at least 6 characters"
+          : null,
+      first_name: (val) => (val.length > 0 ? null : "First name is required"),
+      last_name: (val) => (val.length > 0 ? null : "Last name is required"),
+    },
+  });
+
+  const handleSubmit = async (values: typeof form.values) => {
+    const formData = new FormData();
+    formData.append("email", values.email);
+    formData.append("password", values.password);
+    console.log('get here', values)
+    try {
+      if (type === "login") {
+        await login(formData);
+      } else {
+        formData.append("first_name", values.first_name);
+        formData.append("last_name", values.last_name);
+        await signup(formData);
+      }
+      // router.push("/dashboard"); // Redirect after successful login/signup
+    } catch (error) {
+      console.error(error);
+      alert("Error logging in or signing up");
+    }
+  };
 
   return (
-    // <Paper radius="md" p="xl" withBorder {...props}>
-    //   <Text size="lg" fw={500}>
-    //     Welcome to Mantine, {type} with
-    //   </Text>
+    <Center>
+      <Paper radius="md" p="lg" withBorder style={{ maxWidth: 400 }}>
+        <Text size="lg" fw={500}>
+          Welcome to LifePass
+        </Text>
 
-    //   <Divider label="Or continue with email" labelPosition="center" my="lg" />
+        {/* <Group grow mb="md" mt="md">
+        <GoogleButton radius="xl">Google</GoogleButton>
+        <TwitterButton radius="xl">Twitter</TwitterButton>
+      </Group> */}
 
-    //   <form onSubmit={form.onSubmit(() => {})}>
-    //     <Stack>
-    //       {type === "register" && (
-    //         <TextInput
-    //           label="Name"
-    //           placeholder="Your name"
-    //           value={form.values.name}
-    //           onChange={(event) =>
-    //             form.setFieldValue("name", event.currentTarget.value)
-    //           }
-    //           radius="md"
-    //         />
-    //       )}
+        <Divider
+          // label="Or continue with email"
+          labelPosition="center"
+          my="lg"
+        />
 
-    //       <TextInput
-    //         required
-    //         label="Email"
-    //         placeholder="hello@mantine.dev"
-    //         value={form.values.email}
-    //         onChange={(event) =>
-    //           form.setFieldValue("email", event.currentTarget.value)
-    //         }
-    //         error={form.errors.email && "Invalid email"}
-    //         radius="md"
-    //       />
+        <form onSubmit={form.onSubmit(handleSubmit)}>
+          <Stack>
+            {type === "register" && (
+              <TextInput
+                // required
+                label="First name"
+                placeholder="Your first name"
+                value={form.values.first_name}
+                onChange={(event) =>
+                  form.setFieldValue("first_name", event.currentTarget.value)
+                }
+                error={form.errors.first_name}
+                radius="md"
+              />
+            )}
 
-    //       <PasswordInput
-    //         required
-    //         label="Password"
-    //         placeholder="Your password"
-    //         value={form.values.password}
-    //         onChange={(event) =>
-    //           form.setFieldValue("password", event.currentTarget.value)
-    //         }
-    //         error={
-    //           form.errors.password &&
-    //           "Password should include at least 6 characters"
-    //         }
-    //         radius="md"
-    //       />
+            {type === "register" && (
+              <TextInput
+                // required
+                label="Last name"
+                placeholder="Your Last name"
+                value={form.values.last_name}
+                onChange={(event) =>
+                  form.setFieldValue("last_name", event.currentTarget.value)
+                }
+                error={form.errors.last_name}
+                radius="md"
+              />
+            )}
 
-    //       {type === "register" && (
-    //         <Checkbox
-    //           label="I accept terms and conditions"
-    //           checked={form.values.terms}
-    //           onChange={(event) =>
-    //             form.setFieldValue("terms", event.currentTarget.checked)
-    //           }
-    //         />
-    //       )}
-    //     </Stack>
+            <TextInput
+              required
+              label="Email"
+              placeholder="hello@mantine.dev"
+              value={form.values.email}
+              onChange={(event) =>
+                form.setFieldValue("email", event.currentTarget.value)
+              }
+              error={form.errors.email && "Invalid email"}
+              radius="md"
+            />
 
-    //     <Group justify="space-between" mt="xl">
-    //       <Anchor
-    //         component="button"
-    //         type="button"
-    //         c="dimmed"
-    //         onClick={() => toggle()}
-    //         size="xs"
-    //       >
-    //         {type === "register"
-    //           ? "Already have an account? Login"
-    //           : "Don't have an account? Register"}
-    //       </Anchor>
-    //       <Button type="submit" radius="xl">
-    //         {upperFirst(type)}
-    //       </Button>
-    //     </Group>
-    //   </form>
-    // </Paper>
-    <main className="min-h-screen flex flex-col items-center">
-      <div className="flex-1 flex flex-col w-full px-8 sm:max-w-md justify-center gap-2">
-        <Link
-          href="/app"
-          className="absolute left-8 top-8 py-2 px-4 rounded-md no-underline text-foreground bg-btn-background hover:bg-btn-background-hover flex items-center group text-sm"
-        >
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="24"
-            height="24"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="2"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            className="mr-2 h-4 w-4 transition-transform group-hover:-translate-x-1"
-          >
-            <polyline points="15 18 9 12 15 6" />
-          </svg>{" "}
-          Back
-        </Link>
+            <PasswordInput
+              required
+              label="Password"
+              placeholder="Your password"
+              value={form.values.password}
+              onChange={(event) =>
+                form.setFieldValue("password", event.currentTarget.value)
+              }
+              error={
+                form.errors.password &&
+                "Password should include at least 6 characters"
+              }
+              radius="md"
+            />
 
-        <form className="animate-in flex-1 flex flex-col w-full justify-center gap-2 text-foreground">
-          <label className="text-md" htmlFor="email">
-            Email
-          </label>
-          <input
-            className="rounded-md px-4 py-2 bg-inherit border mb-6"
-            name="email"
-            placeholder="you@example.com"
-            required
-          />
-          <label className="text-md" htmlFor="password">
-            Password
-          </label>
-          <input
-            className="rounded-md px-4 py-2 bg-inherit border mb-6"
-            type="password"
-            name="password"
-            placeholder="••••••••"
-            required
-          />
-          <SubmitButton
-            formAction={login}
-            className="bg-yellow rounded-md px-4 py-2 text-foreground mb-2"
-            pendingText="Signing In..."
-          >
-            Sign In
-          </SubmitButton>
-          <Link
-            href="/app/signup"
-            className="border border-foreground/20 rounded-md px-4 py-2 text-foreground mb-2 text-center"
-          >
-            Sign Up
-          </Link>
+            {type === "register" && (
+              <Checkbox
+                label="I accept terms and conditions"
+                checked={form.values.terms}
+                onChange={(event) =>
+                  form.setFieldValue("terms", event.currentTarget.checked)
+                }
+              />
+            )}
+          </Stack>
+
+          <Group justify="space-between" mt="xl">
+            <Anchor
+              component="button"
+              type="button"
+              c="dimmed"
+              onClick={() => toggle()}
+              size="xs"
+            >
+              {type === "register"
+                ? "Already have an account? Login"
+                : "Don't have an account? Register"}
+            </Anchor>
+            <Button type="submit" radius="xl">
+              {upperFirst(type)}
+            </Button>
+          </Group>
         </form>
-      </div>
-    </main>
+      </Paper>
+    </Center>
   );
 }
