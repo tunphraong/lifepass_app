@@ -16,6 +16,7 @@ import { createClient } from "../../../utils/supabase/server";
 
 export async function login(formData: FormData) {
   const supabase = createClient();
+  console.log('get into log in');
 
   // type-casting here for convenience
   // in practice, you should validate your inputs

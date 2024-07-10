@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400">
+  <!-- Background -->
+  <rect width="100%" height="100%" fill="#F2F2F2" />
+
+  <!-- Icon -->
+  <circle cx="200" cy="200" r="150" fill="#4CAF50" />
+
+  <!-- Activity Icon -->
+  <path d="M100 200a100 100 0 0 1 200 0h-50v100h-100v-100zm150 0l-50-50 25-25 25 25-50 50z" fill="#FFFFFF"/>
+
+  <!-- Text -->
+  <text x="50%" y="50%" dominant-baseline="middle" text-anchor="middle" fill="#333333" font-size="36px" font-weight="bold">LifePass</text>
+  
+  <!-- Discount Tag -->
+  <rect x="30" y="300" width="150" height="50" rx="10" fill="#FFC107" />
+  <text x="105" y="325" dominant-baseline="middle" text-anchor="middle" fill="#333333" font-size="24px">Discounts</text>
+</svg>

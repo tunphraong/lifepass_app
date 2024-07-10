@@ -28,7 +28,7 @@ const initialState = {
 
 export default function LoginPage(props: PaperProps) {
   const [type, toggle] = useToggle(["login", "register"]);
-    const [state, formAction] = useFormState(signup, initialState)
+    // const [state, formAction] = useFormState(signup, initialState)
 
   const form = useForm({
     initialValues: {
@@ -57,6 +57,7 @@ export default function LoginPage(props: PaperProps) {
     console.log('get here', values)
     try {
       if (type === "login") {
+        
         await login(formData);
       } else {
         formData.append("first_name", values.first_name);

@@ -28,11 +28,12 @@ export async function POST(req) {
 
   const generatedMac = verifyMacOrder(ZALOPAY_KEY2, data);
 
-  // if (mac !== generatedMac) {
-  //   console.log('mac', mac);
-  //   console.log('generatedMac', generatedMac);
-  //   return NextResponse.json({ error: "Invalid signature" }, { status: 400 });
-  // }
+  // console.log("mac", mac);
+  // console.log("generatedMac", generatedMac);
+  if (mac !== generatedMac) {
+    // console.log('mac difference')
+    return NextResponse.json({ error: "Invalid signature" }, { status: 400 });
+  }
 
   const supabase = createClient();
 
@@ -53,8 +54,6 @@ export async function POST(req) {
       { status: 404 }
     );
   }
-
-  console.log("get here");
 
   // const { data: updatedOrder, error: updateError } = await supabase
   //   .from("zalo_payment_transactions")

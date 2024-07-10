@@ -65,7 +65,7 @@ function generateMacOrder(
 
 export async function POST(req: NextRequest) {
   const { user_id, schedule_id } = await req.json();
-  console.log('user id', user_id);
+  console.log("user id", user_id);
   let amount = 20000;
 
   console.log(amount, user_id, schedule_id);
@@ -75,8 +75,9 @@ export async function POST(req: NextRequest) {
   const description = "Test";
   const embed_data = {
     preferred_payment_method: [],
-    redirecturl: "https://8217-45-80-187-41.ngrok-free.app/app/payment-result",
   };
+
+  // redirecturl: "https://8217-45-80-187-41.ngrok-free.app/app/payment-result",
   const unique_code = generateUniqueCode(7);
   const app_trans_id = generateOrderId(unique_code);
   const item = [
@@ -134,6 +135,7 @@ export async function POST(req: NextRequest) {
   //       );
   //     }
 
+  // callback_url: "https://8217-45-80-187-41.ngrok-free.app/api/callback/zalopay",
   const order = {
     app_id: ZALOPAY_APP_ID,
     app_user: user_id,
@@ -141,7 +143,6 @@ export async function POST(req: NextRequest) {
     app_trans_id: app_trans_id,
     amount: amount,
     bank_code: "",
-    callback_url: "https://8217-45-80-187-41.ngrok-free.app/api/callback/zalopay",
     description: "Test",
     embed_data: JSON.stringify(embed_data),
     item: JSON.stringify(item),
@@ -175,7 +176,7 @@ export async function POST(req: NextRequest) {
             amount: amount,
             status: "pending",
             zalo_transaction_token: result.zp_trans_token,
-            payment_code: unique_code
+            payment_code: unique_code,
           },
         ]);
 
