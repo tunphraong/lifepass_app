@@ -75,6 +75,7 @@ export async function POST(req: NextRequest) {
   const description = "Test";
   const embed_data = {
     preferred_payment_method: [],
+    redirecturl: "https://8217-45-80-187-41.ngrok-free.app/app/payment-result",
   };
   const unique_code = generateUniqueCode(7);
   const app_trans_id = generateOrderId(unique_code);
@@ -140,6 +141,7 @@ export async function POST(req: NextRequest) {
     app_trans_id: app_trans_id,
     amount: amount,
     bank_code: "",
+    callback_url: "https://8217-45-80-187-41.ngrok-free.app/api/callback/zalopay",
     description: "Test",
     embed_data: JSON.stringify(embed_data),
     item: JSON.stringify(item),

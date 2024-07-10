@@ -5,14 +5,14 @@ import { redirect } from "next/navigation";
 // import { createClient } from '@/utils/supabase/server'
 import { createClient } from "../../../utils/supabase/server";
 
-import { z } from "zod";
+// import { z } from "zod";
 
-const signupSchema = z.object({
-  email: z.string().email("Invalid email"),
-  password: z.string().min(6, "Password should include at least 6 characters"),
-  first_name: z.string().min(1, "First name is required"),
-  last_name: z.string().min(1, "Last name is required"),
-});
+// const signupSchema = z.object({
+//   email: z.string().email("Invalid email"),
+//   password: z.string().min(6, "Password should include at least 6 characters"),
+//   first_name: z.string().min(1, "First name is required"),
+//   last_name: z.string().min(1, "Last name is required"),
+// });
 
 export async function login(formData: FormData) {
   const supabase = createClient();
