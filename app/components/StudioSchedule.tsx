@@ -11,17 +11,20 @@ import {
   Space,
   Title,
   Center,
+  Box,
+  Skeleton,
+  useMantineTheme,
 } from "@mantine/core";
 import useSWR, { mutate } from "swr";
 import dayjs from "dayjs";
-import { IconArrowLeft, IconArrowRight } from "@tabler/icons-react"; // Import arrow icons
+import { IconArrowLeft, IconArrowRight, IconClock, IconUser } from "@tabler/icons-react"; // Import arrow icons
 import styles from "./StudioSchedule.module.css";
-import { useDisclosure } from "@mantine/hooks";
+import { useDisclosure, useMediaQuery } from "@mantine/hooks";
 import { useRouter } from "next/navigation";
-import { IconChevronRight } from "@tabler/icons-react";
-// import createClient from "../../utils/supabase/client";
+import { IconChevronRight, IconCalendar } from "@tabler/icons-react";
 import { createClient } from "../../utils/supabase/client";
 require("dayjs/locale/vi");
+
 
 const fetcher = async (url) => {
   const response = await fetch(url);
@@ -35,6 +38,10 @@ const fetcher = async (url) => {
 };
 
 const StudioSchedule = ({ studioId }) => {
+    const theme = useMantineTheme();
+    const isSmallScreen = useMediaQuery(
+      `(max-width: ${theme.breakpoints.sm}px)`
+    );
   const supabase = createClient();
   const [userSession, setUserSession] = useState(null); // State to hold user session
 
@@ -70,61 +77,6 @@ const StudioSchedule = ({ studioId }) => {
     router.push(`/app/payment?scheduleId=${schedule.id}`);
   };
 
-  // const handleEnroll = async () => {
-  //   if (!selectedSchedule) return;
-
-  //   console.log(selectedSchedule);
-
-  //   try {
-  //     const response = await fetch("/api/bookings", {
-  //       method: "POST",
-  //       headers: {
-  //         "Content-Type": "application/json",
-  //       },
-  //       body: JSON.stringify({
-  //         schedule_id: selectedSchedule.id,
-  //         // Add other necessary booking details here
-  //       }),
-  //     });
-
-  //     if (!response.ok) {
-  //       // notifications.show({
-  //       //   color: "red",
-  //       //   position: "top-right",
-  //       //   title: "Default notification",
-  //       //   message: "Hey there, your code is awesome! 🤥",
-  //       //   classNames: styles,
-  //       // });
-  //       throw new Error("Failed to book the schedule");
-  //     }
-
-  //     // Optionally, update the local data to reflect the new booking
-  //     mutate(`/api/studio/${studioId}/schedules?date=${date}`);
-
-  //     setReservationSuccess(true); // Set success state
-  //   } catch (error) {
-  //     console.error("Error booking the schedule:", error);
-
-  //     // let errorMessage = "An unexpected error occurred";
-  //     // if (error.message === "Unauthorized") {
-  //     //   errorMessage = "You must be logged in to book a class.";
-  //     // } else if (error.message === "Class is fully booked") {
-  //     //   errorMessage = "The class is fully booked. Please try another class.";
-  //     // } else if (error.message === "Failed to book the schedule") {
-  //     //   errorMessage = "Failed to book the class. Please try again later.";
-  //     // } else if (error.message.includes("supabase")) {
-  //     //   errorMessage =
-  //     //     "Error communicating with the server. Please try again later.";
-  //     // }
-
-  //     // notifications.show({
-  //     //   title: "Booking failed",
-  //     //   message: errorMessage,
-  //     //   color: "red",
-  //     // });
-  //   }
-  // };
-
   const {
     data: schedules,
     error,
@@ -132,7 +84,15 @@ const StudioSchedule = ({ studioId }) => {
   } = useSWR(`/api/studio/${studioId}/schedules?date=${date}`, fetcher);
 
   if (error) return <div>Failed to load schedules</div>;
-  if (isLoading) return <div>Loading...</div>;
+  if (isLoading) {
+      return (
+        <Stack gap="sm">
+          <Skeleton height={20} radius="md" />
+          <Skeleton height={20} radius="md" />
+          <Skeleton height={20} radius="md" />
+        </Stack>
+      );
+  }
 
   if (!schedules) return <div>Loading...</div>;
   // console.log(schedules);
@@ -209,6 +169,91 @@ const StudioSchedule = ({ studioId }) => {
       </Modal>
       <Space h="md" />
       <Stack gap="md">
+        <Group
+          justify="center"
+          style={{ width: "100%" }}
+          noWrap={isSmallScreen}
+        >
+          <Button
+            variant="filled"
+            color="yellow"
+            radius="xl"
+            size={isSmallScreen ? "md" : "lg"}
+            onClick={() =>
+              setDate(dayjs(date).subtract(1, "day").format("YYYY-MM-DD"))
+            }
+          >
+            <IconArrowLeft size={isSmallScreen ? 16 : 20} />
+          </Button>
+
+          {/* <Text>{dayjs(date).locale("vi").format("DD, MMMM, YYYY")}</Text> */}
+
+          <Box p="md">
+            <Group noWrap={isSmallScreen}>
+              <IconCalendar size={isSmallScreen ? 16 : 20} />
+              <Text size={isSmallScreen ? "sm" : "md"}>
+                {dayjs(date).locale("vi").format("DD, MMMM")}
+              </Text>
+            </Group>
+          </Box>
+
+          <Button
+            variant="filled"
+            color="yellow"
+            radius="xl"
+            size={isSmallScreen ? "md" : "lg"}
+            onClick={() =>
+              setDate(dayjs(date).add(1, "day").format("YYYY-MM-DD"))
+            }
+          >
+            <IconArrowRight size={isSmallScreen ? 16 : 20} />
+          </Button>
+        </Group>
+
+        {schedules.length > 0 ? (
+          schedules.map((schedule) => (
+            <Card
+              key={schedule.id}
+              shadow="sm"
+              padding="sm"
+              radius="md"
+              withBorder
+            >
+              <Group justify="space-between" grow>
+                <div>
+                  <Text fw={500}>{schedule.classes.name}</Text>
+                  <Text size="sm" c="dimmed">
+                    <IconClock size={16} style={{ verticalAlign: "middle" }} />{" "}
+                    {dayjs(schedule.start_time).format("h:mm A")} -{" "}
+                    {dayjs(schedule.start_time)
+                      .add(schedule.classes.duration, "minute")
+                      .format("h:mm A")}
+                  </Text>
+                </div>
+                <Text>
+                  <IconUser size={16} style={{ verticalAlign: "middle" }} />{" "}
+                  {schedule.instructor_name}
+                </Text>
+
+                <Button
+                  className={styles.button}
+                  fullWidth
+                  color="yellow"
+                  onClick={() => handleEnroll(schedule)}
+                  variant="filled"
+                  radius="xl"
+                  size="sm"
+                >
+                  {formatPrice(schedule.price)}
+                </Button>
+              </Group>
+            </Card>
+          ))
+        ) : (
+          <Text>Không có lớp nào được lên lịch cho ngày này.</Text>
+        )}
+      </Stack>
+      {/* <Stack gap="md">
         <Group justify="center" style={{ width: "100%" }}>
           <ActionIcon
             variant="filled"
@@ -262,27 +307,12 @@ const StudioSchedule = ({ studioId }) => {
                   {formatPrice(schedule.price)}
                 </Button>
               </Group>
-              {/* <Text size="sm" color="dimmed">
-              {schedule.classes.description}
-            </Text> */}
-
-              {/* <Text>Price: {schedule.price}</Text> */}
-
-              {/* <Text>
-              Enrolled: {schedule.enrolled}/{schedule.capacity}
-            </Text>
-            <Text>
-              Cancellation Deadline:{" "}
-              {dayjs(schedule.cancellation_deadline).format(
-                "MMMM D, YYYY h:mm A"
-              )}
-            </Text> */}
             </Card>
           ))
         ) : (
           <Text>Không có lớp nào được lên lịch cho ngày này.</Text>
         )}
-      </Stack>
+      </Stack> */}
     </>
   );
 };

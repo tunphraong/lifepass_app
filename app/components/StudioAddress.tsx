@@ -11,8 +11,8 @@ const StudioAddress = ({ address }) => {
   const googleMapsUrl = `https://www.google.com/maps/search/?api=1&query=${formattedAddress}`;
 
   return (
-    <Group mb="md">
-      <ThemeIcon size={24} radius="md">
+    <Group mt={3}>
+      <ThemeIcon size={24} radius="md" color="yellow">
         <IconMapPin size={16} />
       </ThemeIcon>
       <Text size="sm" className={styles.address}>

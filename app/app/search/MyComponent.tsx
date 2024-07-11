@@ -15,7 +15,7 @@ import { CardWithStats } from "../../components/CardWithStats";
 import StudioCard from "../../components/StudioCard";
 import { createClient } from "../../../utils/supabase/client"; // Import your Supabase client
 const supabase = createClient();
-import Link from "next/link";
+import styles from "./search.module.css"
 // Fetcher function for SWR
 const fetcher = async (url: string) => {
   const { data, error } = await supabase
@@ -52,12 +52,12 @@ export default function MyComponent() {
 
   console.log("studios", studios);
   return (
-    <>
+    <div className="styles.wrapper">
         <Stack>
         {studios?.map((studio) => (
               <StudioCard key={studio.id} studio={studio} />
         ))}
       </Stack>
-    </>
+    </div>
   );
 }

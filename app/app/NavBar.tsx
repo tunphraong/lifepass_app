@@ -18,6 +18,7 @@ import { createClient } from "../../utils/supabase/client";
 import { useRouter } from "next/navigation";
 import { Session } from "@supabase/supabase-js"; // Import Session type
 import LoginForm from "../components/LoginForm"; // Import LoginForm component
+import styles from "./layout.module.css";
 
 export default function MobileNavbar({
   children,
@@ -88,6 +89,7 @@ Readonly<{
           collapsed: { desktop: true, mobile: !opened },
         }}
         padding="md"
+        className={styles.wrapper}
       >
         <AppShell.Header>
           <Group h="100%" px="md">

@@ -2,11 +2,15 @@
   margin-top: 0.5rem; /* mt-2 */
   padding: 0.5rem 1rem; /* py-2 px-4 */
   border-radius: 0.375rem; /* rounded-md */
-  transition: background-color 0.2s ease;
+  transition: transform 0.2s ease, background-color 0.2s ease;
 }
 
 .button:hover {
-  background-color: var(--yellowDiffShade); /* Assuming you have defined --yellowDiffShade somewhere in your CSS variables */
+   transform: scale(1.05);
+     background-color: #f4b82c;
+  /* background-color: var(
+    --yellowDiffShade
+  ); Assuming you have defined --yellowDiffShade somewhere in your CSS variables */
 }
 
 .button:focus {
@@ -15,7 +19,10 @@
 }
 
 .root {
-  background-color: var(--notification-color, var(--mantine-primary-color-filled));
+  background-color: var(
+    --notification-color,
+    var(--mantine-primary-color-filled)
+  );
 
   &::before {
     background-color: var(--mantine-color-white);

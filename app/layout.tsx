@@ -61,7 +61,7 @@ export default function RootLayout({
   params: { lang: Locale };
 }) {
   return (
-    <html lang= {params.lang}>
+    <html lang={params.lang} style={{ backgroundColor: "fcfaf9" }}>
       <head>
         <ColorSchemeScript />
         <link rel="shortcut icon" href="/favicon.svg" />

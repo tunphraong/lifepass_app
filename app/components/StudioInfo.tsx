@@ -14,6 +14,7 @@ import {
   Stack,
   Space,
   Spoiler,
+  Center
 } from "@mantine/core";
 import {
   IconUserPlus,
@@ -72,58 +73,43 @@ export function StudioInfo({ studio }: StudioInfoProps) {
   };
 
   return (
-    <div className="mt-4">
-      <Group justify="space-between">
-        <Title order={2}>{name}</Title>
-        <Space w="md" />
+    <Box mt={4}>
+      <Group align="center" justify="space-between">
+        <Title order={2} color="yellow">
+          {name} 🌟
+        </Title>
         <Image
           src={"/test-icon.jpg"}
+          // src={imageUrl} // Assuming imageUrl is provided from props
           width={70}
           height={70}
           alt={name}
-          style={{ marginLeft: "auto" }}
+          className={styles.studioImage}
         />
       </Group>
 
-      {/* Rating, Reviews, and Location */}
-      {/* <Group spacing="xs">
-        <Rating value={rating ?? 0} readOnly />
-        <Text size="sm" color="dimmed">
-          ({rating}) • (20,000+) reviews
-        </Text>
+      <Group mt="md" align="center">
         <ThemeIcon color="gray" variant="light">
-          <IconMapPin size={14} />
+          <IconMapPin size={16} />
         </ThemeIcon>
         <Text size="sm" color="dimmed">
           {location}
         </Text>
-      </Group> */}
-
-      {/* Description */}
-      {/* <Text c="dimmed" size="sm" mt={5}>
-        {description}
-      </Text> */}
+      </Group>
 
       <Spoiler
-        maxHeight={50}
-        showLabel={
-          <Text c="my-color" size="sm">
-            Đọc thêm
-          </Text>
-        }
-        hideLabel={
-          <Text c="my-color" size="sm">
-            Ẩn
-          </Text>
-        }
+        maxHeight={60}
+        showLabel={<Text color="yellow">Đọc thêm</Text>}
+        hideLabel={<Text color="yellow">Ẩn</Text>}
+        mt="md"
       >
-        {description}
+        <Text color="dimmed">{description}</Text>
       </Spoiler>
 
-      <Tabs defaultValue="info">
+      <Tabs defaultValue="info" mt="lg">
         <Tabs.List grow>
-          <Tabs.Tab value="info">Thông tin</Tabs.Tab>
-          <Tabs.Tab value="schedule">Lịch</Tabs.Tab>
+          <Tabs.Tab value="info">Thông tin ℹ️</Tabs.Tab>
+          <Tabs.Tab value="schedule">Lịch 📅</Tabs.Tab>
         </Tabs.List>
 
         <Tabs.Panel value="schedule">
@@ -131,22 +117,9 @@ export function StudioInfo({ studio }: StudioInfoProps) {
         </Tabs.Panel>
 
         <Tabs.Panel value="info" className={styles.tabPanel}>
-          {/* Render the studio info here */}
-          {/* <div>Studio Information</div> */}
-
-          {/* <Group mb="md">
-            <ThemeIcon size={24} radius="md">
-              <IconMapPin size={16} />
-            </ThemeIcon>
-            <Text size="sm" color="dimmed">
-              {address}
-            </Text>
-          </Group> */}
-
           <StudioAddress address={address}></StudioAddress>
-
-          <Group wrap="nowrap" mb="md">
-            <ThemeIcon size={24} radius="md">
+          <Group mt={3} align="center">
+            <ThemeIcon size={24} radius="md" color="yellow">
               <IconPhone size={16} />
             </ThemeIcon>
             <Text size="sm" color="dimmed">
@@ -155,8 +128,8 @@ export function StudioInfo({ studio }: StudioInfoProps) {
           </Group>
 
           {website && (
-            <Group wrap="nowrap" mb="md">
-              <ThemeIcon className={styles.iconWrapper} size={24} radius="md">
+            <Group mt={3} align="center">
+              <ThemeIcon size={24} radius="md" color="yellow">
                 <IconAt size={16} />
               </ThemeIcon>
               <Link
@@ -170,21 +143,16 @@ export function StudioInfo({ studio }: StudioInfoProps) {
             </Group>
           )}
 
-          {/* Social Media Links */}
           {socialMedia && (
-            <Group gap="xs" mb="md">
+            <Group mt={3} gap="xs">
               {socialMedia.instagram && (
                 <a
                   href={socialMedia.instagram}
                   target="_blank"
                   rel="noopener noreferrer"
+                  className={styles.link}
                 >
-                  <Group>
-                    <IconBrandInstagram size={20} />
-                    <Text size="sm" c="dimmed">
-                      {new URL(socialMedia.instagram).pathname.slice(1)}
-                    </Text>
-                  </Group>
+                  <IconBrandInstagram size={24} />
                 </a>
               )}
               {socialMedia.facebook && (
@@ -192,78 +160,61 @@ export function StudioInfo({ studio }: StudioInfoProps) {
                   href={socialMedia.facebook}
                   target="_blank"
                   rel="noopener noreferrer"
+                  className={styles.link}
                 >
-                  <Group>
-                    <IconBrandFacebook size={20} />
-                    <Text size="sm" c="dimmed">
-                      {new URL(socialMedia.facebook).pathname.slice(1)}
-                    </Text>
-                  </Group>
+                  <IconBrandFacebook size={24} />
                 </a>
               )}
-              {socialMedia.twitter && (
+              {/* {socialMedia.twitter && (
                 <a
                   href={socialMedia.twitter}
                   target="_blank"
                   rel="noopener noreferrer"
+                  className={styles.socialLink}
                 >
-                  <Group>
-                    <IconBrandTwitter size={20} />
-                    <Text size="sm" c="dimmed">
-                      {new URL(socialMedia.facebook).pathname.slice(1)}
-                    </Text>
-                  </Group>
+                  <IconBrandTwitter size={24} color="yellow" />
                 </a>
-              )}
+              )} */}
             </Group>
           )}
 
           <Divider my="md" />
 
+          <Space h="xl" />
+
           <StudioSchedule studioId={studio.id}></StudioSchedule>
 
-          <Divider my="md" />
+          <Space h="xl" />
 
-          <div>
-            <Title order={3}>Chuẩn bị</Title>
-            <Text size="md" style={{ marginBottom: "1rem" }}>
-              {prepare}
-            </Text>
-          </div>
+          <Divider my={10} />
 
-          <Divider my="md" />
+          <Stack gap="sm">
+            <Title order={3}>Chuẩn bị 📋</Title>
+            <Text>{prepare}</Text>
+          </Stack>
 
-          <div>
-            <Title order={3}>Tiện nghi</Title>
+          <Divider my={10} />
+
+          <Stack gap="sm">
+            <Title order={3}>Tiện nghi 🛀</Title>
             <div className={styles.amenitiesGrid}>
-              {" "}
-              {/* Apply grid layout from CSS module */}
-              {/* {amenities.map((amenity) => (
-                <Group key={amenity} spacing="xs">
-                  <ThemeIcon size={35} radius="md">
-                    {amenityIcons[amenity]}
-                  </ThemeIcon>
-                  <Text size="md">{amenity}</Text>
-                </Group>
-              ))} */}
               {amenities.map((amenity) => (
-                <Stack key={amenity} align="center" gap="xs">
-                  <ThemeIcon size={35} radius="md">
+                <Center key={amenity}>
+                  <ThemeIcon size={35} radius="md" color="yellow">
                     {amenityIcons[amenity]}
                   </ThemeIcon>
-                  <Text size="md">{amenity}</Text>
-                </Stack>
+                  <Text>{amenity}</Text>
+                </Center>
               ))}
             </div>
-          </div>
+          </Stack>
 
-          <Divider my="md" />
+          <Divider my={10} />
 
-          {/* How to Get There Section */}
-          <div>
-            <Title order={3}>Chỉ dẫn đường</Title>
+          <Stack gap="sm">
+            <Title order={3}>Chỉ dẫn đường 🗺️</Title>
             <Spoiler
-              maxHeight={50}
+              maxHeight={80}
               showLabel="Đọc thêm"
               hideLabel="Ẩn"
               classNames={{
@@ -271,14 +222,11 @@ export function StudioInfo({ studio }: StudioInfoProps) {
                 content: styles.spoilerContent,
               }}
             >
-              <Text size="md">
-                {directions}
-                {/* Assuming 'studio.directions' contains your detailed instructions */}
-              </Text>
+              <Text>{directions}</Text>
             </Spoiler>
-          </div>
+          </Stack>
         </Tabs.Panel>
       </Tabs>
-    </div>
+    </Box>
   );
 }
