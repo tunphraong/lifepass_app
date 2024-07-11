@@ -121,27 +121,38 @@ Readonly<{
                 </Link>
               )} */}
                 {session ? (
-                  <Group>
-                    <Button
-                      variant="subtle"
-                      onClick={() => {
-                        handleLogout();
-                        toggle();
-                      }}
+                  <>
+                    {/* Upcoming Schedule Button (if logged in) */}
+                    <Link
+                      href="/app/upcoming-schedule"
+                      className={classes.link}
+                      passHref
                     >
-                      Logout
-                    </Button>
-                  </Group>
+                      <UnstyledButton
+                        className={`${classes.control}`}
+                        onClick={toggle}
+                      >
+                        Lớp sắp tới
+                      </UnstyledButton>
+                    </Link>
+
+                    {/* Logout Button */}
+                    <UnstyledButton
+                      className={`${classes.control}`}
+                      onClick={handleLogout}
+                    >
+                      Đăng Xuất
+                    </UnstyledButton>
+                  </>
                 ) : (
-                  <Button
-                    variant="subtle"
-                    onClick={() => {
-                      open();
-                      toggle();
-                    }}
-                  >
-                    Login
-                  </Button>
+                  <Link href="/app/login" className={classes.link} passHref>
+                    <UnstyledButton
+                      className={`${classes.control}`}
+                      onClick={toggle}
+                    >
+                      Đăng Nhập
+                    </UnstyledButton>
+                  </Link>
                 )}
               </Group>
             </Group>
@@ -165,18 +176,45 @@ Readonly<{
           </Link> */}
 
           {session ? (
-            <Group>
+            <>
+              {/* Upcoming Schedule Button (if logged in) */}
+              <Link
+                href="/app/upcoming-schedule"
+                className={classes.link}
+                passHref
+              >
+                <UnstyledButton
+                  className={`${classes.control}`}
+                  onClick={toggle}
+                >
+                  Lớp sắp tới
+                </UnstyledButton>
+              </Link>
+
+              {/* Logout Button */}
               <UnstyledButton
                 className={`${classes.control}`}
                 onClick={() => {
                   handleLogout();
                   toggle();
                 }}
+                // onClick={handleLogout}
               >
-                Logout
+                Đăng Xuất
               </UnstyledButton>
-            </Group>
+            </>
           ) : (
+            // <Group>
+            //   <UnstyledButton
+            //     className={`${classes.control}`}
+            //     onClick={() => {
+            //       handleLogout();
+            //       toggle();
+            //     }}
+            //   >
+            //     Logout
+            //   </UnstyledButton>
+            // </Group>
             <UnstyledButton
               className={`${classes.control}`}
               onClick={() => {
@@ -184,7 +222,7 @@ Readonly<{
                 toggle();
               }}
             >
-              Login
+              Đăng Nhập
             </UnstyledButton>
           )}
         </AppShell.Navbar>

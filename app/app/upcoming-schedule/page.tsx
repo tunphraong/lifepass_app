@@ -1,0 +1,15 @@
+// import UpcomingPage from "./upcoming";
+import { createClient } from "../../../utils/supabase/server";
+import UpcomingPage from "./Upcoming";
+import { redirect } from "next/navigation";
+
+export default async function Upcoming() {
+  const supabase = createClient();
+
+  const { data, error } = await supabase.auth.getUser();
+  if (error || !data?.user) {
+    redirect("/app/login");
+  }
+
+  return <UpcomingPage user={data?.user} />;
+}

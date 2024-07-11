@@ -45,14 +45,23 @@ export async function POST(req) {
 
     const { schedule_id, user_id } = paymentTransaction;
 
-    const { error: bookingError } = await supabase.from("bookings").insert({
-      user_id: user_id,
-      schedule_id: schedule_id,
-      status: "confirmed",
-      updated_at: new Date(),
-    });
+    // const { error: bookingError } = await supabase.from("bookings").insert({
+    //   user_id: user_id,
+    //   schedule_id: schedule_id,
+    //   status: "confirmed",
+    //   updated_at: new Date(),
+    // });
+
+    const { data: bookingData, error: bookingError } = await supabase.rpc(
+      "insert_booking",
+      {
+        p_user_id: user_id,
+        p_schedule_id: schedule_id,
+      }
+    );
 
     if (bookingError) {
+      console.log(bookingError);
       return NextResponse.json(
         { error: bookingError.message },
         { status: 500 }
