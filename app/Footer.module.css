@@ -1,0 +1,30 @@
+.footer {
+  background-color: #fcfaf9; /* nudge-white */
+  border-top: 1px solid #eaeaea;
+  padding-top: 16px;
+  padding-bottom: 16px;
+}
+
+.inner {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-direction: column;
+}
+
+@media (min-width: 768px) {
+  .inner {
+    flex-direction: row;
+  }
+}
+
+.logo {
+  font-size: 20px;
+  font-weight: 700;
+  color: #f5ac2d; /* yellow */
+}
+
+.social {
+  display: flex;
+  gap: 16px;
+}

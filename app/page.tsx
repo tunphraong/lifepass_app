@@ -1,33 +1,46 @@
 import {
-  Image,
   Container,
-  Title,
+  Text,
   Button,
   Group,
-  Text,
-  ListItem,
   List,
+  ListItem,
   ThemeIcon,
   rem,
 } from "@mantine/core";
-import { IconCheck } from "@tabler/icons-react";
-// import image from "./19333424.jpg";
-import image from "./10172354_8225.svg";
-import classes from "./HeroBullets.module.css";
-import Link from "next/link";
+import {
+  IconCheck,
+  IconGift,
+  IconMapPin,
+  IconEyeDollar,
+} from "@tabler/icons-react";
+import classes from "./HomePage.module.css";
+import Header from "./Header";
+import Footer from "./Footer";
 
-export default function HeroBullets() {
+export default function HeroTitle() {
   return (
-    <Container size="md">
-      <div className={classes.inner}>
-        <div className={classes.content}>
-          <Title className={classes.title}>
-            Một app cho <span className={classes.highlight}>tất cả</span> <br />{" "}
-            mọi thứ liên quan tới thể dục, thể hình và làm đẹp
-          </Title>
-          <Text c="dimmed" mt="md">
-            Bạn có thể đi hàng trăm fitness studio, gym, spa và cơ sở làm đẹp
-            trên khắp Việt Nam chỉ với một app LifePass
+    <>
+      <Header />
+      <div className={classes.wrapper}>
+        <Container size={700} className={classes.inner}>
+          <h1 className={classes.title}>
+            Một app cho{" "}
+            <Text
+              component="span"
+              variant="gradient"
+              // gradient={{ from: "blue", to: "cyan" }}
+              gradient={{ from: "#f5ac2d", to: "#f4b82c" }}
+              inherit
+            >
+              tất cả
+            </Text>{" "}
+            nhu cầu thể dục, thể hình và làm đẹp của bạn
+          </h1>
+
+          <Text className={classes.description} color="dimmed">
+            Khám phá hàng trăm phòng tập, spa và cơ sở làm đẹp trên khắp Việt
+            Nam chỉ với một ứng dụng LifePass. Tiện lợi, đa dạng và tiết kiệm!
           </Text>
 
           <List
@@ -35,7 +48,7 @@ export default function HeroBullets() {
             spacing="sm"
             size="md"
             icon={
-              <ThemeIcon size={20} radius="xl">
+              <ThemeIcon size={20} radius="xl" color="#f5ac2d">
                 <IconCheck
                   style={{ width: rem(12), height: rem(12) }}
                   stroke={1.5}
@@ -43,44 +56,44 @@ export default function HeroBullets() {
               </ThemeIcon>
             }
           >
-            <ListItem>
-              <b>Tiết kiệm chi phí</b> – Đặt lịch trên LifePass luôn tiết kiệm
-              chi phí so với việc mua vé lẻ
+            <ListItem icon={<IconEyeDollar color="#f4b82c" />}>
+              <b>Tiết kiệm chi phí</b> – Đặt lịch trên LifePass luôn giúp bạn
+              tiết kiệm nhiều hơn so với mua vé lẻ 💰
             </ListItem>
-            <ListItem>
-              <b>Tiện lợi</b> – dễ dàng tìm kiếm và đặt lịch tham gia các lớp
-              học thể dục thể thao và các hoạt động giải trí khác tại các địa
-              điểm gần gũi
+            <ListItem icon={<IconMapPin color="#f4b82c" />}>
+              <b>Tiện lợi</b> – Dễ dàng tìm kiếm và đặt lịch các lớp học thể dục
+              thể thao và các hoạt động giải trí gần bạn 📍
             </ListItem>
-            <ListItem>
-              <b>Đa dạng:</b> – Người dùng có thể tham gia các lớp học yoga,
-              gym, dance, bơi lội, v.v.
+            <ListItem icon={<IconGift color="#f4b82c" />}>
+              <b>Đa dạng</b> – Tham gia các lớp yoga, gym, dance, bơi lội và
+              nhiều hoạt động khác 🎁
             </ListItem>
           </List>
 
-          <Group mt={30}>
-            <Link href="/app/search" passHref>
-              <Button
-                radius="xl"
-                size="md"
-                className={classes.control}
-                component="a"
-              >
-                Tìm Lớp
-              </Button>
-            </Link>
+          <Group className={classes.controls}>
             <Button
-              variant="default"
-              radius="xl"
-              size="md"
+              size="lg"
               className={classes.control}
+              variant="gradient"
+              gradient={{ from: "#f5ac2d", to: "#f4b82c" }}
             >
-              Tìm hiểu thêm
+              Bắt đầu ngay
+            </Button>
+
+            <Button
+              component="a"
+              href="/app/search"
+              size="xl"
+              variant="default"
+              className={classes.control}
+              leftSection={<IconGift color="#323d56" />}
+            >
+              Tìm Hiểu
             </Button>
           </Group>
-        </div>
-        <Image src={image.src} className={classes.image} />
+        </Container>
       </div>
-    </Container>
+      <Footer />
+    </>
   );
 }

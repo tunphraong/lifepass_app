@@ -1,0 +1,33 @@
+.header {
+  background-color: #fcfaf9; /* nudge-white */
+  border-bottom: 1px solid #eaeaea;
+  /* height: rem(56px); */
+  margin-bottom: 16px;
+}
+
+.inner {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 16px;
+}
+
+.logo {
+  font-size: 24px;
+  font-weight: 700;
+  color: #f5ac2d; /* yellow */
+}
+
+.links {
+  display: flex;
+  gap: 16px;
+}
+
+.githubButton {
+  color: #323d56;
+  border-color: #f5ac2d;
+}
+
+.githubButton:hover {
+  background-color: #f4b82c;
+}
