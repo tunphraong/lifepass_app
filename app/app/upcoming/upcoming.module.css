@@ -1,0 +1,32 @@
+.wrapper {
+  margin-top: 40px;
+}
+
+.title {
+  color: #f5ac2d; /* Yellow */
+}
+
+.card {
+  border-left-width: 5px;
+  margin-bottom: 20px;
+}
+
+.cardHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.instructor {
+  color: #323d56; /* Nudge-black */
+}
+
+.price {
+  margin-top: 8px;
+  color: #323d56; /* Nudge-black */
+}
+
+.cancelButton {
+  margin-top: 16px;
+}

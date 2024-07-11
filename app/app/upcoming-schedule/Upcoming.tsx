@@ -12,8 +12,10 @@ import {
   Group,
   Image,
   Center,
+  Container,
   Loader,
-  Notification,
+  Title,
+  Badge,
   rem,
 } from "@mantine/core";
 import { IconCalendar } from "@tabler/icons-react"; // You might want to replace this with a Mantine UI icon
@@ -23,7 +25,7 @@ import { useSWRConfig } from "swr";
 require("dayjs/locale/vi");
 import CancelModal from "../../components/CancelModal";
 import useSWR from "swr";
-const supabase = createClient();
+import styles from "./UpcomingSchedule.module.css";
 
 interface BookingWithDetails {
   id: string;
@@ -137,13 +139,12 @@ export default function UpcomingPage({ user }: { user: User | null }) {
   }
 
   return (
-    <div className="container mx-auto p-4">
-      {/* <ToastContainer /> */}
-      <h1 className="text-2xl font-semibold mb-4 text-center">
-        Upcoming Classes ({bookings.length})
-      </h1>
+     <Container size="md" className={styles.wrapper}>
+      <Title className={styles.title}>
+        Lịch trình sắp tới ({bookings.length}){" "}
+      </Title>
 
-      <div className="space-y-4">
+      <Group gap="md">
         {bookings.map((booking) => {
           console.log(booking);
           const { schedules, classes, studios } = booking;
@@ -152,80 +153,54 @@ export default function UpcomingPage({ user }: { user: User | null }) {
           return (
             <Card
               key={booking.id}
+              className={styles.card}
               shadow="sm"
               p="md"
               withBorder
-              className="flex flex-col" // Added flex-col for vertical layout
             >
-              {/* <Group position="apart"> */}
-              {/* Image */}
-              <Image
-                src={
-                  supabase.storage
-                    .from("public_photos")
-                    .getPublicUrl(studios.imageUrl).data.publicUrl
-                }
-                alt={studios.name}
-                width={100} // Make image smaller
-                height={80}
-                radius="md"
-                className="object-cover"
-              />
-
-              {/* Class Details */}
-              <div style={{ flex: 1 }}>
-                <Text fw={500}>{classes.name}</Text>
-                <Text size="sm">{studios.name}</Text>
-                <Text size="sm">
-                  {new Date(schedules.start_time).toLocaleDateString("vi-VN", {
-                    weekday: "long",
-                    year: "numeric",
-                    month: "numeric",
-                    day: "numeric",
-                  })}
-                  ,{" "}
-                  {/* {new Date(schedules.start_time).toLocaleTimeString("vi-VN", {
-                    hour: "numeric",
-                    minute: "numeric",
-                  })} */}
-                  {/* <p className="text-gray-600 text-sm">
-                    {startTime.format("hh:mm A")} -{" "}
-                    {endTime.format("HH:mm A")}
-                  </p> */}
+              <div className={styles.cardHeader}>
+                <Text fw={700} size="lg">
+                  {classes.name}
                 </Text>
-                <Text>
-                  {dayjs(startTime).locale("vi").format("hh:mm A")} -{" "}
-                  {endTime.format("HH:mm A")}
-                </Text>
-                <Text size="sm">
-                  {classes.duration} minutes
-                </Text>
+                <Badge color="yellow">{studios.name}</Badge>
               </div>
-              {/* Price */}
               <Text>
+                {" "}
+                {new Date(schedules.start_time).toLocaleDateString("vi-VN", {
+                  weekday: "long",
+                  year: "numeric",
+                  month: "numeric",
+                  day: "numeric",
+                })}
+              </Text>
+              {/* <Text size="sm">{item.time}</Text> */}
+              <Text>
+                {startTime.format("hh:mm A")} - {endTime.format("HH:mm A")}
+              </Text>
+
+              <Text className={styles.instructor}>
+                Giảng viên: {schedules.instructor_name}
+              </Text>
+
+              <Text className={styles.price}>
                 {classes.price.toLocaleString("vi-VN", {
                   style: "currency",
                   currency: "VND",
                 })}
               </Text>
-              {/* </Group> */}
 
-              {/* Cancel Button */}
-              <div className="mt-4">
-                {/* Button to open cancellation modal */}
-                <Button
-                  variant="outline"
-                  color="red"
-                  fullWidth
-                  onClick={() => handleOpenModal(booking, "cancel")}
-                >
-                  Cancel
-                </Button>
-              </div>
+              <Button
+                variant="outline"
+                color="red"
+                size="sm"
+                className={classes.cancelButton}
+              >
+                Hủy lớp
+              </Button>
             </Card>
           );
         })}
-      </div>
+      </Group>
 
       {showModal && selectedClass && (
         <CancelModal
@@ -238,6 +213,6 @@ export default function UpcomingPage({ user }: { user: User | null }) {
           bookingId={selectedClass.id}
         />
       )}
-    </div>
+    </Container>
   );
 }

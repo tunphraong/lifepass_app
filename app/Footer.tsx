@@ -10,7 +10,8 @@ import {
   IconBrandTwitter,
   IconBrandInstagram,
   IconQuestionMark,
-  IconPhone
+  IconPhone,
+  IconHeartHandshake
 } from "@tabler/icons-react";
 import styles from "./Footer.module.css";
 import Link from "next/link";
@@ -36,6 +37,11 @@ export default function Footer() {
             <IconQuestionMark />
             FAQ
           </Button>
+
+          {/* <Button variant="subtle" component="a" href="/faq" color="dark">
+            <IconHeartHandshake />
+            Partner with us
+          </Button> */}
           {/* <Button
             variant="subtle"
             component="a"
