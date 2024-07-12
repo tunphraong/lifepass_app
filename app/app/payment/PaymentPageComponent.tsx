@@ -230,10 +230,10 @@ const PaymentPageComponent = ({ userId }) => {
               value="zalopay"
               label={
                 <Group>
-                  <Text>ZaloPay</Text>
+                  <Text>Zalopay</Text>
                   <Image
                     src="/payments/logo-zalopay.svg"
-                    alt="ZaloPay"
+                    alt="Zalopay"
                     width={24}
                     height={24}
                   />

@@ -68,11 +68,10 @@ export async function POST(req: NextRequest) {
   console.log("user id", user_id);
   let amount = 20000;
 
-  console.log(amount, user_id, schedule_id);
+  // console.log(amount, user_id, schedule_id);
   const reqtime = Date.now();
 
   const bank_code = "";
-  const description = "Test";
   const embed_data = {
     preferred_payment_method: [],
     redirecturl: "https://351c-116-111-185-193.ngrok-free.app/app/payment-result",
@@ -81,6 +80,7 @@ export async function POST(req: NextRequest) {
   // redirecturl: "https://8217-45-80-187-41.ngrok-free.app/app/payment-result",
   const unique_code = generateUniqueCode(7);
   const app_trans_id = generateOrderId(unique_code);
+  const description = `LifePass_${app_trans_id}`
   const item = [
     {
       itemid: "knb",
@@ -109,33 +109,6 @@ export async function POST(req: NextRequest) {
     mac: mac,
   };
 
-  //   const GET_BANK_LIST_URL =
-  //     "https://sbgateway.zalopay.vn/api/getlistmerchantbanks";
-
-  //     try {
-  //       const response = await fetch(GET_BANK_LIST_URL, {
-  //         method: "POST",
-  //         headers: {
-  //           "Content-Type": "application/json",
-  //         },
-  //         body: JSON.stringify(request),
-  //       });
-
-  //       const result = await response.json();
-  //       if (result.return_code === 1) {
-  //         console.log(result);
-  //         return NextResponse.json(result, { status: 200 });
-  //       } else {
-  //         console.log('get here', result);
-  //         return NextResponse.json({ error: result }, { status: 400 });
-  //       }
-  //     } catch (error) {
-  //       return NextResponse.json(
-  //         { error: "Internal server error" },
-  //         { status: 500 }
-  //       );
-  //     }
-
   // callback_url: "https://8217-45-80-187-41.ngrok-free.app/api/callback/zalopay",
   const order = {
     app_id: ZALOPAY_APP_ID,
@@ -145,7 +118,7 @@ export async function POST(req: NextRequest) {
     callback_url: "https://351c-116-111-185-193.ngrok-free.app/api/callback/zalopay",
     amount: amount,
     bank_code: "",
-    description: "Test",
+    description: description,
     embed_data: JSON.stringify(embed_data),
     item: JSON.stringify(item),
     mac: mac,

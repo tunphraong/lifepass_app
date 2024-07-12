@@ -7,7 +7,7 @@
 
 .button:hover {
    transform: scale(1.05);
-     background-color: #f4b82c;
+   background-color: #f4b82c;
   /* background-color: var(
     --yellowDiffShade
   ); Assuming you have defined --yellowDiffShade somewhere in your CSS variables */
@@ -29,8 +29,7 @@
   }
 }
 
-.description,
-.title {
+.description, .title {
   color: var(--mantine-color-white);
 }
 
