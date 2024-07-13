@@ -74,7 +74,7 @@ export async function POST(req: NextRequest) {
   const bank_code = "";
   const embed_data = {
     preferred_payment_method: [],
-    redirecturl: "https://351c-116-111-185-193.ngrok-free.app/app/payment-result",
+    redirecturl: "https://439f-45-80-186-12.ngrok-free.app/app/payment-result",
   };
 
   // redirecturl: "https://8217-45-80-187-41.ngrok-free.app/app/payment-result",
@@ -115,7 +115,8 @@ export async function POST(req: NextRequest) {
     app_user: user_id,
     app_time: reqtime,
     app_trans_id: app_trans_id,
-    callback_url: "https://351c-116-111-185-193.ngrok-free.app/api/callback/zalopay",
+    callback_url:
+      "https://439f-45-80-186-12.ngrok-free.app/api/callback/zalopay",
     amount: amount,
     bank_code: "",
     description: description,

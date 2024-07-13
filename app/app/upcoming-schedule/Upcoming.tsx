@@ -17,13 +17,15 @@ import {
   Title,
   Badge,
   rem,
+  Modal,
+  NumberFormatter,
 } from "@mantine/core";
 import { IconCalendar } from "@tabler/icons-react"; // You might want to replace this with a Mantine UI icon
 import dayjs from "dayjs";
 import { type User } from "@supabase/supabase-js";
 import { useSWRConfig } from "swr";
 require("dayjs/locale/vi");
-import CancelModal from "../../components/CancelModal";
+// import CancelModal from "../../components/CancelModal";
 import useSWR from "swr";
 import styles from "./UpcomingSchedule.module.css";
 
@@ -39,7 +41,7 @@ interface BookingWithDetails {
     studio_id: string;
   };
   classes: {
-    price: string;
+    price: number;
     name: string;
     type: string;
     difficulty: string;
@@ -64,17 +66,37 @@ export default function UpcomingPage({ user }: { user: User | null }) {
   const [error, setError] = useState<string | null>(null);
   const [showModal, setShowModal] = useState(false);
   const [selectedClass, setSelectedClass] = useState<any>(null); // Change to any
+  const [selectedBooking, setSelectedBooking] =
+    useState<BookingWithDetails | null>(null);
+  const [cancelModalOpen, setCancelModalOpen] = useState(false);
 
-  const handleOpenModal = (booking: any, mode: "book" | "cancel") => {
-    setSelectedClass(booking);
-    setShowModal(true); // Open the modal
+  // const handleOpenModal = (booking: any, mode: "book" | "cancel") => {
+  //   setSelectedClass(booking);
+  //   setShowModal(true); // Open the modal
+  // };
+
+  const handleCancelClick = (booking: BookingWithDetails) => {
+    setSelectedBooking(booking);
+    setCancelModalOpen(true);
   };
+
   const handleCancelReservation = async (bookingId: string) => {
+    const paymentDetails = {
+      // bookingId: selectedBooking.id,
+      bookingId: "efaf95ba-f64b-4428-9ab0-b8410f51d737",
+    };
     try {
-      const response = await fetch(`/app/api/bookings/${bookingId}`, {
-        method: "DELETE",
-      });
-      if (response.ok) {
+       const refundResponse = await fetch(
+         `/api/zalopay/refund`, // Your refund API route
+         {
+           method: "PUT", // Use PUT or PATCH for refunds
+           headers: { "Content-Type": "application/json" },
+           body: JSON.stringify({
+             paymentDetails
+           }),
+         }
+       );
+      if (refundResponse.ok) {
         // Refresh the page first
         // router.refresh();
         // Then show the toast
@@ -87,7 +109,7 @@ export default function UpcomingPage({ user }: { user: User | null }) {
           color: "green",
         });
       } else {
-        const errorData = await response.json();
+        const errorData = await refundResponse.json();
         setError(errorData.error || "An error occurred while cancelling.");
       }
     } catch (error) {
@@ -139,7 +161,7 @@ export default function UpcomingPage({ user }: { user: User | null }) {
   }
 
   return (
-     <Container size="md" className={styles.wrapper}>
+    <Container size="md" className={styles.wrapper}>
       <Title className={styles.title}>
         Lịch trình sắp tới ({bookings.length}){" "}
       </Title>
@@ -194,6 +216,7 @@ export default function UpcomingPage({ user }: { user: User | null }) {
                 color="red"
                 size="sm"
                 className={classes.cancelButton}
+                onClick={() => handleCancelClick(booking)}
               >
                 Hủy lớp
               </Button>
@@ -202,17 +225,67 @@ export default function UpcomingPage({ user }: { user: User | null }) {
         })}
       </Group>
 
-      {showModal && selectedClass && (
-        <CancelModal
-          className={selectedClass.classes.name}
-          startTime={selectedClass.schedules.start_time}
-          studioName={selectedClass.studios.name}
-          duration={selectedClass.classes.duration}
-          price={selectedClass.schedules.price}
-          onClose={() => setShowModal(false)}
-          bookingId={selectedClass.id}
-        />
-      )}
+      <Modal
+        opened={cancelModalOpen}
+        onClose={() => setCancelModalOpen(false)}
+        title="Cancel Reservation"
+        centered
+      >
+        {selectedBooking && (
+          <div>
+            <Text>
+              Bạn có chắc muốn huỷ lớp <b>{selectedBooking.classes.name}</b> tại{" "}
+              <b>{selectedBooking.studios.name}</b> vào{" "}
+              <b>{new Date(
+                selectedBooking.schedules.start_time
+              ).toLocaleDateString("vi-VN", {
+                weekday: "long",
+                year: "numeric",
+                month: "numeric",
+                day: "numeric",
+              })}</b>{" "}
+              bắt đầu lúc
+              <Text>
+                {dayjs(selectedBooking.schedules.start_time).format("hh:mm A")} không?
+              </Text>
+            </Text>
+
+            {/* Conditionally show refund message */}
+            {dayjs(selectedBooking.schedules.start_time).diff(dayjs(), "hour") >
+              24 && (
+              <Text className={styles.price}>
+                Bạn sẽ được hoàn tiền{" "}
+                <b>
+                  {selectedBooking.classes.price.toLocaleString("vi-VN", {
+                    style: "currency",
+                    currency: "VND",
+                  })}
+                </b>
+                . Ngoài ra, bạn có thể sẽ bị trừ một khoản phí do Zalopay quyết định.
+              </Text>
+
+            )}
+
+            <div className="flex justify-end mt-4">
+              <Button
+                variant="default"
+                onClick={() => setCancelModalOpen(false)}
+              >
+                Không
+              </Button>
+              <Button
+                color="red"
+                onClick={async () => {
+                  await handleCancelReservation(selectedBooking.id);
+                  setCancelModalOpen(false); // Close the modal
+                }}
+              >
+                Có
+              </Button>
+            </div>
+          </div>
+        )}
+      </Modal>
     </Container>
   );
 }

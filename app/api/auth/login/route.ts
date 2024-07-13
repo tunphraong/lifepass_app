@@ -9,8 +9,6 @@ export async function POST(req, res) {
   // console.log(req, res);
   if (req.method === "POST") {
     const { email, password } = req.body;
-    console.log('email', email);
-    console.log("pass", password);
     const { error } = await supabase.auth.signInWithPassword({
       email,
       password,

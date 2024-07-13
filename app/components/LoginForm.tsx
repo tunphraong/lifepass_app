@@ -27,7 +27,7 @@ const LoginForm = ({ onClose }) => {
   };
 
   return (
-    <Box sx={{ maxWidth: 300 }} mx="auto">
+    <Box style={{ maxWidth: 300 }} mx="auto">
       <form onSubmit={form.onSubmit(handleSubmit)}>
         <TextInput
           required
@@ -42,7 +42,9 @@ const LoginForm = ({ onClose }) => {
           mt="sm"
           {...form.getInputProps("password")}
         />
-        <Group position="right" mt="md">
+        <Group 
+        // position="right"
+         mt="md">
           <Button type="submit">Login</Button>
         </Group>
       </form>

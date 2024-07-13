@@ -172,7 +172,7 @@ const StudioSchedule = ({ studioId }) => {
         <Group
           justify="center"
           style={{ width: "100%" }}
-          noWrap={isSmallScreen}
+          // noWrap={isSmallScreen}
         >
           <Button
             variant="filled"
@@ -189,7 +189,9 @@ const StudioSchedule = ({ studioId }) => {
           {/* <Text>{dayjs(date).locale("vi").format("DD, MMMM, YYYY")}</Text> */}
 
           <Box p="md">
-            <Group noWrap={isSmallScreen}>
+            <Group 
+            // noWrap={isSmallScreen}
+            >
               <IconCalendar size={isSmallScreen ? 16 : 20} />
               <Text size={isSmallScreen ? "sm" : "md"}>
                 {dayjs(date).locale("vi").format("DD, MMMM")}

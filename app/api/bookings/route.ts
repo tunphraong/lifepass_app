@@ -17,7 +17,7 @@ export async function POST(request: NextRequest) {
 
   try {
     const { schedule_id } = await request.json();
-    console.log("schedule id ", schedule_id);
+    // console.log("schedule id ", schedule_id);
 
     // 1. Fetch schedule details
     const { data: schedule, error: scheduleError } = await supabase

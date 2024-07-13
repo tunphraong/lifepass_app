@@ -75,7 +75,9 @@ export function StudioInfo({ studio }: StudioInfoProps) {
   return (
     <Box mt={4}>
       <Group align="center" justify="space-between">
-        <Title order={2} color="yellow">
+        <Title order={2} 
+        // color="yellow"
+        >
           {name} 🌟
         </Title>
         <Image

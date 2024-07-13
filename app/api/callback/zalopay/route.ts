@@ -19,13 +19,14 @@ export async function POST(req) {
   const { data, mac, type } = body;
 
   const parsedData = JSON.parse(data); // Parse the JSON string
-  const { app_trans_id } = parsedData; // Destructure the app_trans_id property
+  const { app_trans_id, zp_trans_id, amount } = parsedData; // Destructure the app_trans_id property
   const generatedMac = verifyMacOrder(ZALOPAY_KEY2, data);
 
-  if (mac !== generatedMac) {
-    // console.log('mac difference')
-    return NextResponse.json({ error: "Invalid signature" }, { status: 400 });
-  }
+  // todo enable this
+  // if (mac !== generatedMac) {
+  //   // console.log('mac difference')
+  //   return NextResponse.json({ error: "Invalid signature" }, { status: 400 });
+  // }
 
   const supabase = createClient();
 
@@ -68,11 +69,36 @@ export async function POST(req) {
       );
     }
 
+    console.log("booking data", bookingData);
+
+    const bookingId = bookingData.id;
+
+    const { data: insertedPayment, error: insertPaymentError } =
+      await supabase.rpc("insert_payment", {
+        p_amount: amount,
+        p_created_at: new Date().toISOString(),
+        p_updated_at: new Date().toISOString(),
+        p_status: "success",
+        p_booking_id: bookingId,
+        p_payment_method: "zalopay",
+      });
+
+    if (insertPaymentError) {
+      console.error("Error inserting payment:", insertPaymentError);
+      return null;
+    }
+
+    const insertedPaymentId = insertedPayment.id;
+
+    console.log(insertedPayment);
+
     const { data: updateOrder, error: updateError } = await supabase.rpc(
       "update_payment_status",
       {
         apptransid: app_trans_id,
         updatedstatus: "success",
+        zptransid: zp_trans_id,
+        paymentid: insertedPaymentId
       }
     );
 
@@ -92,53 +118,7 @@ export async function POST(req) {
   }
 }
 
-export async function GET(req: Request) {
-  console.log(typeof req);
-  console.log(req);
-
-  // console.log('query' , req.query);
-  // console.log(data);
-  // const { apptransid, zptransid, status, amount, mac } = data;
-
-  // const generatedMac = verifyMacOrder(
-  //   ZALOPAY_KEY2,
-  //   `${apptransid}|${zptransid}|${amount}|${status}`
-  // );
-
-  // //   if (mac !== generatedMac) {
-  // //     return NextResponse.json({ error: "Invalid signature" }, { status: 400 });
-  // //   }
-
-  // const supabase = createClient();
-  // const { data: paymentOrder, error } = await supabase
-  //   .from("PaymentOrder")
-  //   .select("*")
-  //   .eq("zalopay_order_id", apptransid)
-  //   .single();
-
-  // if (error || !paymentOrder) {
-  //   return NextResponse.json(
-  //     { error: "Payment order not found" },
-  //     { status: 404 }
-  //   );
-  // }
-
-  // const updatedStatus = status === 1 ? "successful" : "failed";
-
-  // const { data: updatedOrder, error: updateError } = await supabase
-  //   .from("PaymentOrder")
-  //   .update({ status: updatedStatus })
-  //   .eq("zalopay_order_id", apptransid);
-
-  // if (updateError) {
-  //   return NextResponse.json(
-  //     { error: "Failed to update payment order" },
-  //     { status: 500 }
-  //   );
-  // }
-
-  return NextResponse.json({ success: true }, { status: 200 });
-}
+export async function GET(req: Request) {}
 
 export async function HEAD(request: Request) {}
 

@@ -52,7 +52,7 @@ export async function GET(request, { params }) {
       );
     }
 
-    console.log(data);
+    // console.log(data);
 
     const bookingsWithClassDetails: BookingWithDetails[] = await Promise.all(
       data.map(async (booking) => {
@@ -70,7 +70,7 @@ export async function GET(request, { params }) {
       })
     );
 
-    console.log(bookingsWithClassDetails);
+    // console.log(bookingsWithClassDetails);
 
     return NextResponse.json(bookingsWithClassDetails);
   } catch (error) {

@@ -42,7 +42,7 @@ export async function GET(request, { params }) {
     );
   }
 
-  console.log(schedules);
+  // console.log(schedules);
 
   return NextResponse.json(schedules);
 }

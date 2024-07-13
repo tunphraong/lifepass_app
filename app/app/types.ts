@@ -23,6 +23,7 @@ export interface Schedule {
   instructor_name: string; // Name of the instructor for this schedule
   lifepass_spots: number; // Number of spots available for LifePass members
   enrolled: number; // Number of users currently enrolled
+  price: number;
   // Note: You might not need price here if it's always the same as the class price
 }
 

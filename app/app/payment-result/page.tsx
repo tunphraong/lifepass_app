@@ -1,6 +1,8 @@
 "use client";
 import { useRouter, useSearchParams } from "next/navigation";
+import { DurationObject } from "ics";
 import { useEffect, useState } from "react";
+import { DateTime, type EventAttributes } from "ics";
 import {
   Badge,
   Card,
@@ -19,6 +21,7 @@ import dayjs from "dayjs";
 require("dayjs/locale/vi");
 import { createEvent } from "ics";
 import { theme } from "../../../theme";
+import { start } from "repl";
 
 const fetcher = (url: any) => fetch(url).then((res) => res.json());
 
@@ -91,37 +94,45 @@ const PaymentResultPage = () => {
     }
   };
 
-   const handleAddToCalendar = () => {
-     const event = {
-       start: [
-         startTime.year(),
-         startTime.month() + 1, // month is 0-indexed
-         startTime.date(),
-         startTime.hour(),
-         startTime.minute(),
-       ],
-       duration: { minutes: classData?.duration || 0 },
-       title: `Class: ${classData.name}`,
-       description: `Class: ${classData.name} at ${studioData?.name}`,
-       location: studioData?.address,
-       status: "CONFIRMED",
-     };
+  //  start: [
+  //    startTime.year(),
+  //    startTime.month() + 1, // month is 0-indexed in dayjs
+  //    startTime.date(),
+  //    startTime.hour(),
+  //    startTime.minute(),
+  //  ],
 
-     createEvent(event, (error, value) => {
-       if (error) {
-         console.log(error);
-         return;
-       }
+  const handleAddToCalendar = () => {
+    const event: EventAttributes = {
+      start: [
+        startTime.year(),
+        startTime.month() + 1,
+        startTime.date(),
+        startTime.hour(),
+        startTime.minute(),
+      ],
+      duration: { minutes: classData?.duration || 0 },
+      title: `Class: ${classData.name}`,
+      description: `Class: ${classData.name} at ${studioData?.name}`,
+      location: studioData?.address,
+      status: "CONFIRMED",
+    };
 
-       const blob = new Blob([value], { type: "text/calendar" });
-       const url = window.URL.createObjectURL(blob);
-       const a = document.createElement("a");
-       a.href = url;
-       a.download = `${classData.name}-${startTime.format("YYYYMMDD")}.ics`;
-       a.click();
-       window.URL.revokeObjectURL(url);
-     });
-   };
+    createEvent(event, (error, value) => {
+      if (error) {
+        console.log(error);
+        return;
+      }
+
+      const blob = new Blob([value], { type: "text/calendar" });
+      const url = window.URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = `${classData.name}-${startTime.format("YYYYMMDD")}.ics`;
+      a.click();
+      window.URL.revokeObjectURL(url);
+    });
+  };
 
   return (
     // <Stack align="center" gap="md">
