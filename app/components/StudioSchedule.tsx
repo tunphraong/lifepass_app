@@ -17,14 +17,20 @@ import {
 } from "@mantine/core";
 import useSWR, { mutate } from "swr";
 import dayjs from "dayjs";
-import { IconArrowLeft, IconArrowRight, IconClock, IconUser } from "@tabler/icons-react"; // Import arrow icons
+import {
+  IconArrowLeft,
+  IconArrowRight,
+  IconClock,
+  IconUser,
+} from "@tabler/icons-react"; // Import arrow icons
 import styles from "./StudioSchedule.module.css";
 import { useDisclosure, useMediaQuery } from "@mantine/hooks";
 import { useRouter } from "next/navigation";
 import { IconChevronRight, IconCalendar } from "@tabler/icons-react";
 import { createClient } from "../../utils/supabase/client";
 require("dayjs/locale/vi");
-
+var isSameOrAfter = require("dayjs/plugin/isSameOrAfter");
+// dayjs.extend(isSameOrAfter);
 
 const fetcher = async (url) => {
   const response = await fetch(url);
@@ -38,13 +44,11 @@ const fetcher = async (url) => {
 };
 
 const StudioSchedule = ({ studioId }) => {
-    const theme = useMantineTheme();
-    const isSmallScreen = useMediaQuery(
-      `(max-width: ${theme.breakpoints.sm}px)`
-    );
+  const theme = useMantineTheme();
+  const isSmallScreen = useMediaQuery(`(max-width: ${theme.breakpoints.sm}px)`);
   const supabase = createClient();
   const [userSession, setUserSession] = useState(null); // State to hold user session
-
+  const [currentDate, setCurrentDate] = useState(dayjs());
   useEffect(() => {
     // Check Supabase session on component mount
     const session = supabase.auth.getSession();
@@ -68,11 +72,6 @@ const StudioSchedule = ({ studioId }) => {
     setSelectedSchedule(null);
   };
 
-  // const handleEnroll = (schedule: any) => {
-  //   // setSelectedSchedule(schedule);
-  //   router.push(`/app/payment?scheduleId=${selectedSchedule?.id}`);
-  // };
-
   const handleEnroll = (schedule) => {
     router.push(`/app/payment?scheduleId=${schedule.id}`);
   };
@@ -85,13 +84,13 @@ const StudioSchedule = ({ studioId }) => {
 
   if (error) return <div>Failed to load schedules</div>;
   if (isLoading) {
-      return (
-        <Stack gap="sm">
-          <Skeleton height={20} radius="md" />
-          <Skeleton height={20} radius="md" />
-          <Skeleton height={20} radius="md" />
-        </Stack>
-      );
+    return (
+      <Stack gap="sm">
+        <Skeleton height={20} radius="md" />
+        <Skeleton height={20} radius="md" />
+        <Skeleton height={20} radius="md" />
+      </Stack>
+    );
   }
 
   if (!schedules) return <div>Loading...</div>;
@@ -103,6 +102,11 @@ const StudioSchedule = ({ studioId }) => {
       currency: "VND",
     }).format(price);
   };
+
+  // Filter out past classes based on current time
+  const upcomingSchedules = schedules.filter((schedule) =>
+    dayjs(schedule.start_time).isAfter(dayjs())
+  );
 
   return (
     <>
@@ -182,6 +186,7 @@ const StudioSchedule = ({ studioId }) => {
             onClick={() =>
               setDate(dayjs(date).subtract(1, "day").format("YYYY-MM-DD"))
             }
+            disabled={dayjs(date).isSame(dayjs(), "day")}
           >
             <IconArrowLeft size={isSmallScreen ? 16 : 20} />
           </Button>
@@ -189,7 +194,7 @@ const StudioSchedule = ({ studioId }) => {
           {/* <Text>{dayjs(date).locale("vi").format("DD, MMMM, YYYY")}</Text> */}
 
           <Box p="md">
-            <Group 
+            <Group
             // noWrap={isSmallScreen}
             >
               <IconCalendar size={isSmallScreen ? 16 : 20} />
@@ -212,8 +217,8 @@ const StudioSchedule = ({ studioId }) => {
           </Button>
         </Group>
 
-        {schedules.length > 0 ? (
-          schedules.map((schedule) => (
+        {upcomingSchedules.length > 0 ? (
+          upcomingSchedules.map((schedule) => (
             <Card
               key={schedule.id}
               shadow="sm"
