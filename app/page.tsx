@@ -75,6 +75,8 @@ export default function HeroTitle() {
               size="lg"
               className={classes.control}
               variant="gradient"
+              component="a"
+              href="/app/search"
               gradient={{ from: "#f5ac2d", to: "#f4b82c" }}
             >
               Bắt đầu ngay
