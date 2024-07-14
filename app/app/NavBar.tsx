@@ -101,7 +101,9 @@ Readonly<{
             />
             <Group justify="space-between" style={{ flex: 1 }}>
               {/* <MantineLogo size={30} /> */}
-              <p>LifePass</p>
+              <UnstyledButton component="a" href="/app/search" className={`${classes.control}`}>
+                LifePass
+              </UnstyledButton>
               <Group ml="xl" gap={0} visibleFrom="sm">
                 <Link href="/app/search" className={classes.link} passHref>
                   <UnstyledButton className={`${classes.control}`}>
