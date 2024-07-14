@@ -7,6 +7,7 @@ import {
   Divider,
   Group,
   Space,
+  Alert,
   Text,
   Stack,
   Center,
@@ -21,7 +22,7 @@ import dayjs from "dayjs";
 const fetcher = (url: any) => fetch(url).then((res) => res.json());
 import ZaloPayIcon from "../../../public/payments/logo-zalopay.svg"; // Replace with your actual icon path
 import Image from "next/image";
-import { createClient } from "../../../utils/supabase/client";
+import { showNotification } from "@mantine/notifications";
 
 // Define the type for the user prop
 interface User {
@@ -31,6 +32,7 @@ interface User {
 }
 
 const PaymentPageComponent = ({ userId }) => {
+  const [apiError, setApiError] = useState<string | null>(null);
   const router = useRouter();
   const searchParams = useSearchParams();
   const scheduleId = searchParams.get("scheduleId") ?? null;
@@ -103,16 +105,17 @@ const PaymentPageComponent = ({ userId }) => {
     })
       .then((response) => response.json())
       .then((data) => {
-        if (data.error) {
-          // Handle error response from API
-          console.error("Error:", data.error);
-          // Display error message to user
-        } else {
-          // Handle successful response from API
-          console.log("Success:", data);
-          router.push(data.order_url);
-          // Redirect or display success message to user
-        }
+          if (data.error) {
+            // Set the API error state if there's an error
+            setApiError(data.error); // Set the API error state
+            showNotification({
+              title: "Error",
+              message: data.error || "Booking failed. Please try again.",
+              color: "red",
+            });
+          } else {
+            router.push(data.order_url);
+          }
       })
       .catch((error) => {
         console.error("Error:", error);
@@ -120,81 +123,19 @@ const PaymentPageComponent = ({ userId }) => {
       });
   };
 
-  return (
-    // <p>hello</p>
-    // <div className="container mx-auto p-4">
-    //   <button
-    //     onClick={() => router.back()}
-    //     className="text-blue-500 hover:underline mb-4"
-    //   >
-    //     &larr; Back
-    //   </button>
-
-    //   {/* Studio Information */}
-    //   {/* <StudioInfo studio={studioData} /> */}
-
-    //   <div className="mt-8">
-    //     <Card shadow="sm" p="lg" radius="md" withBorder>
-    //       <Text className="font-bold text-lg">Booking Summary</Text>
-    //       <Divider my="xs" />
-    //       <div className="py-4">
-    //         <p className="text-lg font-medium text-gray-800 mb-1">
-    //           {classData.name}
-    //         </p>
-    //         <p className="text-gray-600 text-base mb-1">{studioData.name}</p>
-    //         <p className="text-gray-600 text-base">
-    //           {new Date(schedule.start_time).toLocaleDateString("vi-VN", {
-    //             weekday: "long",
-    //             year: "numeric",
-    //             month: "numeric",
-    //             day: "numeric",
-    //           })}
-    //           , {startTime.format("HH:mm")} - {formattedEndTime} (
-    //           {classData?.duration} min)
-    //         </p>
-    //         <p className="text-lg font-semibold text-gray-800 mt-2">
-    //           {schedule.price.toLocaleString("vi-VN", {
-    //             style: "currency",
-    //             currency: "VND",
-    //           })}
-    //         </p>
-    //       </div>
-    //       {/* <Text className="font-bold text-lg">Payment Method</Text> */}
-    //       <Stack gap="sm">
-    //         {/* <Text>Selected Class: {schedule?.classes?.name}</Text>
-    //         <Text>Price: {schedule?.price}</Text> */}
-    //         <RadioGroup
-    //           value={selectedPaymentMethod}
-    //           onChange={setSelectedPaymentMethod}
-    //           label="Choose your payment method"
-    //           required
-    //         >
-    //           <Radio
-    //             value="zalopay"
-    //             label={
-    //               <div style={{ display: "flex", alignItems: "center" }}>
-    //                 <Image
-    //                   src="/payments/logo-zalopay.svg"
-    //                   alt="ZaloPay"
-    //                   width={24}
-    //                   height={24}
-    //                 />
-    //                 <Text ml="xs">ZaloPay</Text>
-    //               </div>
-    //             }
-    //           />
-
-    //           {/* Add more Radio options for other payment methods here */}
-    //         </RadioGroup>
-    //         <Button fullWidth color="yellow" onClick={handlePayment}>
-    //           Proceed to Payment
-    //         </Button>
-    //       </Stack>
-
-    //     </Card>
-    //   </div>
-    // </div>
-
+  return apiError ? (
+    <Alert
+      color="red"
+      title="Error"
+      withCloseButton
+      onClose={() => setApiError(null)}
+    >
+      {apiError}
+      <Button variant="outline" color="gray" onClick={() => router.back()}>
+        Go Back
+      </Button>
+    </Alert>
+  ) : (
     <Stack align="center" gap="md">
       <Text fw={500}>Chọn phương thức thanh toán</Text>
       <Card shadow="sm" padding="sm" radius="md" withBorder>

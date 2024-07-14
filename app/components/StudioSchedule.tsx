@@ -47,8 +47,7 @@ const StudioSchedule = ({ studioId }) => {
   const theme = useMantineTheme();
   const isSmallScreen = useMediaQuery(`(max-width: ${theme.breakpoints.sm}px)`);
   const supabase = createClient();
-  const [userSession, setUserSession] = useState(null); // State to hold user session
-  const [currentDate, setCurrentDate] = useState(dayjs());
+  const [userSession, setUserSession] = useState(null); // State to hold user session 
   useEffect(() => {
     // Check Supabase session on component mount
     const session = supabase.auth.getSession();

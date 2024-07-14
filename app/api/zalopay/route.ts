@@ -8,6 +8,7 @@ const ZALOPAY_CREATE_ORDER_ENDPOINT = "https://sb-openapi.zalopay.vn/v2/create";
 import { NextResponse } from "next/server";
 import { NextRequest } from "next/server";
 import { createClient } from "../../../utils/supabase/server";
+import dayjs from "dayjs";
 
 function generateUniqueCode(length: number): string {
   const characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
@@ -37,10 +38,9 @@ const generateOrderId = (unique_code) => {
   // const uniquePart = `${now.getTime()}${userId.toString()}${randomStr}}`;
   // const maxLength = 40;
   // const uniquePart = generateUniqueCode(7);
-  
+
   return `${YY}${MM}${DD}_${unique_code}`;
 
-    
   // return `${YY}${MM}${DD}_${uniquePart}`.slice(0, maxLength);
 };
 
@@ -64,8 +64,19 @@ function generateMacOrder(
 }
 
 export async function POST(req: NextRequest) {
+  const supabase = createClient();
   const { user_id, schedule_id } = await req.json();
   console.log("user id", user_id);
+
+  // Check if the class is in the past
+  const isInPast = await isClassInPast(schedule_id);
+  if (isInPast) {
+    return NextResponse.json(
+      { error: "Cannot book a class in the past" },
+      { status: 400 }
+    );
+  }
+
   let amount = 20000;
 
   // console.log(amount, user_id, schedule_id);
@@ -80,7 +91,7 @@ export async function POST(req: NextRequest) {
   // redirecturl: "https://8217-45-80-187-41.ngrok-free.app/app/payment-result",
   const unique_code = generateUniqueCode(7);
   const app_trans_id = generateOrderId(unique_code);
-  const description = `LifePass_${app_trans_id}`
+  const description = `LifePass_${app_trans_id}`;
   const item = [
     {
       itemid: "knb",
@@ -101,7 +112,6 @@ export async function POST(req: NextRequest) {
     JSON.stringify(embed_data),
     JSON.stringify(item)
   );
-  console.log("Generated MAC:", mac);
 
   const request = {
     appid: ZALOPAY_APP_ID,
@@ -139,7 +149,6 @@ export async function POST(req: NextRequest) {
     const result = await response.json();
     if (result.return_code === 1) {
       console.log(result);
-      const supabase = createClient();
 
       // Insert payment order into Supabase after successful order creation
       const { data, error } = await supabase
@@ -177,6 +186,22 @@ export async function POST(req: NextRequest) {
   }
 }
 
+
+async function isClassInPast(scheduleId: string): Promise<boolean> {
+  const supabase = createClient();
+  const { data: schedule, error } = await supabase
+    .from("schedules")
+    .select("start_time")
+    .eq("id", scheduleId)
+    .single();
+
+  if (error) {
+    throw new Error("Failed to fetch schedule data");
+  }
+
+  const startTime = dayjs(schedule.start_time);
+  return startTime.isBefore(dayjs());
+}
 export async function GET(request: Request) {}
 
 export async function HEAD(request: Request) {}
@@ -189,3 +214,5 @@ export async function PATCH(request: Request) {}
 
 // If `OPTIONS` is not defined, Next.js will automatically implement `OPTIONS` and  set the appropriate Response `Allow` header depending on the other methods defined in the route handler.
 export async function OPTIONS(request: Request) {}
+
+
