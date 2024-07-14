@@ -37,10 +37,9 @@ const generateOrderId = (unique_code) => {
   // const uniquePart = `${now.getTime()}${userId.toString()}${randomStr}}`;
   // const maxLength = 40;
   // const uniquePart = generateUniqueCode(7);
-  
+
   return `${YY}${MM}${DD}_${unique_code}`;
 
-    
   // return `${YY}${MM}${DD}_${uniquePart}`.slice(0, maxLength);
 };
 
@@ -55,12 +54,18 @@ function generateMacOrder(
   embed_data,
   item
 ) {
-  const hmac = createHmac(hmac_algorithm, key1);
-  //   hmac_input: app_id +”|”+ app_trans_id +”|”+ app_user +”|”+ amount +"|"+ app_time +”|”+ embed_data +"|"+ item
-  const data = `${ZALOPAY_APP_ID}|${app_trans_id}|${app_user}|${amount}|${reqtime}|${embed_data}|${item}`;
-  console.log(data);
-  hmac.update(data);
-  return hmac.digest("hex");
+  try {
+    const hmac = createHmac(hmac_algorithm, key1);
+    const data = `${appid}|${app_trans_id}|${app_user}|${amount}|${reqtime}|${embed_data}|${item}`;
+    console.log(data);
+    hmac.update(data);
+    return { status: "success", hmac: hmac.digest("hex") };
+  } catch (error) {
+    return {
+      status: "error",
+      message: `Error generating HMAC: ${error}`,
+    };
+  }
 }
 
 export async function POST(req: NextRequest) {
@@ -80,7 +85,7 @@ export async function POST(req: NextRequest) {
   // redirecturl: "https://8217-45-80-187-41.ngrok-free.app/app/payment-result",
   const unique_code = generateUniqueCode(7);
   const app_trans_id = generateOrderId(unique_code);
-  const description = `LifePass_${app_trans_id}`
+  const description = `LifePass_${app_trans_id}`;
   const item = [
     {
       itemid: "knb",
@@ -90,7 +95,7 @@ export async function POST(req: NextRequest) {
     },
   ];
 
-  const mac = generateMacOrder(
+  const result = generateMacOrder(
     ZALOPAY_APP_ID,
     reqtime,
     ZALOPAY_KEY1,
@@ -101,7 +106,19 @@ export async function POST(req: NextRequest) {
     JSON.stringify(embed_data),
     JSON.stringify(item)
   );
-  console.log("Generated MAC:", mac);
+
+  let mac;
+
+  if (result.status === "success") {
+    console.log("HMAC:", result.hmac);
+    mac = result.hmac;
+  } else if (result.status === "error") {
+    console.error("Error:", result.message);
+    return NextResponse.json(
+      { error: "Failed to create payment order. Please contact us" },
+      { status: 500 }
+    );
+  }
 
   const request = {
     appid: ZALOPAY_APP_ID,
