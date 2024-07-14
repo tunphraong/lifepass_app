@@ -59,7 +59,6 @@ export default function StudioCard({ studio }: any) {
         <Grid.Col span={4}>
           <Card.Section>
             <Link
-              target="_blank"
               key={studio.id}
               href={`/app/studios/${studio.id}`}
               style={{ textDecoration: "none" }}
@@ -86,7 +85,6 @@ export default function StudioCard({ studio }: any) {
               key={studio.id}
               href={`/app/studios/${studio.id}`}
               style={{ textDecoration: "none" }}
-              target="_blank"
             >
               <Text fw={500}>{name}</Text>
             </Link>

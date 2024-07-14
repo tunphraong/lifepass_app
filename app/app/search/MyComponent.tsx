@@ -49,8 +49,6 @@ export default function MyComponent() {
       </Center>
     );
   }
-
-  console.log("studios", studios);
   return (
     <div className="styles.wrapper">
         <Stack>
