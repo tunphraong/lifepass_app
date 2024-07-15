@@ -9,6 +9,7 @@ import {
 } from "@mantine/core";
 
 import { i18n, type Locale } from "../i18n-config";
+import { Analytics } from "@vercel/analytics/react";
 
 export const metadata = {
   title: "Lifepass",
@@ -75,6 +76,7 @@ export default function RootLayout({
         <MantineProvider theme={theme}>
           <Notifications />
           {children}
+          <Analytics />
         </MantineProvider>
       </body>
     </html>
