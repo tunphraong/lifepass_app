@@ -236,18 +236,21 @@ export default function UpcomingPage({ user }: { user: User | null }) {
             <Text>
               Bạn có chắc muốn huỷ lớp <b>{selectedBooking.classes.name}</b> tại{" "}
               <b>{selectedBooking.studios.name}</b> vào{" "}
-              <b>{new Date(
-                selectedBooking.schedules.start_time
-              ).toLocaleDateString("vi-VN", {
-                weekday: "long",
-                year: "numeric",
-                month: "numeric",
-                day: "numeric",
-              })}</b>{" "}
-              bắt đầu lúc
-              <Text>
-                {dayjs(selectedBooking.schedules.start_time).format("hh:mm A")} không?
-              </Text>
+              <b>
+                {new Date(
+                  selectedBooking.schedules.start_time
+                ).toLocaleDateString("vi-VN", {
+                  weekday: "long",
+                  year: "numeric",
+                  month: "numeric",
+                  day: "numeric",
+                })}
+              </b>{" "}
+              bắt đầu lúc{" "}
+              {dayjs(selectedBooking.schedules.start_time).format("hh:mm A")}{" "}
+              không?
+              {/* <Text> */}
+              {/* </Text> */}
             </Text>
 
             {/* Conditionally show refund message */}
@@ -261,9 +264,9 @@ export default function UpcomingPage({ user }: { user: User | null }) {
                     currency: "VND",
                   })}
                 </b>
-                . Ngoài ra, bạn có thể sẽ bị trừ một khoản phí do Zalopay quyết định.
+                . Ngoài ra, bạn có thể sẽ bị trừ một khoản phí do Zalopay quyết
+                định.
               </Text>
-
             )}
 
             <div className="flex justify-end mt-4">

@@ -9,6 +9,7 @@ import { NextResponse } from "next/server";
 import { NextRequest } from "next/server";
 import { createClient } from "../../../utils/supabase/server";
 import dayjs from "dayjs";
+const HOST_URL = "https://3605-45-80-184-117.ngrok-free.app";
 
 function generateUniqueCode(length: number): string {
   const characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
@@ -55,12 +56,18 @@ function generateMacOrder(
   embed_data,
   item
 ) {
-  const hmac = createHmac(hmac_algorithm, key1);
-  //   hmac_input: app_id +”|”+ app_trans_id +”|”+ app_user +”|”+ amount +"|"+ app_time +”|”+ embed_data +"|"+ item
-  const data = `${ZALOPAY_APP_ID}|${app_trans_id}|${app_user}|${amount}|${reqtime}|${embed_data}|${item}`;
-  console.log(data);
-  hmac.update(data);
-  return hmac.digest("hex");
+  try {
+    const hmac = createHmac(hmac_algorithm, key1);
+    const data = `${appid}|${app_trans_id}|${app_user}|${amount}|${reqtime}|${embed_data}|${item}`;
+    console.log(data);
+    hmac.update(data);
+    return { status: "success", hmac: hmac.digest("hex") };
+  } catch (error) {
+    return {
+      status: "error",
+      message: `Error generating HMAC: ${error}`,
+    };
+  }
 }
 
 export async function POST(req: NextRequest) {
@@ -85,10 +92,9 @@ export async function POST(req: NextRequest) {
   const bank_code = "";
   const embed_data = {
     preferred_payment_method: [],
-    redirecturl: "https://439f-45-80-186-12.ngrok-free.app/app/payment-result",
+    redirecturl: `${HOST_URL}/app/payment-result`,
   };
 
-  // redirecturl: "https://8217-45-80-187-41.ngrok-free.app/app/payment-result",
   const unique_code = generateUniqueCode(7);
   const app_trans_id = generateOrderId(unique_code);
   const description = `LifePass_${app_trans_id}`;
@@ -101,7 +107,7 @@ export async function POST(req: NextRequest) {
     },
   ];
 
-  const mac = generateMacOrder(
+  const result = generateMacOrder(
     ZALOPAY_APP_ID,
     reqtime,
     ZALOPAY_KEY1,
@@ -113,20 +119,26 @@ export async function POST(req: NextRequest) {
     JSON.stringify(item)
   );
 
-  const request = {
-    appid: ZALOPAY_APP_ID,
-    reqtime: reqtime,
-    mac: mac,
-  };
+  let mac: string;
 
-  // callback_url: "https://8217-45-80-187-41.ngrok-free.app/api/callback/zalopay",
+  if (result.status === "success") {
+    console.log("HMAC:", result.hmac);
+    mac = result.hmac;
+  } else if (result.status === "error") {
+    console.error("Error:", result.message);
+    return NextResponse.json(
+      { error: "Failed to create payment order. Please contact us" },
+      { status: 500 }
+    );
+  }
+
   const order = {
     app_id: ZALOPAY_APP_ID,
     app_user: user_id,
     app_time: reqtime,
     app_trans_id: app_trans_id,
     callback_url:
-      "https://439f-45-80-186-12.ngrok-free.app/api/callback/zalopay",
+      `${HOST_URL}/api/callback/zalopay`,
     amount: amount,
     bank_code: "",
     description: description,

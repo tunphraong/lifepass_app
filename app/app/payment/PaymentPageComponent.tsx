@@ -15,13 +15,17 @@ import {
   Radio,
   RadioGroup,
   Title,
+  rem
 } from "@mantine/core";
+import { notifications } from "@mantine/notifications";
 import { Schedule, Class, Studio } from "../types";
 import useSWR from "swr";
+import { IconX } from "@tabler/icons-react";
 import dayjs from "dayjs";
 const fetcher = (url: any) => fetch(url).then((res) => res.json());
 import ZaloPayIcon from "../../../public/payments/logo-zalopay.svg"; // Replace with your actual icon path
 import Image from "next/image";
+import classes from "./PaymentPage.module.css";
 import { showNotification } from "@mantine/notifications";
 
 // Define the type for the user prop
@@ -32,6 +36,7 @@ interface User {
 }
 
 const PaymentPageComponent = ({ userId }) => {
+   const xIcon = <IconX style={{ width: rem(20), height: rem(20) }} />;
   const [apiError, setApiError] = useState<string | null>(null);
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -118,7 +123,15 @@ const PaymentPageComponent = ({ userId }) => {
           }
       })
       .catch((error) => {
-        console.error("Error:", error);
+          notifications.show({
+            color: "red",
+            title: "Payment error",
+            message:
+              "Thanh toán không thành công. Xin liêc lạc với LifePass nếu vấn đề vẫn tiếp tục.",
+            autoClose: false,
+            classNames: classes,
+          });
+        console.error("Error 123:", error);
         // Display error message to user
       });
   };
