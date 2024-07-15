@@ -10,6 +10,7 @@ import {
 
 import { i18n, type Locale } from "../i18n-config";
 import { Analytics } from "@vercel/analytics/react";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 
 export const metadata = {
   title: "Lifepass",
@@ -77,6 +78,7 @@ export default function RootLayout({
           <Notifications />
           {children}
           <Analytics />
+          <SpeedInsights />
         </MantineProvider>
       </body>
     </html>
