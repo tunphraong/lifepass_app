@@ -82,8 +82,8 @@ export default function UpcomingPage({ user }: { user: User | null }) {
 
   const handleCancelReservation = async (bookingId: string) => {
     const paymentDetails = {
-      // bookingId: selectedBooking.id,
-      bookingId: "efaf95ba-f64b-4428-9ab0-b8410f51d737",
+      bookingId: selectedBooking.id,
+      // bookingId: "efaf95ba-f64b-4428-9ab0-b8410f51d737",
     };
     try {
        const refundResponse = await fetch(

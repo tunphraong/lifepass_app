@@ -20,7 +20,6 @@ import {
 import { notifications } from "@mantine/notifications";
 import { Schedule, Class, Studio } from "../types";
 import useSWR from "swr";
-import { IconX } from "@tabler/icons-react";
 import dayjs from "dayjs";
 const fetcher = (url: any) => fetch(url).then((res) => res.json());
 import ZaloPayIcon from "../../../public/payments/logo-zalopay.svg"; // Replace with your actual icon path
@@ -36,7 +35,7 @@ interface User {
 }
 
 const PaymentPageComponent = ({ userId }) => {
-  const xIcon = <IconX style={{ width: rem(20), height: rem(20) }} />;
+  
   const [apiError, setApiError] = useState<string | null>(null);
   const router = useRouter();
   const searchParams = useSearchParams();

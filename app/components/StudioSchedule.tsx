@@ -29,8 +29,10 @@ import { useRouter } from "next/navigation";
 import { IconChevronRight, IconCalendar } from "@tabler/icons-react";
 import { createClient } from "../../utils/supabase/client";
 require("dayjs/locale/vi");
-var isSameOrAfter = require("dayjs/plugin/isSameOrAfter");
-// dayjs.extend(isSameOrAfter);
+// var isSameOrBefore = require("dayjs/plugin/isSameOrBefore");
+import isSameOrBefore from "dayjs/plugin/isSameOrBefore"; // ES 2015
+
+dayjs.extend(isSameOrBefore);
 
 const StudioSchedule = ({ studioId }) => {
   const fetcher = async (url) => {
@@ -82,31 +84,37 @@ const StudioSchedule = ({ studioId }) => {
   const [opened, { open, close }] = useDisclosure(false);
   const [selectedSchedule, setSelectedSchedule] = useState(null);
   const [date, setDate] = useState(dayjs().format("YYYY-MM-DD"));
-  const [reservationSuccess, setReservationSuccess] = useState(false);
-
-  const handleOpenModal = (schedule) => {
-    setSelectedSchedule(schedule);
-    setReservationSuccess(false); // Reset success state when opening modal
-    open();
-  };
-
-  const handleCloseModal = () => {
-    close();
-    setSelectedSchedule(null);
-  };
+  const startDate = dayjs(date).startOf("week").format("YYYY-MM-DD");
+  const endDate = dayjs(date).endOf("week").format("YYYY-MM-DD");
+  const [currentDate, setCurrentDate] = useState(dayjs().startOf("day"));
+  const [selectedDay, setSelectedDay] = useState(currentDate);
 
   const handleEnroll = (schedule) => {
-    // sessionStorage.setItem("selectedSchedulePrice", schedule.price);
     router.push(`/app/payment?scheduleId=${schedule.id}`);
   };
 
-  const {
-    data: schedules,
-    error,
-    isLoading,
-  } = useSWR(`/api/studio/${studioId}/schedules?date=${date}`, fetcher);
+    const weekStart = selectedDay.startOf("week").format("YYYY-MM-DD");
+    const weekEnd = selectedDay.endOf("week").format("YYYY-MM-DD");
 
-  console.log('schedules', schedules);
+  // const {
+  //   data: schedules,
+  //   error,
+  //   isLoading,
+  // } = useSWR(
+  //   `/api/studio/${studioId}/schedules?startDate=${startDate}&endDate=${endDate}`,
+  //   fetcher
+  // );
+
+    const {
+      data: schedules,
+      error,
+      isLoading,
+    } = useSWR(
+      `/api/studio/${studioId}/schedules?weekStart=${weekStart}&weekEnd=${weekEnd}`,
+      fetcher
+    );
+
+  // console.log('schedules', schedules);
 
   if (error) return <div>Failed to load schedules</div>;
   if (isLoading) {
@@ -122,6 +130,21 @@ const StudioSchedule = ({ studioId }) => {
   if (!schedules) return <div>Loading...</div>;
   // console.log(schedules);
 
+    const handleDayChange = (newDay) => {
+      if (newDay.isAfter(dayjs().startOf("day").subtract(1, "day"))) {
+        setSelectedDay(newDay);
+      }
+    };
+
+  
+  const handleWeekChange = (direction) => {
+    const newDate = currentDate.add(direction, "week");
+    if (newDate.isAfter(dayjs().startOf("week").subtract(1, "week"))) {
+      setCurrentDate(newDate);
+      setSelectedDay(newDate.startOf("week"));
+    }
+  };
+
   const formatPrice = (price: number) => {
     return new Intl.NumberFormat("vi-VN", {
       style: "currency",
@@ -130,15 +153,19 @@ const StudioSchedule = ({ studioId }) => {
   };
 
   // Filter out past classes based on current time
-  const upcomingSchedules = schedules.filter((schedule) =>
-    dayjs(schedule.start_time).isAfter(dayjs())
+  // const upcomingSchedules = schedules.filter((schedule) =>
+  //   dayjs(schedule.start_time).isAfter(dayjs())
+  // );
+
+  const filteredSchedules = schedules.filter((schedule) =>
+    dayjs(schedule.start_time).isSame(selectedDay, "day")
   );
 
   return (
     <>
       <Space h="md" />
       <Stack gap="md">
-        <Group
+        {/* <Group
           justify="center"
           style={{ width: "100%" }}
           // noWrap={isSmallScreen}
@@ -155,8 +182,6 @@ const StudioSchedule = ({ studioId }) => {
           >
             <IconArrowLeft size={isSmallScreen ? 16 : 20} />
           </Button>
-
-          {/* <Text>{dayjs(date).locale("vi").format("DD, MMMM, YYYY")}</Text> */}
 
           <Box p="md">
             <Group
@@ -180,10 +205,63 @@ const StudioSchedule = ({ studioId }) => {
           >
             <IconArrowRight size={isSmallScreen ? 16 : 20} />
           </Button>
+        </Group> */}
+
+        <Group justify="center" style={{ width: "100%" }}>
+          <Button
+            variant="filled"
+            color="yellow"
+            radius="xl"
+            size={isSmallScreen ? "md" : "lg"}
+            onClick={() => handleWeekChange(-1)}
+            disabled={currentDate
+              .startOf("week")
+              .isSameOrBefore(dayjs().startOf("week"))}
+          >
+            <IconArrowLeft size={isSmallScreen ? 16 : 20} />
+          </Button>
+
+          <Box p="md">
+            <Group>
+              <IconCalendar size={isSmallScreen ? 16 : 20} />
+              <Text size={isSmallScreen ? "sm" : "md"}>
+                {selectedDay.locale("vi").format("DD, MMMM")}
+              </Text>
+            </Group>
+          </Box>
+
+          <Button
+            variant="filled"
+            color="yellow"
+            radius="xl"
+            size={isSmallScreen ? "md" : "lg"}
+            onClick={() => handleWeekChange(1)}
+          >
+            <IconArrowRight size={isSmallScreen ? 16 : 20} />
+          </Button>
         </Group>
 
-        {upcomingSchedules.length > 0 ? (
-          upcomingSchedules.map((schedule) => (
+        <Group justify="center" style={{ width: "100%" }}>
+          {[...Array(7)].map((_, i) => {
+            const day = currentDate.startOf("week").add(i, "day");
+            return (
+              <Button
+                key={i}
+                variant={selectedDay.isSame(day, "day") ? "filled" : "outline"}
+                color="yellow"
+                radius="xl"
+                size="md"
+                onClick={() => handleDayChange(day)}
+                disabled={day.isBefore(dayjs().startOf("day"))}
+              >
+                {day.format("ddd")}
+              </Button>
+            );
+          })}
+        </Group>
+
+        {filteredSchedules.length > 0 ? (
+          filteredSchedules.map((schedule) => (
             <Card
               key={schedule.id}
               shadow="sm"

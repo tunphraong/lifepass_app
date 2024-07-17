@@ -15,6 +15,7 @@ function verifyMacOrder(key2, data) {
 
 export async function POST(req) {
   const body = await req.json();
+  console.log("get here");
 
   const { data, mac, type } = body;
 
@@ -22,11 +23,10 @@ export async function POST(req) {
   const { app_trans_id, zp_trans_id, amount } = parsedData; // Destructure the app_trans_id property
   const generatedMac = verifyMacOrder(ZALOPAY_KEY2, data);
 
-  // todo enable this
-  // if (mac !== generatedMac) {
-  //   // console.log('mac difference')
-  //   return NextResponse.json({ error: "Invalid signature" }, { status: 400 });
-  // }
+  if (mac !== generatedMac) {
+    // console.log('mac difference')
+    return NextResponse.json({ error: "Invalid signature" }, { status: 400 });
+  }
 
   const supabase = createClient();
 
@@ -45,13 +45,6 @@ export async function POST(req) {
     }
 
     const { schedule_id, user_id } = paymentTransaction;
-
-    // const { error: bookingError } = await supabase.from("bookings").insert({
-    //   user_id: user_id,
-    //   schedule_id: schedule_id,
-    //   status: "confirmed",
-    //   updated_at: new Date(),
-    // });
 
     const { data: bookingData, error: bookingError } = await supabase.rpc(
       "insert_booking",
@@ -98,7 +91,7 @@ export async function POST(req) {
         apptransid: app_trans_id,
         updatedstatus: "success",
         zptransid: zp_trans_id,
-        paymentid: insertedPaymentId
+        paymentid: insertedPaymentId,
       }
     );
 
@@ -108,6 +101,23 @@ export async function POST(req) {
       console.log("Payment status updated successfully:", updateOrder);
     }
 
+    const { data: increaseEnrolledData, error: increaseEnrolledError } =
+      await supabase.rpc("increment_enrolled", {
+        schedule_id: schedule_id,
+      });
+
+    if (increaseEnrolledError) {
+      console.error(
+        "Error updating enrolled count:",
+        increaseEnrolledError.message
+      );
+      return NextResponse.json(
+        { error: "Error updating enrolled count" },
+        { status: 400 }
+      );
+    }
+
+    console.log(increaseEnrolledData);
     return NextResponse.json({ success: true }, { status: 200 });
   } catch (error) {
     console.error("Error creating booking or updating payment status:", error);

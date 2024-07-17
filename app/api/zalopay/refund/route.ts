@@ -19,6 +19,21 @@ interface ZaloPayRefundResponse {
   // ... other properties you expect from ZaloPay's refund response ...
 }
 
+const generateRefundId = (unique_code) => {
+  const now = new Date();
+  const YY = String(now.getFullYear()).slice(-2);
+  const MM = String(now.getMonth() + 1).padStart(2, "0");
+  const DD = String(now.getDate()).padStart(2, "0");
+  // const randomStr = randomBytes(4).toString("hex");
+  // const uniquePart = `${now.getTime()}${userId.toString()}${randomStr}}`;
+  // const maxLength = 40;
+  // const uniquePart = generateUniqueCode(7);
+
+  return `${YY}${MM}${DD}_${ZALOPAY_APP_ID}_${unique_code}`;
+
+  // return `${YY}${MM}${DD}_${uniquePart}`.slice(0, maxLength);
+};
+
 export async function PUT(request: NextRequest, { params }) {
   const supabase = createClient();
   const { data, error } = await supabase.auth.getUser();
@@ -90,28 +105,54 @@ export async function PUT(request: NextRequest, { params }) {
       return NextResponse.json({ error: refundResult.error }, { status: 500 }); // Refund failed
     }
 
-    // 4. Update booking status to 'refunded'
-    // const { error: updateError } = await supabase
-    //   .from("bookings")
-    //   .update({ status: "refunded" }) // Or a more appropriate status for your system
-    //   .eq("id", bookingId);
+    // update refund payment table
+    const { data: updatePaymentRefundData, error: errorPaymentRefundData } =
+      await supabase.rpc("update_payments_table_status", {
+        status: "cancelled",
+        paymentid: payment.id,
+      });
 
-    // if (updateError) {
-    //   return NextResponse.json({ error: updateError.message }, { status: 500 });
-    // }
+    if (errorPaymentRefundData) {
+      console.log(
+        "error updating booking refund",
+        errorPaymentRefundData,
+        bookingId
+      );
+      return NextResponse.json({ error: errorPaymentRefundData }, { status: 500 });
+    }
+
+
+    // 4. Update booking status to 'refunded'
+    const { data: updateBookingData, error: updateBookingError } = await supabase.rpc(
+      "update_booking_status",
+      {
+        status: 'cancelled',
+        bookingid: bookingId
+      }
+    );
+
+    if (updateBookingError) {
+      console.log('error updating booking refund', updateBookingError, bookingId);
+      return NextResponse.json(
+        { error: updateBookingError },
+        { status: 500 }
+      );
+    }
 
     // 5. Update the enrolled count
-    // const { error: enrolledError } = await supabase
-    //   .from("schedules")
-    //   .update({ enrolled: decrement("enrolled") })
-    //   .eq("id", booking.schedule_id);
+    const { data: decreaseEnrolledData, error: decreaseEnrolledError } =
+      await supabase.rpc("decrement_enrolled", {
+        schedule_id: transaction.schedule_id,
+      });
 
-    // if (enrolledError) {
-    //   return NextResponse.json(
-    //     { error: enrolledError.message },
-    //     { status: 500 }
-    //   );
-    // }
+    if (decreaseEnrolledError) {
+      return NextResponse.json(
+        { error: decreaseEnrolledError.message },
+        { status: 500 }
+      );
+    }
+
+    
 
     // revalidatePath("/app/upcoming");
     return NextResponse.json({ message: "Refund processed successfully" });
@@ -142,7 +183,7 @@ async function initiateZaloPayRefund(
   );
 
   const unique_code = generateUniqueCode(7);
-  const m_refund_id = `240712_57309_${unique_code}`
+  const m_refund_id = generateRefundId(unique_code);
   const order = {
     // m_refund_id: "12312312312",
     m_refund_id: m_refund_id,
@@ -167,20 +208,20 @@ async function initiateZaloPayRefund(
   const result = await response.json();
   console.log(result);
 
-  // ... (After processing the refund, return an object)
+  // update zalopay table with m_refund_id and refund_id
   if (result.return_code != 2) {
     const { data: refundData, error: refundError } = await supabase.rpc(
       "update_zalopay_refund",
       {
         apptransid: transaction_id,
         status: "refunded",
-        m_refund_id: m_refund_id,
-        refund_id: result.refund_id
+        mrefundid: m_refund_id,
+        refundid: result.refund_id,
       }
     );
 
     if (refundError) {
-        console.log('error')
+      console.log("refund error", refundError);
     }
 
     console.log(refundData);
