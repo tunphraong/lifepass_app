@@ -48,9 +48,9 @@ const calculateDynamicPrice = async (
   rules.forEach((rule) => {
     const startTimeOfDayjs = dayjs(startTime);
     const hour = startTimeOfDayjs.hour();
-    // console.log(startTimeOfDayjs.format("dddd").toLocaleLowerCase())
+    console.log(startTimeOfDayjs.format("dddd").toLocaleLowerCase())
     const timeOfDay = getTimeOfDayRange(hour);
-    // console.log(timeOfDay);
+    console.log(timeOfDay);
     
 
     if (
@@ -61,7 +61,7 @@ const calculateDynamicPrice = async (
       //  && (rule.spots_remaining === "all" ||
       //     getSpotsRemainingRange(spotsRemaining) === rule.spots_remaining) // Check spots remaining range
     ) {
-    //   console.log(finalPrice, rule.price_multiplier);
+      console.log(finalPrice, rule.price_multiplier);
       finalPrice *= rule.price_multiplier;
     }
   });
