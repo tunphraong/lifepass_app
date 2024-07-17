@@ -72,7 +72,7 @@ function generateMacOrder(
 
 export async function POST(req: NextRequest) {
   const supabase = createClient();
-  const { user_id, schedule_id } = await req.json();
+  const { user_id, schedule_id, amount } = await req.json();
   console.log("user id", user_id);
 
   // Check if the class is in the past
@@ -84,7 +84,7 @@ export async function POST(req: NextRequest) {
     );
   }
 
-  let amount = 20000;
+  // let amount = 20000;
 
   // console.log(amount, user_id, schedule_id);
   const reqtime = Date.now();

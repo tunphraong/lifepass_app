@@ -137,7 +137,7 @@ export function StudioInfo({ studio }: StudioInfoProps) {
               <Link
                 href={website}
                 target="_blank"
-                rel="noopener noreferrer"
+                // rel="noopener noreferrer"
                 className={styles.link}
               >
                 {website}

@@ -15,7 +15,7 @@ import {
   Radio,
   RadioGroup,
   Title,
-  rem
+  rem,
 } from "@mantine/core";
 import { notifications } from "@mantine/notifications";
 import { Schedule, Class, Studio } from "../types";
@@ -36,7 +36,7 @@ interface User {
 }
 
 const PaymentPageComponent = ({ userId }) => {
-   const xIcon = <IconX style={{ width: rem(20), height: rem(20) }} />;
+  const xIcon = <IconX style={{ width: rem(20), height: rem(20) }} />;
   const [apiError, setApiError] = useState<string | null>(null);
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -44,6 +44,7 @@ const PaymentPageComponent = ({ userId }) => {
   const [selectedPaymentMethod, setSelectedPaymentMethod] =
     useState<string>("zalopay");
   // console.log(scheduleId);
+
   const {
     data: schedule,
     error: scheduleError,
@@ -70,8 +71,40 @@ const PaymentPageComponent = ({ userId }) => {
     fetcher
   );
 
-  const isLoading = isScheduleLoading || isStudioLoading || isClassLoading;
-  const error = scheduleError || studioError || classError;
+  const {
+    data: dynamicPriceData,
+    error: dynamicPriceError,
+    isLoading: isDynamicPricingLoading,
+  } = useSWR(
+    schedule && studioData && classData
+      ? [
+          `/api/calculate-price`,
+          {
+            studioId: studioData.id,
+            classId: classData.id,
+            startTime: schedule.start_time,
+            spotsRemaining: schedule.spots_remaining,
+          },
+        ]
+      : null,
+    ([url, body]) =>
+      fetch(url, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(body),
+      }).then((res) => res.json())
+  );
+
+  console.log("dynamic", dynamicPriceData);
+
+  const isLoading =
+    isScheduleLoading ||
+    isStudioLoading ||
+    isClassLoading ||
+    isDynamicPricingLoading;
+  const error = scheduleError || studioError || classError || dynamicPriceError;
 
   console.log("studio", studioData);
 
@@ -85,6 +118,8 @@ const PaymentPageComponent = ({ userId }) => {
   }
   if (!schedule || !studioData || !classData) return <div>Not found.</div>;
 
+  const dynamicPrice = dynamicPriceData?.price ?? classData.price;
+
   // Calculate the end time based on duration
   const startTime = dayjs(schedule.start_time);
   const endTime = startTime.add(classData?.duration || 0, "minute");
@@ -95,7 +130,7 @@ const PaymentPageComponent = ({ userId }) => {
     // console.log("Proceed to payment for schedule:", schedule);
     // Implement payment logic here based on selectedPaymentMethod
     const paymentDetails = {
-      amount: schedule.price,
+      amount: dynamicPrice,
       bank_code: "zalopayapp",
       schedule_id: schedule.id,
       user_id: userId,
@@ -110,27 +145,27 @@ const PaymentPageComponent = ({ userId }) => {
     })
       .then((response) => response.json())
       .then((data) => {
-          if (data.error) {
-            // Set the API error state if there's an error
-            setApiError(data.error); // Set the API error state
-            showNotification({
-              title: "Error",
-              message: data.error || "Booking failed. Please try again.",
-              color: "red",
-            });
-          } else {
-            router.push(data.order_url);
-          }
+        if (data.error) {
+          // Set the API error state if there's an error
+          setApiError(data.error); // Set the API error state
+          showNotification({
+            title: "Error",
+            message: data.error || "Booking failed. Please try again.",
+            color: "red",
+          });
+        } else {
+          router.push(data.order_url);
+        }
       })
       .catch((error) => {
-          notifications.show({
-            color: "red",
-            title: "Payment error",
-            message:
-              "Thanh toán không thành công. Xin liêc lạc với LifePass nếu vấn đề vẫn tiếp tục.",
-            autoClose: false,
-            classNames: classes,
-          });
+        notifications.show({
+          color: "red",
+          title: "Payment error",
+          message:
+            "Thanh toán không thành công. Xin liêc lạc với LifePass nếu vấn đề vẫn tiếp tục.",
+          autoClose: false,
+          classNames: classes,
+        });
         console.error("Error 123:", error);
         // Display error message to user
       });
@@ -157,7 +192,7 @@ const PaymentPageComponent = ({ userId }) => {
           <Text>Lớp đã chọn: {classData.name}</Text>
           <Text>
             Giá:{" "}
-            {classData.price.toLocaleString("vi-VN", {
+            {dynamicPrice.toLocaleString("vi-VN", {
               style: "currency",
               currency: "VND",
             })}

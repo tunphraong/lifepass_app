@@ -32,22 +32,46 @@ require("dayjs/locale/vi");
 var isSameOrAfter = require("dayjs/plugin/isSameOrAfter");
 // dayjs.extend(isSameOrAfter);
 
-const fetcher = async (url) => {
-  const response = await fetch(url);
-  const data = await response.json();
-
-  if (!response.ok) {
-    throw new Error(data.error);
-  }
-
-  return data;
-};
-
 const StudioSchedule = ({ studioId }) => {
+  const fetcher = async (url) => {
+    const response = await fetch(url);
+    const data = await response.json();
+
+    if (!response.ok) {
+      throw new Error(data.error);
+    }
+
+    if (data) {
+      // Fetch prices for each schedule in parallel
+      const pricePromises = data.map(async (schedule) => {
+        const priceRes = await fetch("/api/calculate-price", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            studioId,
+            classId: schedule.class_id,
+            startTime: schedule.start_time,
+            spotsRemaining: schedule.capacity - schedule.enrolled,
+          }),
+        });
+        const priceData = await priceRes.json();
+        return { ...schedule, price: priceData.price }; // Add price to schedule data
+      });
+
+      const schedulesWithPrice = await Promise.all(pricePromises);
+      return schedulesWithPrice;
+    } else {
+      return null;
+    }
+
+    return data;
+  };
   const theme = useMantineTheme();
   const isSmallScreen = useMediaQuery(`(max-width: ${theme.breakpoints.sm}px)`);
   const supabase = createClient();
-  const [userSession, setUserSession] = useState(null); // State to hold user session 
+  const [userSession, setUserSession] = useState(null); // State to hold user session
   useEffect(() => {
     // Check Supabase session on component mount
     const session = supabase.auth.getSession();
@@ -72,6 +96,7 @@ const StudioSchedule = ({ studioId }) => {
   };
 
   const handleEnroll = (schedule) => {
+    // sessionStorage.setItem("selectedSchedulePrice", schedule.price);
     router.push(`/app/payment?scheduleId=${schedule.id}`);
   };
 
@@ -80,6 +105,8 @@ const StudioSchedule = ({ studioId }) => {
     error,
     isLoading,
   } = useSWR(`/api/studio/${studioId}/schedules?date=${date}`, fetcher);
+
+  console.log('schedules', schedules);
 
   if (error) return <div>Failed to load schedules</div>;
   if (isLoading) {
@@ -109,67 +136,6 @@ const StudioSchedule = ({ studioId }) => {
 
   return (
     <>
-      <Modal opened={opened} onClose={handleCloseModal} title="Confirmation">
-        {reservationSuccess ? (
-          <Stack gap="md">
-            <Center>
-              <Title order={3}> {selectedSchedule?.classes?.name}</Title>
-            </Center>
-
-            <Text>Bạn đã ghi danh thành công cho lớp này!</Text>
-
-            <Button fullWidth color="yellow" onClick={handleCloseModal}>
-              Close
-            </Button>
-          </Stack>
-        ) : (
-          selectedSchedule && (
-            <Stack gap="md">
-              <Text fw={500}>{selectedSchedule.classes.name}</Text>
-              <Text size="sm" c="dimmed">
-                {selectedSchedule.classes.description}
-              </Text>
-              <Group>
-                <Text>Huấn luyện viên:</Text>
-                <Text>{selectedSchedule.instructor_name}</Text>
-              </Group>
-              <Group>
-                <Text>Ngày:</Text>
-                <Text>
-                  {dayjs(selectedSchedule.start_time).format("MMM D, YYYY")}
-                </Text>
-              </Group>
-              <Group>
-                <Text>Giờ:</Text>
-                <Text>
-                  {dayjs(selectedSchedule.start_time).format("h:mm A")} -{" "}
-                  {dayjs(selectedSchedule.start_time)
-                    .add(selectedSchedule.classes.duration, "minute")
-                    .format("h:mm A")}
-                </Text>
-              </Group>
-              {/* {!userSession && (
-                <Button
-                  fullWidth
-                  color="blue"
-                  onClick={() => router.push("/app/login")}
-                >
-                  Đăng nhập để xem giá
-                </Button>
-              )} */}
-              {userSession && (
-                <Group>
-                  <Text>Giá:</Text>
-                  <Text>{formatPrice(selectedSchedule.price)}</Text>
-                </Group>
-              )}
-              <Button fullWidth color="yellow" onClick={handleEnroll}>
-                Tham gia
-              </Button>
-            </Stack>
-          )
-        )}
-      </Modal>
       <Space h="md" />
       <Stack gap="md">
         <Group
@@ -259,66 +225,6 @@ const StudioSchedule = ({ studioId }) => {
           <Text>Không có lớp nào được lên lịch cho ngày này.</Text>
         )}
       </Stack>
-      {/* <Stack gap="md">
-        <Group justify="center" style={{ width: "100%" }}>
-          <ActionIcon
-            variant="filled"
-            color="black"
-            onClick={() =>
-              setDate(dayjs(date).subtract(1, "day").format("YYYY-MM-DD"))
-            }
-          >
-            <IconArrowLeft />
-          </ActionIcon>
-          <Text>{dayjs(date).locale("vi").format("DD, MMMM, YYYY")}</Text>
-          <ActionIcon
-            variant="filled"
-            color="black"
-            onClick={() =>
-              setDate(dayjs(date).add(1, "day").format("YYYY-MM-DD"))
-            }
-          >
-            <IconArrowRight />
-          </ActionIcon>
-        </Group>
-
-        {schedules.length > 0 ? (
-          schedules?.map((schedule) => (
-            <Card
-              key={schedule.id}
-              shadow="sm"
-              padding="sm"
-              radius="md"
-              withBorder
-            >
-              <Group justify="space-between" grow>
-                <div>
-                  <Text>{schedule.classes.name}</Text>
-                  <Text size="sm" c="dimmed">
-                    {dayjs(schedule.start_time).format("h:mm A")} -{" "}
-                    {dayjs(schedule.start_time)
-                      .add(schedule.classes.duration, "minute")
-                      .format("h:mm A")}
-                  </Text>
-                </div>
-                <Text>Huấn luyện viên: {schedule.instructor_name}</Text>
-
-                <Button
-                  className={styles.button}
-                  fullWidth
-                  color="yellow"
-                  onClick={() => handleEnroll(schedule)}
-                  variant="filled"
-                >
-                  {formatPrice(schedule.price)}
-                </Button>
-              </Group>
-            </Card>
-          ))
-        ) : (
-          <Text>Không có lớp nào được lên lịch cho ngày này.</Text>
-        )}
-      </Stack> */}
     </>
   );
 };
