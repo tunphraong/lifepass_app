@@ -14,7 +14,7 @@ import {
   Stack,
   Space,
   Spoiler,
-  Center
+  Center,
 } from "@mantine/core";
 import {
   IconUserPlus,
@@ -75,8 +75,9 @@ export function StudioInfo({ studio }: StudioInfoProps) {
   return (
     <Box mt={4}>
       <Group align="center" justify="space-between">
-        <Title order={2} 
-        // color="yellow"
+        <Title
+          order={2}
+          // color="yellow"
         >
           {name} 🌟
         </Title>
@@ -184,7 +185,10 @@ export function StudioInfo({ studio }: StudioInfoProps) {
 
           <Space h="xl" />
 
-          <StudioSchedule studioId={studio.id}></StudioSchedule>
+          <Stack gap="sm">
+            <Title order={3}>Đặt lớp 🎟️</Title>
+            <StudioSchedule studioId={studio.id}></StudioSchedule>
+          </Stack>
 
           <Space h="xl" />
 
@@ -195,7 +199,7 @@ export function StudioInfo({ studio }: StudioInfoProps) {
             <Text>{prepare}</Text>
           </Stack>
 
-          <Divider my={10} />
+          <Divider my={20} />
 
           <Stack gap="sm">
             <Title order={3}>Tiện nghi 🛀</Title>
@@ -211,7 +215,7 @@ export function StudioInfo({ studio }: StudioInfoProps) {
             </div>
           </Stack>
 
-          <Divider my={10} />
+          <Divider my={20} />
 
           <Stack gap="sm">
             <Title order={3}>Chỉ dẫn đường 🗺️</Title>
