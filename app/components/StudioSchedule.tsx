@@ -72,12 +72,6 @@ const StudioSchedule = ({ studioId }) => {
   const isSmallScreen = useMediaQuery(`(max-width: ${theme.breakpoints.sm}px)`);
   const supabase = createClient();
   const [userSession, setUserSession] = useState(null); // State to hold user session
-  useEffect(() => {
-    // Check Supabase session on component mount
-    const session = supabase.auth.getSession();
-    console.log("userSession", userSession);
-    setUserSession(session);
-  }, []);
   const router = useRouter();
   const [opened, { open, close }] = useDisclosure(false);
   const [selectedSchedule, setSelectedSchedule] = useState(null);
