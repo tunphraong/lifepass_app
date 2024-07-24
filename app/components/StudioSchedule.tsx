@@ -131,9 +131,12 @@ const StudioSchedule = ({ studioId }) => {
   //   dayjs(schedule.start_time).isAfter(dayjs())
   // );
 
-  const filteredSchedules = schedules.filter((schedule) =>
-    dayjs(schedule.start_time).isSame(selectedDay, "day") &&
-    dayjs(schedule.start_time).isAfter(dayjs())
+  const filteredSchedules = schedules.filter(
+    (schedule) =>
+      dayjs(schedule.start_time).isSame(selectedDay, "day") &&
+      dayjs(schedule.start_time).isAfter(dayjs()) &&
+      schedule.lifepass_spots > 0 &&
+      schedule.enrolled < schedule.lifepass_spots
   );
 
   return (
