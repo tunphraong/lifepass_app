@@ -43,31 +43,6 @@ const StudioSchedule = ({ studioId }) => {
       throw new Error(data.error);
     }
 
-    if (data) {
-      // Fetch prices for each schedule in parallel
-      const pricePromises = data.map(async (schedule) => {
-        const priceRes = await fetch("/api/calculate-price", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            studioId,
-            classId: schedule.class_id,
-            startTime: schedule.start_time,
-            spotsRemaining: schedule.capacity - schedule.enrolled,
-          }),
-        });
-        const priceData = await priceRes.json();
-        return { ...schedule, price: priceData.price }; // Add price to schedule data
-      });
-
-      const schedulesWithPrice = await Promise.all(pricePromises);
-      return schedulesWithPrice;
-    } else {
-      return null;
-    }
-
     return data;
   };
   const theme = useMantineTheme();
@@ -93,8 +68,8 @@ const StudioSchedule = ({ studioId }) => {
     router.push(`/app/payment?scheduleId=${schedule.id}`);
   };
 
-    const weekStart = selectedDay.startOf("week").format("YYYY-MM-DD");
-    const weekEnd = selectedDay.endOf("week").format("YYYY-MM-DD");
+  const weekStart = selectedDay.startOf("week").format("YYYY-MM-DD");
+  const weekEnd = selectedDay.endOf("week").format("YYYY-MM-DD");
 
   // const {
   //   data: schedules,
@@ -105,14 +80,14 @@ const StudioSchedule = ({ studioId }) => {
   //   fetcher
   // );
 
-    const {
-      data: schedules,
-      error,
-      isLoading,
-    } = useSWR(
-      `/api/studio/${studioId}/schedules?weekStart=${weekStart}&weekEnd=${weekEnd}`,
-      fetcher
-    );
+  const {
+    data: schedules,
+    error,
+    isLoading,
+  } = useSWR(
+    `/api/studio/${studioId}/schedules?weekStart=${weekStart}&weekEnd=${weekEnd}`,
+    fetcher
+  );
 
   // console.log('schedules', schedules);
 
@@ -130,13 +105,12 @@ const StudioSchedule = ({ studioId }) => {
   if (!schedules) return <div>Loading...</div>;
   // console.log(schedules);
 
-    const handleDayChange = (newDay) => {
-      if (newDay.isAfter(dayjs().startOf("day").subtract(1, "day"))) {
-        setSelectedDay(newDay);
-      }
-    };
+  const handleDayChange = (newDay) => {
+    if (newDay.isAfter(dayjs().startOf("day").subtract(1, "day"))) {
+      setSelectedDay(newDay);
+    }
+  };
 
-  
   const handleWeekChange = (direction) => {
     const newDate = currentDate.add(direction, "week");
     if (newDate.isAfter(dayjs().startOf("week").subtract(1, "week"))) {
@@ -158,55 +132,14 @@ const StudioSchedule = ({ studioId }) => {
   // );
 
   const filteredSchedules = schedules.filter((schedule) =>
-    dayjs(schedule.start_time).isSame(selectedDay, "day")
+    dayjs(schedule.start_time).isSame(selectedDay, "day") &&
+    dayjs(schedule.start_time).isAfter(dayjs())
   );
 
   return (
     <>
       <Space h="md" />
       <Stack gap="md">
-        {/* <Group
-          justify="center"
-          style={{ width: "100%" }}
-          // noWrap={isSmallScreen}
-        >
-          <Button
-            variant="filled"
-            color="yellow"
-            radius="xl"
-            size={isSmallScreen ? "md" : "lg"}
-            onClick={() =>
-              setDate(dayjs(date).subtract(1, "day").format("YYYY-MM-DD"))
-            }
-            disabled={dayjs(date).isSame(dayjs(), "day")}
-          >
-            <IconArrowLeft size={isSmallScreen ? 16 : 20} />
-          </Button>
-
-          <Box p="md">
-            <Group
-            // noWrap={isSmallScreen}
-            >
-              <IconCalendar size={isSmallScreen ? 16 : 20} />
-              <Text size={isSmallScreen ? "sm" : "md"}>
-                {dayjs(date).locale("vi").format("DD, MMMM")}
-              </Text>
-            </Group>
-          </Box>
-
-          <Button
-            variant="filled"
-            color="yellow"
-            radius="xl"
-            size={isSmallScreen ? "md" : "lg"}
-            onClick={() =>
-              setDate(dayjs(date).add(1, "day").format("YYYY-MM-DD"))
-            }
-          >
-            <IconArrowRight size={isSmallScreen ? 16 : 20} />
-          </Button>
-        </Group> */}
-
         <Group justify="center" style={{ width: "100%" }}>
           <Button
             variant="filled"
@@ -300,7 +233,9 @@ const StudioSchedule = ({ studioId }) => {
             </Card>
           ))
         ) : (
-          <Text>Không có lớp nào được lên lịch cho ngày này.</Text>
+          <Center>
+            <Text fw={500} size="xl">Không có lớp nào được lên lịch cho ngày này. Quý khách lòng chọn ngày khác.</Text>
+          </Center>
         )}
       </Stack>
     </>

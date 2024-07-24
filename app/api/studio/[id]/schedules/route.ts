@@ -2,13 +2,62 @@ import { NextResponse } from "next/server";
 import { createClient } from "../../../../../utils/supabase/server";
 import dayjs from "dayjs";
 
+// Function to categorize time of day into ranges
+function getTimeOfDayRange(hour) {
+  if (hour >= 3 && hour < 12) return "morning";
+  if (hour >= 12 && hour < 17) return "afternoon";
+  return "evening";
+}
+
+// Helper function to get spots remaining range
+function getSpotsRemainingRange(spots) {
+  if (spots <= 5) return "0-5"; // Fine-grained tiers
+  if (spots <= 10) return "6-10";
+  if (spots <= 20) return "11-20";
+  return "21+";
+}
+
+// Function to fetch pricing rules
+const fetchPricingRules = async (supabase, studioId) => {
+  const { data, error } = await supabase
+    .from("pricing_rules")
+    .select("time_of_day, day_of_week, spots_remaining, price_multiplier")
+    .eq("studio_id", studioId)
+    .eq("is_active", true);
+
+  if (error) throw new Error("Could not fetch pricing rules.");
+  return data;
+};
+
+
+// Function to calculate dynamic price
+// Function to calculate dynamic price
+const calculateDynamicPrice = async (supabase, studioId, classData, startTime, spotsRemaining) => {
+  const rules = await fetchPricingRules(supabase, studioId);
+  let finalPrice = classData.price;
+  const startTimeOfDayjs = dayjs(startTime);
+  const hour = startTimeOfDayjs.hour();
+  const timeOfDay = getTimeOfDayRange(hour);
+
+  rules.forEach((rule) => {
+    if (
+      (rule.time_of_day === "all" || rule.time_of_day === timeOfDay) &&
+      (rule.day_of_week === "all" || rule.day_of_week === startTimeOfDayjs.format("dddd").toLowerCase())
+    ) {
+      finalPrice *= rule.price_multiplier;
+    }
+  });
+
+  return finalPrice;
+};
+
 export async function GET(request, { params }) {
   const supabase = createClient();
   const { id } = params;
   const { searchParams } = new URL(request.url);
   // const date = searchParams.get("date");
-    const weekStart = searchParams.get("weekStart");
-    const weekEnd = searchParams.get("weekEnd");
+  const weekStart = searchParams.get("weekStart");
+  const weekEnd = searchParams.get("weekEnd");
 
   // console.log(date);
 
@@ -27,7 +76,7 @@ export async function GET(request, { params }) {
   // const formattedStartDate = dayjs(startDate).format("YYYY-MM-DD");
   // const formattedEndDate = dayjs(endDate).format("YYYY-MM-DD");
 
-  console.log('get here', weekStart, weekEnd)
+  console.log("get here", weekStart, weekEnd);
   const { data: schedules, error: schedulesError } = await supabase
     .from("schedules")
     .select(
@@ -38,13 +87,16 @@ export async function GET(request, { params }) {
         name,
         description,
         difficulty,
-        duration
+        duration,
+        price,
+        type
       )
     `
     )
     .eq("studio_id", id)
     .gte("start_time", `${weekStart}T00:00:00Z`)
-    .lt("start_time", `${weekEnd}T23:59:59Z`);
+    .lt("start_time", `${weekEnd}T23:59:59Z`)
+    .order("start_time", { ascending: true });
 
   if (schedulesError) {
     return NextResponse.json(
@@ -53,7 +105,20 @@ export async function GET(request, { params }) {
     );
   }
 
-  // console.log(schedules);
+  // Calculate dynamic price for each schedule
+  const schedulesWithPrice = await Promise.all(
+    schedules.map(async (schedule) => {
+      const spotsRemaining = schedule.capacity - schedule.enrolled;
+      const price = await calculateDynamicPrice(
+        supabase,
+        schedule.studio_id,
+        schedule.classes,
+        schedule.start_time,
+        spotsRemaining
+      );
+      return { ...schedule, price };
+    })
+  );
 
-  return NextResponse.json(schedules);
+  return NextResponse.json(schedulesWithPrice);
 }
