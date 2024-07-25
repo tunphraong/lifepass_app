@@ -29,7 +29,6 @@ import { useRouter } from "next/navigation";
 import { IconChevronRight, IconCalendar } from "@tabler/icons-react";
 import { createClient } from "../../utils/supabase/client";
 require("dayjs/locale/vi");
-// var isSameOrBefore = require("dayjs/plugin/isSameOrBefore");
 import isSameOrBefore from "dayjs/plugin/isSameOrBefore"; // ES 2015
 
 dayjs.extend(isSameOrBefore);
@@ -124,19 +123,15 @@ const StudioSchedule = ({ studioId }) => {
       style: "currency",
       currency: "VND",
     }).format(price);
-  };
-
-  // Filter out past classes based on current time
-  // const upcomingSchedules = schedules.filter((schedule) =>
-  //   dayjs(schedule.start_time).isAfter(dayjs())
-  // );
+  }; 
 
   const filteredSchedules = schedules.filter(
     (schedule) =>
       dayjs(schedule.start_time).isSame(selectedDay, "day") &&
       dayjs(schedule.start_time).isAfter(dayjs()) &&
       schedule.lifepass_spots > 0 &&
-      schedule.enrolled < schedule.lifepass_spots
+      schedule.enrolled < schedule.lifepass_spots &&
+      schedule.price > 0
   );
 
   return (

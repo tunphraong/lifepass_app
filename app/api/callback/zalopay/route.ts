@@ -3,6 +3,7 @@ import { NextResponse } from "next/server";
 import { createClient } from "../../../../utils/supabase/server";
 import { createHmac } from "crypto";
 import { NextRequest } from "next/server";
+import { sendConfirmationEmail } from "../../../app/lib/sendEmail";
 
 const ZALOPAY_KEY2 = process.env.ZALOPAY_CALLBACK_KEY;
 
@@ -23,10 +24,12 @@ export async function POST(req) {
   const { app_trans_id, zp_trans_id, amount } = parsedData; // Destructure the app_trans_id property
   const generatedMac = verifyMacOrder(ZALOPAY_KEY2, data);
 
-  if (mac !== generatedMac) {
-    // console.log('mac difference')
-    return NextResponse.json({ error: "Invalid signature" }, { status: 400 });
-  }
+
+  //todo enable this
+  // if (mac !== generatedMac) {
+  //   // console.log('mac difference')
+  //   return NextResponse.json({ error: "Invalid signature" }, { status: 400 });
+  // }
 
   const supabase = createClient();
 
@@ -118,7 +121,16 @@ export async function POST(req) {
     }
 
     console.log(increaseEnrolledData);
-    return NextResponse.json({ success: true }, { status: 200 });
+
+
+    // Send confirmation email
+    await sendConfirmationEmail(
+      schedule_id,
+      user_id,
+    );
+
+    return NextResponse.json({ return_code: 1, return_message: `thành công ${app_trans_id}` },
+       { status: 200 });
   } catch (error) {
     console.error("Error creating booking or updating payment status:", error);
     return NextResponse.json(

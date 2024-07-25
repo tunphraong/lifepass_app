@@ -24,10 +24,13 @@ const StudioImagesCarousel: React.FC<StudioCarouselProps> = ({
     medium: { items: 3 }, // Example breakpoint, customize as needed
   };
 
-//   console.log(studio);
+ const coverImageUrl = studio.imageUrl
+   ? supabase.storage.from("public_photos").getPublicUrl(studio.imageUrl).data
+       .publicUrl
+   : null;
 
   // Fetch image URLs from Supabase Storage
-  const imageUrls = studio.images.map((imagePath) => {
+  const imageUrls = [studio.imageUrl, ...studio.images].map((imagePath) => {
     console.log(imagePath);
     const url = supabase.storage.from("public_photos").getPublicUrl(imagePath)
       .data.publicUrl;
@@ -47,8 +50,8 @@ const StudioImagesCarousel: React.FC<StudioCarouselProps> = ({
             src={imageUrl}
             key={imageUrl}
             alt={studio.name}
-            width={200}
-            height={200}
+            width={300}
+            height={300}
             fit="cover"
           />
         ))}

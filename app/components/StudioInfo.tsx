@@ -32,6 +32,7 @@ import {
   IconParking,
   IconWallpaper,
   IconYoga,
+  IconDroplet
 } from "@tabler/icons-react";
 import Image from "next/image";
 import StudioSchedule from "./StudioSchedule";
@@ -69,6 +70,7 @@ export function StudioInfo({ studio }: StudioInfoProps) {
     Mat: <IconYoga size={16} />,
     Towel: <IconWallpaper size={16} />,
     Parking: <IconParking size={16} />,
+    Water: <IconDroplet size={16} />,
     // Add more amenity mappings as needed
   };
 
