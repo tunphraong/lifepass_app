@@ -9,7 +9,7 @@ import { NextResponse } from "next/server";
 import { NextRequest } from "next/server";
 import { createClient } from "../../../utils/supabase/server";
 import dayjs from "dayjs";
-const HOST_URL = "https://dae3-45-80-184-21.ngrok-free.app";
+const HOST_URL = "https://99d62847c7f7a7391536520bd4d9166e.serveo.net";
 
 function generateUniqueCode(length: number): string {
   const characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";

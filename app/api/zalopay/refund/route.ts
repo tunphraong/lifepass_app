@@ -108,13 +108,13 @@ export async function PUT(request: NextRequest, { params }) {
     // update refund payment table
     const { data: updatePaymentRefundData, error: errorPaymentRefundData } =
       await supabase.rpc("update_payments_table_status", {
-        status: "cancelled",
+        updatedstatus: "refunded",
         paymentid: payment.id,
       });
 
     if (errorPaymentRefundData) {
       console.log(
-        "error updating booking refund",
+        "error updating booking refund 123",
         errorPaymentRefundData,
         bookingId
       );
@@ -122,14 +122,12 @@ export async function PUT(request: NextRequest, { params }) {
     }
 
 
-    // 4. Update booking status to 'refunded'
-    const { data: updateBookingData, error: updateBookingError } = await supabase.rpc(
-      "update_booking_status",
-      {
-        status: 'cancelled',
-        bookingid: bookingId
-      }
-    );
+    // 4. Update booking status to 'cancelled'
+    const { data: updateBookingData, error: updateBookingError } =
+      await supabase.rpc("update_booking_status", {
+        updatedstatus: "cancelled",
+        bookingid: bookingId,
+      });
 
     if (updateBookingError) {
       console.log('error updating booking refund', updateBookingError, bookingId);
@@ -152,7 +150,6 @@ export async function PUT(request: NextRequest, { params }) {
       );
     }
 
-    
 
     // revalidatePath("/app/upcoming");
     return NextResponse.json({ message: "Refund processed successfully" });
@@ -214,7 +211,7 @@ async function initiateZaloPayRefund(
       "update_zalopay_refund",
       {
         apptransid: transaction_id,
-        status: "refunded",
+        updatedstatus: "refunded",
         mrefundid: m_refund_id,
         refundid: result.refund_id,
       }

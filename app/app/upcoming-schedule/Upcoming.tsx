@@ -2,9 +2,6 @@
 "use client";
 
 import { useState, useEffect } from "react";
-// import { supabase } from "@/lib/supabaseClient";
-import { createClient } from "../../../utils/supabase/client";
-import { showNotification } from "@mantine/notifications";
 import {
   Card,
   Text,
@@ -18,6 +15,7 @@ import {
   Badge,
   rem,
   Modal,
+  Notification,
   NumberFormatter,
 } from "@mantine/core";
 import { IconCalendar } from "@tabler/icons-react"; // You might want to replace this with a Mantine UI icon
@@ -28,6 +26,8 @@ require("dayjs/locale/vi");
 // import CancelModal from "../../components/CancelModal";
 import useSWR from "swr";
 import styles from "./UpcomingSchedule.module.css";
+import SuccessMessage from "./SuccessMessage";
+import ErrorMessage from "./ErrorMessage";
 
 interface BookingWithDetails {
   id: string;
@@ -69,6 +69,7 @@ export default function UpcomingPage({ user }: { user: User | null }) {
   const [selectedBooking, setSelectedBooking] =
     useState<BookingWithDetails | null>(null);
   const [cancelModalOpen, setCancelModalOpen] = useState(false);
+  const [refundStatus, setRefundStatus] = useState<string | null>(null);
 
   // const handleOpenModal = (booking: any, mode: "book" | "cancel") => {
   //   setSelectedClass(booking);
@@ -86,16 +87,16 @@ export default function UpcomingPage({ user }: { user: User | null }) {
       // bookingId: "efaf95ba-f64b-4428-9ab0-b8410f51d737",
     };
     try {
-       const refundResponse = await fetch(
-         `/api/zalopay/refund`, // Your refund API route
-         {
-           method: "PUT", // Use PUT or PATCH for refunds
-           headers: { "Content-Type": "application/json" },
-           body: JSON.stringify({
-             paymentDetails
-           }),
-         }
-       );
+      const refundResponse = await fetch(
+        `/api/zalopay/refund`, // Your refund API route
+        {
+          method: "PUT", // Use PUT or PATCH for refunds
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            paymentDetails,
+          }),
+        }
+      );
       if (refundResponse.ok) {
         // Refresh the page first
         // router.refresh();
@@ -103,18 +104,15 @@ export default function UpcomingPage({ user }: { user: User | null }) {
         // toast.success("Reservation cancelled successfully!", {
         //   autoClose: 3000, // Close toast after 3 seconds
         // });
-        showNotification({
-          title: "Success",
-          message: "Reservation cancelled successfully!",
-          color: "green",
-        });
+        setRefundStatus("success");
       } else {
         const errorData = await refundResponse.json();
-        setError(errorData.error || "An error occurred while cancelling.");
+        console.log(errorData);
+         setRefundStatus(`Đã có lỗi: ${errorData.error}`);
       }
     } catch (error) {
       console.error("Error cancelling reservation:", error);
-      setError("An error occurred while cancelling.");
+      setRefundStatus("An error occurred while cancelling.");
     }
   };
 
@@ -227,11 +225,14 @@ export default function UpcomingPage({ user }: { user: User | null }) {
 
       <Modal
         opened={cancelModalOpen}
-        onClose={() => setCancelModalOpen(false)}
+        onClose={() => {
+          setCancelModalOpen(false);
+          setRefundStatus(null);
+        }}
         title="Cancel Reservation"
         centered
       >
-        {selectedBooking && (
+        {selectedBooking && !refundStatus && (
           <div>
             <Text>
               Bạn có chắc muốn huỷ lớp <b>{selectedBooking.classes.name}</b> tại{" "}
@@ -249,11 +250,8 @@ export default function UpcomingPage({ user }: { user: User | null }) {
               bắt đầu lúc{" "}
               {dayjs(selectedBooking.schedules.start_time).format("hh:mm A")}{" "}
               không?
-              {/* <Text> */}
-              {/* </Text> */}
             </Text>
 
-            {/* Conditionally show refund message */}
             {dayjs(selectedBooking.schedules.start_time).diff(dayjs(), "hour") >
               24 && (
               <Text className={styles.price}>
@@ -280,13 +278,34 @@ export default function UpcomingPage({ user }: { user: User | null }) {
                 color="red"
                 onClick={async () => {
                   await handleCancelReservation(selectedBooking.id);
-                  setCancelModalOpen(false); // Close the modal
+                  // Keep modal open to show status message
                 }}
               >
                 Có
               </Button>
             </div>
           </div>
+        )}
+
+        {refundStatus === "success" && (
+          <SuccessMessage
+            booking={selectedBooking}
+            onClose={() => {
+              setCancelModalOpen(false);
+              setRefundStatus(null);
+            }}
+            onRefetch={() => mutate(`/api/upcoming/${user.id}`)}
+          />
+        )}
+
+        {refundStatus && refundStatus !== "success" && (
+          <ErrorMessage
+            errorMessage={refundStatus}
+            onClose={() => {
+              setCancelModalOpen(false);
+              setRefundStatus(null);
+            }}
+          />
         )}
       </Modal>
     </Container>

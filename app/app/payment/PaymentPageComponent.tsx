@@ -26,7 +26,9 @@ import ZaloPayIcon from "../../../public/payments/logo-zalopay.svg"; // Replace 
 import Image from "next/image";
 import classes from "./PaymentPage.module.css";
 import { showNotification } from "@mantine/notifications";
-
+// require("dayjs/locale/vi");
+import 'dayjs/locale/vi'
+dayjs.locale("vi");
 // Define the type for the user prop
 interface User {
   id: string;
@@ -198,7 +200,8 @@ const PaymentPageComponent = ({ userId }) => {
           </Text>
 
           <Text>
-            Ngày: {dayjs(schedule?.start_time).format("MMMM D, YYYY")}
+            Ngày:{" "}
+            {dayjs(schedule?.start_time).format("dddd, DD MMMM, YYYY")}
           </Text>
           <Text>
             Thời gian: {dayjs(schedule?.start_time).format("h:mm A")} -{" "}
@@ -266,6 +269,17 @@ const PaymentPageComponent = ({ userId }) => {
           </Button>
         </Stack>
       </Card>
+      <Divider my="md" />
+      <Alert color="yellow" radius="md">
+        <Group>
+          <Text fw={500} size="md">
+            Lưu ý:
+          </Text>
+          <Text size="sm">
+            Bạn cần hủy lớp trước 12 giờ để được hoàn tiền.
+          </Text>
+        </Group>
+      </Alert>
     </Stack>
   );
 };

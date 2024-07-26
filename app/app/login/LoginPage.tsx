@@ -152,7 +152,7 @@ export default function LoginPage(props: PaperProps) {
           <Stack>
             {type === "register" && (
               <TextInput
-                // required
+                required
                 label="First name"
                 placeholder="Your first name"
                 value={form.values.first_name}
@@ -166,7 +166,7 @@ export default function LoginPage(props: PaperProps) {
 
             {type === "register" && (
               <TextInput
-                // required
+                required
                 label="Last name"
                 placeholder="Your Last name"
                 value={form.values.last_name}

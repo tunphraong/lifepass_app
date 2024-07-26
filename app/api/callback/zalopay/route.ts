@@ -14,6 +14,8 @@ function verifyMacOrder(key2, data) {
   return hmac.digest("hex");
 }
 
+
+let paymentTransaction = null;
 export async function POST(req) {
   const body = await req.json();
   console.log("get here");
@@ -24,28 +26,29 @@ export async function POST(req) {
   const { app_trans_id, zp_trans_id, amount } = parsedData; // Destructure the app_trans_id property
   const generatedMac = verifyMacOrder(ZALOPAY_KEY2, data);
 
-
-  //todo enable this
-  // if (mac !== generatedMac) {
-  //   // console.log('mac difference')
-  //   return NextResponse.json({ error: "Invalid signature" }, { status: 400 });
-  // }
+  // todo enable this
+  if (mac !== generatedMac) {
+    // console.log('mac difference')
+    return NextResponse.json({ error: "Invalid signature" }, { status: 400 });
+  }
 
   const supabase = createClient();
 
   try {
-    const { data: paymentTransaction, error: paymentError } = await supabase
+    const { data: paymentTransactionData, error: paymentError } = await supabase
       .from("zalo_payment_transactions")
       .select("*")
       .eq("transaction_id", app_trans_id)
       .single();
 
-    if (paymentError || !paymentTransaction) {
+    if (paymentError || !paymentTransactionData) {
       return NextResponse.json(
         { error: "Payment order not found" },
         { status: 404 }
       );
     }
+
+    paymentTransaction = paymentTransactionData; // Assign value to paymentTransaction
 
     const { schedule_id, user_id } = paymentTransaction;
 
@@ -120,23 +123,28 @@ export async function POST(req) {
       );
     }
 
-    console.log(increaseEnrolledData);
-
-
-    // Send confirmation email
-    await sendConfirmationEmail(
-      schedule_id,
-      user_id,
+    return NextResponse.json(
+      { return_code: 1, return_message: `thành công ${app_trans_id}` },
+      { status: 200 }
     );
-
-    return NextResponse.json({ return_code: 1, return_message: `thành công ${app_trans_id}` },
-       { status: 200 });
   } catch (error) {
     console.error("Error creating booking or updating payment status:", error);
     return NextResponse.json(
       { error: "An error occurred while processing the booking" },
       { status: 500 }
     );
+  } finally {
+    try {
+      console.log(paymentTransaction);
+      if (paymentTransaction) {
+        await sendConfirmationEmail(
+          paymentTransaction.schedule_id,
+          paymentTransaction.user_id
+        );
+      }
+    } catch (err) {
+      console.error("Failed to send email", err);
+    }
   }
 }
 

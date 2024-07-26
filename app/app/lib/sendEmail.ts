@@ -3,6 +3,8 @@ import formData from "form-data";
 import Mailgun from "mailgun.js";
 import { createClient } from "../../../utils/supabase/server";
 import dayjs from "dayjs";
+import "dayjs/locale/vi";
+dayjs.locale("vi");
 
 const mailgun = new Mailgun(formData);
 const mg = mailgun.client({
@@ -13,7 +15,7 @@ const mg = mailgun.client({
 
 export const sendConfirmationEmail = async (
   scheduleId: string,
-  userId: string,
+  userId: string
 ) => {
   const supabase = createClient(); // Use the appropriate Supabase client (server or client, depending on the context)
 
@@ -76,7 +78,7 @@ export const sendConfirmationEmail = async (
             <p>Studio: ${studioData.name}</p>
             <p>Địa chỉ: ${studioData.address}</p>
             <p>Thời gian: ${dayjs(scheduleData.start_time).format(
-              "dddd, DD MMMM YYYY HH:mm"
+              "HH:mm dddd, DD MMMM YYYY "
             )}</p> 
             <p>Chúng tôi rất mong được gặp bạn ở lớp học!</p>
             <p>Trân trọng,</p>
@@ -86,19 +88,40 @@ export const sendConfirmationEmail = async (
       `,
     };
 
-    // const messageData = {
-    //   from: "LifePass <no-reply@mg.lifepass.one>",
-    //   to: "nampham@lifepass.one",
-    //   subject: "Hello",
-    //   text: "Testing some Mailgun awesomeness!",
-    // };
+    const msgToStudio = {
+      from: "LifePass <no-reply@mg.lifepass.one>",
+      to: studioData.email, // Assuming you have the studio's email in studioData
+      subject: `New booking for ${classData.name}`,
+      html: `
+      <html>
+        <body>
+          <p>Dear ${studioData.name},</p>
+          <p>Bạn có một booking mới cho lớp ${classData.name} on ${dayjs(
+        scheduleData.start_time
+      ).format("dddd, DD MMMM YYYY HH:mm")}.</p>
+          <p>Customer Name: ${user.first_name} ${user.last_name}</p>
+          <p>Customer Email: ${user.email}</p>
+          <p>Cảm ơn bạn đã đồng hành cùng LifePass!</p>
+          <p>Trân trọng,</p>
+          <p>Đội ngũ LifePass</p>
+        </body>
+      </html>
+    `,
+    };
 
     try {
-      const res = await mg.messages.create(
-        process.env.MAILGUN_DOMAIN,
-        msg
-      );
-      console.log("Email sent:", res);
+        const userRes = await mg.messages.create(
+          process.env.MAILGUN_DOMAIN,
+          msg
+        );
+        console.log("Email sent to user:", userRes);
+
+        // Send email to studio
+        const studioRes = await mg.messages.create(
+          process.env.MAILGUN_DOMAIN,
+          msgToStudio
+        );
+        console.log("Email sent to studio:", studioRes);
     } catch (error) {
       console.error("Error sending email:", error);
       throw error;
