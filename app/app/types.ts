@@ -55,6 +55,7 @@ export interface BookingWithDetails {
   schedules: Schedule;
   classes: Class;
   studios: Studio;
+  payments: Payment;
 }
 
 interface ZaloPaymentTransaction {
@@ -67,4 +68,13 @@ interface ZaloPaymentTransaction {
   status: string; // Payment status (e.g., 'pending', 'successful', 'failed')
   created_at: string; // Timestamp when the payment order was created
   updated_at: string; // Timestamp when the payment order was last updated
+}
+
+
+export interface Payment {
+  id: string;
+  booking_id: string;
+  amount: number;
+  status: string;
+  created_at: string;
 }

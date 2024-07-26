@@ -84,7 +84,6 @@ export default function UpcomingPage({ user }: { user: User | null }) {
   const handleCancelReservation = async (bookingId: string) => {
     const paymentDetails = {
       bookingId: selectedBooking.id,
-      // bookingId: "efaf95ba-f64b-4428-9ab0-b8410f51d737",
     };
     try {
       const refundResponse = await fetch(
@@ -98,12 +97,6 @@ export default function UpcomingPage({ user }: { user: User | null }) {
         }
       );
       if (refundResponse.ok) {
-        // Refresh the page first
-        // router.refresh();
-        // Then show the toast
-        // toast.success("Reservation cancelled successfully!", {
-        //   autoClose: 3000, // Close toast after 3 seconds
-        // });
         setRefundStatus("success");
       } else {
         const errorData = await refundResponse.json();
@@ -166,8 +159,8 @@ export default function UpcomingPage({ user }: { user: User | null }) {
 
       <Group gap="md">
         {bookings.map((booking) => {
-          console.log(booking);
-          const { schedules, classes, studios } = booking;
+          console.log('booking', booking);
+          const { schedules, classes, studios, payments } = booking;
           const startTime = dayjs(schedules.start_time);
           const endTime = startTime.add(classes.duration, "minute");
           return (
@@ -203,7 +196,7 @@ export default function UpcomingPage({ user }: { user: User | null }) {
               </Text>
 
               <Text className={styles.price}>
-                {classes.price.toLocaleString("vi-VN", {
+                {payments.amount.toLocaleString("vi-VN", {
                   style: "currency",
                   currency: "VND",
                 })}

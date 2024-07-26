@@ -23,20 +23,6 @@ export async function GET(request, { params }) {
       .select(
         "*, schedules:schedules!inner(*), classes:schedules!inner(classes!inner(*)), studios:schedules!inner(studios!inner(*))"
       )
-      //   .select(
-      //     `
-      //     *,
-      //     schedules:schedules!inner(
-      //       id, start_time
-      //     ),
-      //     classes:schedules!inner(classes!inner(*)),
-      //     studios:schedules!inner(
-      //       studios!inner(
-      //         id, name, imageUrl
-      //       )
-      //     )
-      //   `
-      //   )
       .eq("user_id", id)
       .eq("status", "confirmed")
       .gte("schedules.start_time", new Date().toISOString());
@@ -63,14 +49,22 @@ export async function GET(request, { params }) {
           .eq("id", booking.schedules.class_id)
           .single();
 
+        // Fetch the payments for each booking
+        const paymentResponse = await supabase
+          .from("payments")
+          .select("*")
+          .eq("booking_id", booking.id)
+          .single();
+
         return {
           ...booking,
           classes: classResponse.data,
+          payments: paymentResponse.data,
         };
       })
     );
 
-    // console.log(bookingsWithClassDetails);
+    console.log(bookingsWithClassDetails);
 
     return NextResponse.json(bookingsWithClassDetails);
   } catch (error) {

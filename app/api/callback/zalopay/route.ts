@@ -8,7 +8,7 @@ import { sendConfirmationEmail } from "../../../app/lib/sendEmail";
 const ZALOPAY_KEY2 = process.env.ZALOPAY_CALLBACK_KEY;
 
 function verifyMacOrder(key2, data) {
-  console.log(data);
+  // console.log(data);
   const hmac = createHmac("sha256", key2);
   hmac.update(data);
   return hmac.digest("hex");
@@ -18,7 +18,7 @@ function verifyMacOrder(key2, data) {
 let paymentTransaction = null;
 export async function POST(req) {
   const body = await req.json();
-  console.log("get here");
+  // console.log("get here");
 
   const { data, mac, type } = body;
 
@@ -26,7 +26,6 @@ export async function POST(req) {
   const { app_trans_id, zp_trans_id, amount } = parsedData; // Destructure the app_trans_id property
   const generatedMac = verifyMacOrder(ZALOPAY_KEY2, data);
 
-  // todo enable this
   if (mac !== generatedMac) {
     // console.log('mac difference')
     return NextResponse.json({ error: "Invalid signature" }, { status: 400 });
@@ -68,7 +67,7 @@ export async function POST(req) {
       );
     }
 
-    console.log("booking data", bookingData);
+    // console.log("booking data", bookingData);
 
     const bookingId = bookingData.id;
 
@@ -89,7 +88,7 @@ export async function POST(req) {
 
     const insertedPaymentId = insertedPayment.id;
 
-    console.log(insertedPayment);
+    // console.log(insertedPayment);
 
     const { data: updateOrder, error: updateError } = await supabase.rpc(
       "update_payment_status",
