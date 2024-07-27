@@ -58,6 +58,34 @@ export interface BookingWithDetails {
   payments: Payment;
 }
 
+// interface BookingWithDetails {
+//   id: string;
+//   created_at: string;
+//   status: string;
+//   user_id: string;
+//   schedule_id: string;
+//   schedules: {
+//     start_time: string;
+//     class_id: string;
+//     studio_id: string;
+//   };
+//   classes: {
+//     price: number;
+//     name: string;
+//     type: string;
+//     difficulty: string;
+//     instructorName: string;
+//     duration: number;
+//   };
+//   studios: {
+//     address: string;
+//     id: string;
+//     name: string;
+//     imageUrl: string;
+//     images: [string];
+//   };
+// }
+
 interface ZaloPaymentTransaction {
   id: string; // Unique identifier for the payment order
   user_id: string; // ID of the user making the payment

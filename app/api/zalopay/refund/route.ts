@@ -9,6 +9,7 @@ import { timeStamp } from "console";
 const ZALOPAY_KEY1 = process.env.ZALOPAY_KEY1;
 const ZALOPAY_APP_ID = parseInt(process.env.ZALOPAY_APP_ID);
 const ZALOPAY_REFUND_ORDER_ENDPOINT = "https://sb-openapi.zalopay.vn/v2/refund";
+import dayjs from "dayjs";
 
 // ... (import your Studio and Class interfaces from app/types.ts)
 const supabase = createClient();
@@ -37,15 +38,14 @@ const generateRefundId = (unique_code) => {
 export async function PUT(request: NextRequest, { params }) {
   const supabase = createClient();
   const { data, error } = await supabase.auth.getUser();
-  const body = await request.json();
 
-  console.log(body);
-  const bookingId = body.paymentDetails?.bookingId;
-  console.log("get into refund");
-  console.log(bookingId);
   if (error || !data?.user) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
+  const body = await request.json();
+
+  const bookingId = body.paymentDetails?.bookingId;
+  const schedule_id = body.paymentDetails?.scheduleId;
 
   try {
     // 1. Fetch the payment
@@ -63,7 +63,7 @@ export async function PUT(request: NextRequest, { params }) {
       );
     }
 
-    console.log(payment);
+    // console.log(payment);
 
     const { data: transaction, error: transactionError } = await supabase
       .from("zalo_payment_transactions")
@@ -79,24 +79,31 @@ export async function PUT(request: NextRequest, { params }) {
       );
     }
 
-    console.log(transaction);
-
     // 2. Check if the booking is eligible for a refund (e.g., within cancellation window)
-    // const scheduleStartTime = await supabase
-    //   .from("schedules")
-    //   .select("start_time")
-    //   .eq("id", booking.schedule_id)
-    //   .single();
+    const { data: scheduleStartTime, error: scheduleStartTimeError } =
+      await supabase
+        .from("schedules")
+        .select("start_time")
+        .eq("id", schedule_id)
+        .single();
 
-    // const isRefundable =
-    //   dayjs(scheduleStartTime.data?.start_time).diff(dayjs(), "hour") > 24; // Replace 24 with your cancellation window in hours
+    if (scheduleStartTimeError || !scheduleStartTime) {
+      console.error(scheduleStartTimeError);
+      return NextResponse.json(
+        { error: scheduleStartTimeError?.message || "schedule not found" },
+        { status: 404 }
+      );
+    }
 
-    // if (!isRefundable) {
-    //   return NextResponse.json(
-    //     { error: "Booking is not eligible for refund" },
-    //     { status: 400 }
-    //   );
-    // }
+    const isRefundable =
+      dayjs(scheduleStartTime?.start_time).diff(dayjs(), "hour") > 12;
+
+    if (!isRefundable) {
+      return NextResponse.json(
+        { error: "Booking is not eligible for refund" },
+        { status: 400 }
+      );
+    }
 
     // 3. Initiate refund with ZaloPay (replace with your actual implementation)
     const refundResult = await initiateZaloPayRefund(transaction); // Placeholder function, you need to implement this
@@ -113,14 +120,16 @@ export async function PUT(request: NextRequest, { params }) {
       });
 
     if (errorPaymentRefundData) {
-      console.log(
-        "error updating booking refund 123",
-        errorPaymentRefundData,
-        bookingId
+      // console.log(
+      //   "error updating booking refund 123",
+      //   errorPaymentRefundData,
+      //   bookingId
+      // );
+      return NextResponse.json(
+        { error: errorPaymentRefundData },
+        { status: 500 }
       );
-      return NextResponse.json({ error: errorPaymentRefundData }, { status: 500 });
     }
-
 
     // 4. Update booking status to 'cancelled'
     const { data: updateBookingData, error: updateBookingError } =
@@ -130,11 +139,12 @@ export async function PUT(request: NextRequest, { params }) {
       });
 
     if (updateBookingError) {
-      console.log('error updating booking refund', updateBookingError, bookingId);
-      return NextResponse.json(
-        { error: updateBookingError },
-        { status: 500 }
+      console.error(
+        "error updating booking refund",
+        updateBookingError,
+        bookingId
       );
+      return NextResponse.json({ error: updateBookingError }, { status: 500 });
     }
 
     // 5. Update the enrolled count
@@ -149,7 +159,6 @@ export async function PUT(request: NextRequest, { params }) {
         { status: 500 }
       );
     }
-
 
     // revalidatePath("/app/upcoming");
     return NextResponse.json({ message: "Refund processed successfully" });

@@ -6,7 +6,7 @@ function SuccessMessage({ booking, onClose, onRefetch }) {
       <Modal
         opened={true}
         onClose={() => {
-          onRefetch();
+          // onRefetch();
           onClose();
         }}
         title="Đã huỷ đặt chỗ"
@@ -23,7 +23,8 @@ function SuccessMessage({ booking, onClose, onRefetch }) {
               onRefetch();
               onClose();
             }}
-            color="blue"
+            variant="filled"
+            color="yellow"
           >
             Xong
           </Button>

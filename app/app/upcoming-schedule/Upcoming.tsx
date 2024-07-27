@@ -28,34 +28,7 @@ import useSWR from "swr";
 import styles from "./UpcomingSchedule.module.css";
 import SuccessMessage from "./SuccessMessage";
 import ErrorMessage from "./ErrorMessage";
-
-interface BookingWithDetails {
-  id: string;
-  created_at: string;
-  status: string;
-  user_id: string;
-  schedule_id: string;
-  schedules: {
-    start_time: string;
-    class_id: string;
-    studio_id: string;
-  };
-  classes: {
-    price: number;
-    name: string;
-    type: string;
-    difficulty: string;
-    instructorName: string;
-    duration: number;
-  };
-  studios: {
-    address: string;
-    id: string;
-    name: string;
-    imageUrl: string;
-    images: [string];
-  };
-}
+import { BookingWithDetails } from "../types";
 
 const fetcher = (url: any) => fetch(url).then((res) => res.json());
 
@@ -84,6 +57,7 @@ export default function UpcomingPage({ user }: { user: User | null }) {
   const handleCancelReservation = async (bookingId: string) => {
     const paymentDetails = {
       bookingId: selectedBooking.id,
+      scheduleId: selectedBooking.schedule_id
     };
     try {
       const refundResponse = await fetch(
@@ -250,7 +224,7 @@ export default function UpcomingPage({ user }: { user: User | null }) {
               <Text className={styles.price}>
                 Bạn sẽ được hoàn tiền{" "}
                 <b>
-                  {selectedBooking.classes.price.toLocaleString("vi-VN", {
+                  {selectedBooking.payments.amount.toLocaleString("vi-VN", {
                     style: "currency",
                     currency: "VND",
                   })}
