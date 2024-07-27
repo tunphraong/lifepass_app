@@ -9,7 +9,7 @@ import { NextResponse } from "next/server";
 import { NextRequest } from "next/server";
 import { createClient } from "../../../utils/supabase/server";
 import dayjs from "dayjs";
-const HOST_URL = "https://3605-45-80-184-117.ngrok-free.app";
+const HOST_URL = "https://5c7cc9ffab74262306951c91c1a138f1.serveo.net";
 
 function generateUniqueCode(length: number): string {
   const characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
@@ -137,8 +137,7 @@ export async function POST(req: NextRequest) {
     app_user: user_id,
     app_time: reqtime,
     app_trans_id: app_trans_id,
-    callback_url:
-      `${HOST_URL}/api/callback/zalopay`,
+    callback_url: `${HOST_URL}/api/callback/zalopay`,
     amount: amount,
     bank_code: "",
     description: description,
@@ -198,7 +197,6 @@ export async function POST(req: NextRequest) {
   }
 }
 
-
 async function isClassInPast(scheduleId: string): Promise<boolean> {
   const supabase = createClient();
   const { data: schedule, error } = await supabase
@@ -226,5 +224,3 @@ export async function PATCH(request: Request) {}
 
 // If `OPTIONS` is not defined, Next.js will automatically implement `OPTIONS` and  set the appropriate Response `Allow` header depending on the other methods defined in the route handler.
 export async function OPTIONS(request: Request) {}
-
-

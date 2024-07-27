@@ -55,7 +55,36 @@ export interface BookingWithDetails {
   schedules: Schedule;
   classes: Class;
   studios: Studio;
+  payments: Payment;
 }
+
+// interface BookingWithDetails {
+//   id: string;
+//   created_at: string;
+//   status: string;
+//   user_id: string;
+//   schedule_id: string;
+//   schedules: {
+//     start_time: string;
+//     class_id: string;
+//     studio_id: string;
+//   };
+//   classes: {
+//     price: number;
+//     name: string;
+//     type: string;
+//     difficulty: string;
+//     instructorName: string;
+//     duration: number;
+//   };
+//   studios: {
+//     address: string;
+//     id: string;
+//     name: string;
+//     imageUrl: string;
+//     images: [string];
+//   };
+// }
 
 interface ZaloPaymentTransaction {
   id: string; // Unique identifier for the payment order
@@ -67,4 +96,13 @@ interface ZaloPaymentTransaction {
   status: string; // Payment status (e.g., 'pending', 'successful', 'failed')
   created_at: string; // Timestamp when the payment order was created
   updated_at: string; // Timestamp when the payment order was last updated
+}
+
+
+export interface Payment {
+  id: string;
+  booking_id: string;
+  amount: number;
+  status: string;
+  created_at: string;
 }

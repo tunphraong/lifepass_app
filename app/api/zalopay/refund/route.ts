@@ -9,6 +9,7 @@ import { timeStamp } from "console";
 const ZALOPAY_KEY1 = process.env.ZALOPAY_KEY1;
 const ZALOPAY_APP_ID = parseInt(process.env.ZALOPAY_APP_ID);
 const ZALOPAY_REFUND_ORDER_ENDPOINT = "https://sb-openapi.zalopay.vn/v2/refund";
+import dayjs from "dayjs";
 
 // ... (import your Studio and Class interfaces from app/types.ts)
 const supabase = createClient();
@@ -19,18 +20,32 @@ interface ZaloPayRefundResponse {
   // ... other properties you expect from ZaloPay's refund response ...
 }
 
+const generateRefundId = (unique_code) => {
+  const now = new Date();
+  const YY = String(now.getFullYear()).slice(-2);
+  const MM = String(now.getMonth() + 1).padStart(2, "0");
+  const DD = String(now.getDate()).padStart(2, "0");
+  // const randomStr = randomBytes(4).toString("hex");
+  // const uniquePart = `${now.getTime()}${userId.toString()}${randomStr}}`;
+  // const maxLength = 40;
+  // const uniquePart = generateUniqueCode(7);
+
+  return `${YY}${MM}${DD}_${ZALOPAY_APP_ID}_${unique_code}`;
+
+  // return `${YY}${MM}${DD}_${uniquePart}`.slice(0, maxLength);
+};
+
 export async function PUT(request: NextRequest, { params }) {
   const supabase = createClient();
   const { data, error } = await supabase.auth.getUser();
-  const body = await request.json();
 
-  console.log(body);
-  const bookingId = body.paymentDetails?.bookingId;
-  console.log("get into refund");
-  console.log(bookingId);
   if (error || !data?.user) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
+  const body = await request.json();
+
+  const bookingId = body.paymentDetails?.bookingId;
+  const schedule_id = body.paymentDetails?.scheduleId;
 
   try {
     // 1. Fetch the payment
@@ -48,7 +63,7 @@ export async function PUT(request: NextRequest, { params }) {
       );
     }
 
-    console.log(payment);
+    // console.log(payment);
 
     const { data: transaction, error: transactionError } = await supabase
       .from("zalo_payment_transactions")
@@ -64,24 +79,31 @@ export async function PUT(request: NextRequest, { params }) {
       );
     }
 
-    console.log(transaction);
-
     // 2. Check if the booking is eligible for a refund (e.g., within cancellation window)
-    // const scheduleStartTime = await supabase
-    //   .from("schedules")
-    //   .select("start_time")
-    //   .eq("id", booking.schedule_id)
-    //   .single();
+    const { data: scheduleStartTime, error: scheduleStartTimeError } =
+      await supabase
+        .from("schedules")
+        .select("start_time")
+        .eq("id", schedule_id)
+        .single();
 
-    // const isRefundable =
-    //   dayjs(scheduleStartTime.data?.start_time).diff(dayjs(), "hour") > 24; // Replace 24 with your cancellation window in hours
+    if (scheduleStartTimeError || !scheduleStartTime) {
+      console.error(scheduleStartTimeError);
+      return NextResponse.json(
+        { error: scheduleStartTimeError?.message || "schedule not found" },
+        { status: 404 }
+      );
+    }
 
-    // if (!isRefundable) {
-    //   return NextResponse.json(
-    //     { error: "Booking is not eligible for refund" },
-    //     { status: 400 }
-    //   );
-    // }
+    const isRefundable =
+      dayjs(scheduleStartTime?.start_time).diff(dayjs(), "hour") > 12;
+
+    if (!isRefundable) {
+      return NextResponse.json(
+        { error: "Booking is not eligible for refund" },
+        { status: 400 }
+      );
+    }
 
     // 3. Initiate refund with ZaloPay (replace with your actual implementation)
     const refundResult = await initiateZaloPayRefund(transaction); // Placeholder function, you need to implement this
@@ -90,28 +112,53 @@ export async function PUT(request: NextRequest, { params }) {
       return NextResponse.json({ error: refundResult.error }, { status: 500 }); // Refund failed
     }
 
-    // 4. Update booking status to 'refunded'
-    // const { error: updateError } = await supabase
-    //   .from("bookings")
-    //   .update({ status: "refunded" }) // Or a more appropriate status for your system
-    //   .eq("id", bookingId);
+    // update refund payment table
+    const { data: updatePaymentRefundData, error: errorPaymentRefundData } =
+      await supabase.rpc("update_payments_table_status", {
+        updatedstatus: "refunded",
+        paymentid: payment.id,
+      });
 
-    // if (updateError) {
-    //   return NextResponse.json({ error: updateError.message }, { status: 500 });
-    // }
+    if (errorPaymentRefundData) {
+      // console.log(
+      //   "error updating booking refund 123",
+      //   errorPaymentRefundData,
+      //   bookingId
+      // );
+      return NextResponse.json(
+        { error: errorPaymentRefundData },
+        { status: 500 }
+      );
+    }
+
+    // 4. Update booking status to 'cancelled'
+    const { data: updateBookingData, error: updateBookingError } =
+      await supabase.rpc("update_booking_status", {
+        updatedstatus: "cancelled",
+        bookingid: bookingId,
+      });
+
+    if (updateBookingError) {
+      console.error(
+        "error updating booking refund",
+        updateBookingError,
+        bookingId
+      );
+      return NextResponse.json({ error: updateBookingError }, { status: 500 });
+    }
 
     // 5. Update the enrolled count
-    // const { error: enrolledError } = await supabase
-    //   .from("schedules")
-    //   .update({ enrolled: decrement("enrolled") })
-    //   .eq("id", booking.schedule_id);
+    const { data: decreaseEnrolledData, error: decreaseEnrolledError } =
+      await supabase.rpc("decrement_enrolled", {
+        schedule_id: transaction.schedule_id,
+      });
 
-    // if (enrolledError) {
-    //   return NextResponse.json(
-    //     { error: enrolledError.message },
-    //     { status: 500 }
-    //   );
-    // }
+    if (decreaseEnrolledError) {
+      return NextResponse.json(
+        { error: decreaseEnrolledError.message },
+        { status: 500 }
+      );
+    }
 
     // revalidatePath("/app/upcoming");
     return NextResponse.json({ message: "Refund processed successfully" });
@@ -142,7 +189,7 @@ async function initiateZaloPayRefund(
   );
 
   const unique_code = generateUniqueCode(7);
-  const m_refund_id = `240712_57309_${unique_code}`
+  const m_refund_id = generateRefundId(unique_code);
   const order = {
     // m_refund_id: "12312312312",
     m_refund_id: m_refund_id,
@@ -167,20 +214,20 @@ async function initiateZaloPayRefund(
   const result = await response.json();
   console.log(result);
 
-  // ... (After processing the refund, return an object)
+  // update zalopay table with m_refund_id and refund_id
   if (result.return_code != 2) {
     const { data: refundData, error: refundError } = await supabase.rpc(
       "update_zalopay_refund",
       {
         apptransid: transaction_id,
-        status: "refunded",
-        m_refund_id: m_refund_id,
-        refund_id: result.refund_id
+        updatedstatus: "refunded",
+        mrefundid: m_refund_id,
+        refundid: result.refund_id,
       }
     );
 
     if (refundError) {
-        console.log('error')
+      console.log("refund error", refundError);
     }
 
     console.log(refundData);

@@ -2,9 +2,6 @@
 "use client";
 
 import { useState, useEffect } from "react";
-// import { supabase } from "@/lib/supabaseClient";
-import { createClient } from "../../../utils/supabase/client";
-import { showNotification } from "@mantine/notifications";
 import {
   Card,
   Text,
@@ -18,6 +15,7 @@ import {
   Badge,
   rem,
   Modal,
+  Notification,
   NumberFormatter,
 } from "@mantine/core";
 import { IconCalendar } from "@tabler/icons-react"; // You might want to replace this with a Mantine UI icon
@@ -28,34 +26,9 @@ require("dayjs/locale/vi");
 // import CancelModal from "../../components/CancelModal";
 import useSWR from "swr";
 import styles from "./UpcomingSchedule.module.css";
-
-interface BookingWithDetails {
-  id: string;
-  created_at: string;
-  status: string;
-  user_id: string;
-  schedule_id: string;
-  schedules: {
-    start_time: string;
-    class_id: string;
-    studio_id: string;
-  };
-  classes: {
-    price: number;
-    name: string;
-    type: string;
-    difficulty: string;
-    instructorName: string;
-    duration: number;
-  };
-  studios: {
-    address: string;
-    id: string;
-    name: string;
-    imageUrl: string;
-    images: [string];
-  };
-}
+import SuccessMessage from "./SuccessMessage";
+import ErrorMessage from "./ErrorMessage";
+import { BookingWithDetails } from "../types";
 
 const fetcher = (url: any) => fetch(url).then((res) => res.json());
 
@@ -69,6 +42,7 @@ export default function UpcomingPage({ user }: { user: User | null }) {
   const [selectedBooking, setSelectedBooking] =
     useState<BookingWithDetails | null>(null);
   const [cancelModalOpen, setCancelModalOpen] = useState(false);
+  const [refundStatus, setRefundStatus] = useState<string | null>(null);
 
   // const handleOpenModal = (booking: any, mode: "book" | "cancel") => {
   //   setSelectedClass(booking);
@@ -82,39 +56,30 @@ export default function UpcomingPage({ user }: { user: User | null }) {
 
   const handleCancelReservation = async (bookingId: string) => {
     const paymentDetails = {
-      // bookingId: selectedBooking.id,
-      bookingId: "efaf95ba-f64b-4428-9ab0-b8410f51d737",
+      bookingId: selectedBooking.id,
+      scheduleId: selectedBooking.schedule_id
     };
     try {
-       const refundResponse = await fetch(
-         `/api/zalopay/refund`, // Your refund API route
-         {
-           method: "PUT", // Use PUT or PATCH for refunds
-           headers: { "Content-Type": "application/json" },
-           body: JSON.stringify({
-             paymentDetails
-           }),
-         }
-       );
+      const refundResponse = await fetch(
+        `/api/zalopay/refund`, // Your refund API route
+        {
+          method: "PUT", // Use PUT or PATCH for refunds
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            paymentDetails,
+          }),
+        }
+      );
       if (refundResponse.ok) {
-        // Refresh the page first
-        // router.refresh();
-        // Then show the toast
-        // toast.success("Reservation cancelled successfully!", {
-        //   autoClose: 3000, // Close toast after 3 seconds
-        // });
-        showNotification({
-          title: "Success",
-          message: "Reservation cancelled successfully!",
-          color: "green",
-        });
+        setRefundStatus("success");
       } else {
         const errorData = await refundResponse.json();
-        setError(errorData.error || "An error occurred while cancelling.");
+        console.log(errorData);
+         setRefundStatus(`Đã có lỗi: ${errorData.error}`);
       }
     } catch (error) {
       console.error("Error cancelling reservation:", error);
-      setError("An error occurred while cancelling.");
+      setRefundStatus("An error occurred while cancelling.");
     }
   };
 
@@ -168,8 +133,8 @@ export default function UpcomingPage({ user }: { user: User | null }) {
 
       <Group gap="md">
         {bookings.map((booking) => {
-          console.log(booking);
-          const { schedules, classes, studios } = booking;
+          console.log('booking', booking);
+          const { schedules, classes, studios, payments } = booking;
           const startTime = dayjs(schedules.start_time);
           const endTime = startTime.add(classes.duration, "minute");
           return (
@@ -205,7 +170,7 @@ export default function UpcomingPage({ user }: { user: User | null }) {
               </Text>
 
               <Text className={styles.price}>
-                {classes.price.toLocaleString("vi-VN", {
+                {payments.amount.toLocaleString("vi-VN", {
                   style: "currency",
                   currency: "VND",
                 })}
@@ -227,11 +192,14 @@ export default function UpcomingPage({ user }: { user: User | null }) {
 
       <Modal
         opened={cancelModalOpen}
-        onClose={() => setCancelModalOpen(false)}
+        onClose={() => {
+          setCancelModalOpen(false);
+          setRefundStatus(null);
+        }}
         title="Cancel Reservation"
         centered
       >
-        {selectedBooking && (
+        {selectedBooking && !refundStatus && (
           <div>
             <Text>
               Bạn có chắc muốn huỷ lớp <b>{selectedBooking.classes.name}</b> tại{" "}
@@ -249,17 +217,14 @@ export default function UpcomingPage({ user }: { user: User | null }) {
               bắt đầu lúc{" "}
               {dayjs(selectedBooking.schedules.start_time).format("hh:mm A")}{" "}
               không?
-              {/* <Text> */}
-              {/* </Text> */}
             </Text>
 
-            {/* Conditionally show refund message */}
             {dayjs(selectedBooking.schedules.start_time).diff(dayjs(), "hour") >
               24 && (
               <Text className={styles.price}>
                 Bạn sẽ được hoàn tiền{" "}
                 <b>
-                  {selectedBooking.classes.price.toLocaleString("vi-VN", {
+                  {selectedBooking.payments.amount.toLocaleString("vi-VN", {
                     style: "currency",
                     currency: "VND",
                   })}
@@ -280,13 +245,34 @@ export default function UpcomingPage({ user }: { user: User | null }) {
                 color="red"
                 onClick={async () => {
                   await handleCancelReservation(selectedBooking.id);
-                  setCancelModalOpen(false); // Close the modal
+                  // Keep modal open to show status message
                 }}
               >
                 Có
               </Button>
             </div>
           </div>
+        )}
+
+        {refundStatus === "success" && (
+          <SuccessMessage
+            booking={selectedBooking}
+            onClose={() => {
+              setCancelModalOpen(false);
+              setRefundStatus(null);
+            }}
+            onRefetch={() => mutate(`/api/upcoming/${user.id}`)}
+          />
+        )}
+
+        {refundStatus && refundStatus !== "success" && (
+          <ErrorMessage
+            errorMessage={refundStatus}
+            onClose={() => {
+              setCancelModalOpen(false);
+              setRefundStatus(null);
+            }}
+          />
         )}
       </Modal>
     </Container>

@@ -3,18 +3,22 @@ import { NextResponse } from "next/server";
 import { createClient } from "../../../../utils/supabase/server";
 import { createHmac } from "crypto";
 import { NextRequest } from "next/server";
+import { sendConfirmationEmail } from "../../../app/lib/sendEmail";
 
 const ZALOPAY_KEY2 = process.env.ZALOPAY_CALLBACK_KEY;
 
 function verifyMacOrder(key2, data) {
-  console.log(data);
+  // console.log(data);
   const hmac = createHmac("sha256", key2);
   hmac.update(data);
   return hmac.digest("hex");
 }
 
+
+let paymentTransaction = null;
 export async function POST(req) {
   const body = await req.json();
+  // console.log("get here");
 
   const { data, mac, type } = body;
 
@@ -22,36 +26,30 @@ export async function POST(req) {
   const { app_trans_id, zp_trans_id, amount } = parsedData; // Destructure the app_trans_id property
   const generatedMac = verifyMacOrder(ZALOPAY_KEY2, data);
 
-  // todo enable this
-  // if (mac !== generatedMac) {
-  //   // console.log('mac difference')
-  //   return NextResponse.json({ error: "Invalid signature" }, { status: 400 });
-  // }
+  if (mac !== generatedMac) {
+    // console.log('mac difference')
+    return NextResponse.json({ error: "Invalid signature" }, { status: 400 });
+  }
 
   const supabase = createClient();
 
   try {
-    const { data: paymentTransaction, error: paymentError } = await supabase
+    const { data: paymentTransactionData, error: paymentError } = await supabase
       .from("zalo_payment_transactions")
       .select("*")
       .eq("transaction_id", app_trans_id)
       .single();
 
-    if (paymentError || !paymentTransaction) {
+    if (paymentError || !paymentTransactionData) {
       return NextResponse.json(
         { error: "Payment order not found" },
         { status: 404 }
       );
     }
 
-    const { schedule_id, user_id } = paymentTransaction;
+    paymentTransaction = paymentTransactionData; // Assign value to paymentTransaction
 
-    // const { error: bookingError } = await supabase.from("bookings").insert({
-    //   user_id: user_id,
-    //   schedule_id: schedule_id,
-    //   status: "confirmed",
-    //   updated_at: new Date(),
-    // });
+    const { schedule_id, user_id } = paymentTransaction;
 
     const { data: bookingData, error: bookingError } = await supabase.rpc(
       "insert_booking",
@@ -69,7 +67,7 @@ export async function POST(req) {
       );
     }
 
-    console.log("booking data", bookingData);
+    // console.log("booking data", bookingData);
 
     const bookingId = bookingData.id;
 
@@ -90,7 +88,7 @@ export async function POST(req) {
 
     const insertedPaymentId = insertedPayment.id;
 
-    console.log(insertedPayment);
+    // console.log(insertedPayment);
 
     const { data: updateOrder, error: updateError } = await supabase.rpc(
       "update_payment_status",
@@ -98,7 +96,7 @@ export async function POST(req) {
         apptransid: app_trans_id,
         updatedstatus: "success",
         zptransid: zp_trans_id,
-        paymentid: insertedPaymentId
+        paymentid: insertedPaymentId,
       }
     );
 
@@ -108,13 +106,44 @@ export async function POST(req) {
       console.log("Payment status updated successfully:", updateOrder);
     }
 
-    return NextResponse.json({ success: true }, { status: 200 });
+    const { data: increaseEnrolledData, error: increaseEnrolledError } =
+      await supabase.rpc("increment_enrolled", {
+        schedule_id: schedule_id,
+      });
+
+    if (increaseEnrolledError) {
+      console.error(
+        "Error updating enrolled count:",
+        increaseEnrolledError.message
+      );
+      return NextResponse.json(
+        { error: "Error updating enrolled count" },
+        { status: 400 }
+      );
+    }
+
+    return NextResponse.json(
+      { return_code: 1, return_message: `thành công ${app_trans_id}` },
+      { status: 200 }
+    );
   } catch (error) {
     console.error("Error creating booking or updating payment status:", error);
     return NextResponse.json(
       { error: "An error occurred while processing the booking" },
       { status: 500 }
     );
+  } finally {
+    try {
+      console.log(paymentTransaction);
+      if (paymentTransaction) {
+        await sendConfirmationEmail(
+          paymentTransaction.schedule_id,
+          paymentTransaction.user_id
+        );
+      }
+    } catch (err) {
+      console.error("Failed to send email", err);
+    }
   }
 }
 

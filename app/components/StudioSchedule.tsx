@@ -29,8 +29,9 @@ import { useRouter } from "next/navigation";
 import { IconChevronRight, IconCalendar } from "@tabler/icons-react";
 import { createClient } from "../../utils/supabase/client";
 require("dayjs/locale/vi");
-var isSameOrAfter = require("dayjs/plugin/isSameOrAfter");
-// dayjs.extend(isSameOrAfter);
+import isSameOrBefore from "dayjs/plugin/isSameOrBefore"; // ES 2015
+
+dayjs.extend(isSameOrBefore);
 
 const StudioSchedule = ({ studioId }) => {
   const fetcher = async (url) => {
@@ -39,31 +40,6 @@ const StudioSchedule = ({ studioId }) => {
 
     if (!response.ok) {
       throw new Error(data.error);
-    }
-
-    if (data) {
-      // Fetch prices for each schedule in parallel
-      const pricePromises = data.map(async (schedule) => {
-        const priceRes = await fetch("/api/calculate-price", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            studioId,
-            classId: schedule.class_id,
-            startTime: schedule.start_time,
-            spotsRemaining: schedule.capacity - schedule.enrolled,
-          }),
-        });
-        const priceData = await priceRes.json();
-        return { ...schedule, price: priceData.price }; // Add price to schedule data
-      });
-
-      const schedulesWithPrice = await Promise.all(pricePromises);
-      return schedulesWithPrice;
-    } else {
-      return null;
     }
 
     return data;
@@ -76,31 +52,37 @@ const StudioSchedule = ({ studioId }) => {
   const [opened, { open, close }] = useDisclosure(false);
   const [selectedSchedule, setSelectedSchedule] = useState(null);
   const [date, setDate] = useState(dayjs().format("YYYY-MM-DD"));
-  const [reservationSuccess, setReservationSuccess] = useState(false);
-
-  const handleOpenModal = (schedule) => {
-    setSelectedSchedule(schedule);
-    setReservationSuccess(false); // Reset success state when opening modal
-    open();
-  };
-
-  const handleCloseModal = () => {
-    close();
-    setSelectedSchedule(null);
-  };
+  const startDate = dayjs(date).startOf("week").format("YYYY-MM-DD");
+  const endDate = dayjs(date).endOf("week").format("YYYY-MM-DD");
+  const [currentDate, setCurrentDate] = useState(dayjs().startOf("day"));
+  const [selectedDay, setSelectedDay] = useState(currentDate);
 
   const handleEnroll = (schedule) => {
-    // sessionStorage.setItem("selectedSchedulePrice", schedule.price);
     router.push(`/app/payment?scheduleId=${schedule.id}`);
   };
+
+  const weekStart = selectedDay.startOf("week").format("YYYY-MM-DD");
+  const weekEnd = selectedDay.endOf("week").format("YYYY-MM-DD");
+
+  // const {
+  //   data: schedules,
+  //   error,
+  //   isLoading,
+  // } = useSWR(
+  //   `/api/studio/${studioId}/schedules?startDate=${startDate}&endDate=${endDate}`,
+  //   fetcher
+  // );
 
   const {
     data: schedules,
     error,
     isLoading,
-  } = useSWR(`/api/studio/${studioId}/schedules?date=${date}`, fetcher);
+  } = useSWR(
+    `/api/studio/${studioId}/schedules?weekStart=${weekStart}&weekEnd=${weekEnd}`,
+    fetcher
+  );
 
-  console.log('schedules', schedules);
+  // console.log('schedules', schedules);
 
   if (error) return <div>Failed to load schedules</div>;
   if (isLoading) {
@@ -116,49 +98,59 @@ const StudioSchedule = ({ studioId }) => {
   if (!schedules) return <div>Loading...</div>;
   // console.log(schedules);
 
+  const handleDayChange = (newDay) => {
+    if (newDay.isAfter(dayjs().startOf("day").subtract(1, "day"))) {
+      setSelectedDay(newDay);
+    }
+  };
+
+  const handleWeekChange = (direction) => {
+    const newDate = currentDate.add(direction, "week");
+    if (newDate.isAfter(dayjs().startOf("week").subtract(1, "week"))) {
+      setCurrentDate(newDate);
+      setSelectedDay(newDate.startOf("week"));
+    }
+  };
+
   const formatPrice = (price: number) => {
     return new Intl.NumberFormat("vi-VN", {
       style: "currency",
       currency: "VND",
     }).format(price);
-  };
+  }; 
 
-  // Filter out past classes based on current time
-  const upcomingSchedules = schedules.filter((schedule) =>
-    dayjs(schedule.start_time).isAfter(dayjs())
+  const filteredSchedules = schedules.filter(
+    (schedule) =>
+      dayjs(schedule.start_time).isSame(selectedDay, "day") &&
+      dayjs(schedule.start_time).isAfter(dayjs()) &&
+      schedule.lifepass_spots > 0 &&
+      schedule.enrolled < schedule.lifepass_spots &&
+      schedule.price > 0
   );
 
   return (
     <>
       <Space h="md" />
       <Stack gap="md">
-        <Group
-          justify="center"
-          style={{ width: "100%" }}
-          // noWrap={isSmallScreen}
-        >
+        <Group justify="center" style={{ width: "100%" }}>
           <Button
             variant="filled"
             color="yellow"
             radius="xl"
             size={isSmallScreen ? "md" : "lg"}
-            onClick={() =>
-              setDate(dayjs(date).subtract(1, "day").format("YYYY-MM-DD"))
-            }
-            disabled={dayjs(date).isSame(dayjs(), "day")}
+            onClick={() => handleWeekChange(-1)}
+            disabled={currentDate
+              .startOf("week")
+              .isSameOrBefore(dayjs().startOf("week"))}
           >
             <IconArrowLeft size={isSmallScreen ? 16 : 20} />
           </Button>
 
-          {/* <Text>{dayjs(date).locale("vi").format("DD, MMMM, YYYY")}</Text> */}
-
           <Box p="md">
-            <Group
-            // noWrap={isSmallScreen}
-            >
+            <Group>
               <IconCalendar size={isSmallScreen ? 16 : 20} />
               <Text size={isSmallScreen ? "sm" : "md"}>
-                {dayjs(date).locale("vi").format("DD, MMMM")}
+                {selectedDay.locale("vi").format("DD, MMMM")}
               </Text>
             </Group>
           </Box>
@@ -168,16 +160,33 @@ const StudioSchedule = ({ studioId }) => {
             color="yellow"
             radius="xl"
             size={isSmallScreen ? "md" : "lg"}
-            onClick={() =>
-              setDate(dayjs(date).add(1, "day").format("YYYY-MM-DD"))
-            }
+            onClick={() => handleWeekChange(1)}
           >
             <IconArrowRight size={isSmallScreen ? 16 : 20} />
           </Button>
         </Group>
 
-        {upcomingSchedules.length > 0 ? (
-          upcomingSchedules.map((schedule) => (
+        <Group justify="center" style={{ width: "100%" }}>
+          {[...Array(7)].map((_, i) => {
+            const day = currentDate.startOf("week").add(i, "day");
+            return (
+              <Button
+                key={i}
+                variant={selectedDay.isSame(day, "day") ? "filled" : "outline"}
+                color="yellow"
+                radius="xl"
+                size="md"
+                onClick={() => handleDayChange(day)}
+                disabled={day.isBefore(dayjs().startOf("day"))}
+              >
+                {day.format("ddd")}
+              </Button>
+            );
+          })}
+        </Group>
+
+        {filteredSchedules.length > 0 ? (
+          filteredSchedules.map((schedule) => (
             <Card
               key={schedule.id}
               shadow="sm"
@@ -216,7 +225,9 @@ const StudioSchedule = ({ studioId }) => {
             </Card>
           ))
         ) : (
-          <Text>Không có lớp nào được lên lịch cho ngày này.</Text>
+          <Center>
+            <Text fw={500} size="xl">Không có lớp nào được lên lịch cho ngày này. Quý khách lòng chọn ngày khác.</Text>
+          </Center>
         )}
       </Stack>
     </>

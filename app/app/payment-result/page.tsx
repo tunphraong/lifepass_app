@@ -18,10 +18,9 @@ import {
 } from "@mantine/core";
 import useSWR from "swr";
 import dayjs from "dayjs";
-require("dayjs/locale/vi");
 import { createEvent } from "ics";
-import { theme } from "../../../theme";
-import { start } from "repl";
+import "dayjs/locale/vi";
+dayjs.locale("vi");
 
 const fetcher = (url: any) => fetch(url).then((res) => res.json());
 
@@ -93,14 +92,6 @@ const PaymentResultPage = () => {
         return "Trạng thái thanh toán không xác định";
     }
   };
-
-  //  start: [
-  //    startTime.year(),
-  //    startTime.month() + 1, // month is 0-indexed in dayjs
-  //    startTime.date(),
-  //    startTime.hour(),
-  //    startTime.minute(),
-  //  ],
 
   const handleAddToCalendar = () => {
     const event: EventAttributes = {
@@ -207,7 +198,7 @@ const PaymentResultPage = () => {
           <Text size="lg">Lớp đã chọn: {classData.name}</Text>
           <Text size="lg">
             Giá:{" "}
-            {classData.price.toLocaleString("vi-VN", {
+            {paymentResult.amount.toLocaleString("vi-VN", {
               style: "currency",
               currency: "VND",
             })}

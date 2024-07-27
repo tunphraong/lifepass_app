@@ -14,7 +14,7 @@ import {
   Stack,
   Space,
   Spoiler,
-  Center
+  Center,
 } from "@mantine/core";
 import {
   IconUserPlus,
@@ -32,6 +32,7 @@ import {
   IconParking,
   IconWallpaper,
   IconYoga,
+  IconDroplet
 } from "@tabler/icons-react";
 import Image from "next/image";
 import StudioSchedule from "./StudioSchedule";
@@ -69,14 +70,16 @@ export function StudioInfo({ studio }: StudioInfoProps) {
     Mat: <IconYoga size={16} />,
     Towel: <IconWallpaper size={16} />,
     Parking: <IconParking size={16} />,
+    Water: <IconDroplet size={16} />,
     // Add more amenity mappings as needed
   };
 
   return (
     <Box mt={4}>
       <Group align="center" justify="space-between">
-        <Title order={2} 
-        // color="yellow"
+        <Title
+          order={2}
+          // color="yellow"
         >
           {name} 🌟
         </Title>
@@ -184,7 +187,10 @@ export function StudioInfo({ studio }: StudioInfoProps) {
 
           <Space h="xl" />
 
-          <StudioSchedule studioId={studio.id}></StudioSchedule>
+          <Stack gap="sm">
+            <Title order={3}>Đặt lớp 🎟️</Title>
+            <StudioSchedule studioId={studio.id}></StudioSchedule>
+          </Stack>
 
           <Space h="xl" />
 
@@ -195,7 +201,7 @@ export function StudioInfo({ studio }: StudioInfoProps) {
             <Text>{prepare}</Text>
           </Stack>
 
-          <Divider my={10} />
+          <Divider my={20} />
 
           <Stack gap="sm">
             <Title order={3}>Tiện nghi 🛀</Title>
@@ -211,7 +217,7 @@ export function StudioInfo({ studio }: StudioInfoProps) {
             </div>
           </Stack>
 
-          <Divider my={10} />
+          <Divider my={20} />
 
           <Stack gap="sm">
             <Title order={3}>Chỉ dẫn đường 🗺️</Title>
