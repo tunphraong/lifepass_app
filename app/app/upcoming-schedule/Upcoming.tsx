@@ -32,6 +32,7 @@ import { BookingWithDetails } from "../types";
 
 const fetcher = (url: any) => fetch(url).then((res) => res.json());
 
+
 export default function UpcomingPage({ user }: { user: User | null }) {
   const { mutate } = useSWRConfig();
   const [bookings, setBookings] = useState<any[]>([]);

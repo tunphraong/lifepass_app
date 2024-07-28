@@ -3,14 +3,14 @@ import { useSearchParams } from "next/navigation";
 import { PasswordInput, Button, Stack } from "@mantine/core";
 import { useForm } from "@mantine/form";
 import { resetPassword } from "./action";
+import { Suspense } from "react";
 
 // ... (import your server action)
 
-export default function ResetPasswordPage() {
+function Search() {
   const searchParams = useSearchParams();
   const token_hash = searchParams.get("token_hash") as string;
   const type = searchParams.get("type") as string;
-  console.log(token_hash, type);
 
   const form = useForm({
     initialValues: {
@@ -54,5 +54,14 @@ export default function ResetPasswordPage() {
         </form>
       </div>
     </div>
+  );
+}
+
+export default function ResetPasswordPage() {
+  return (
+    // You could have a loading skeleton as the `fallback` too
+    <Suspense>
+      <Search />
+    </Suspense>
   );
 }
