@@ -29,7 +29,6 @@ import { useForm } from "@mantine/form";
 
 export default function LoginPage(props: PaperProps) {
   const [type, toggle] = useToggle(["login", "register"]);
-  // const [state, formAction] = useFormState(signup, initialState)
 
   const form = useForm({
     initialValues: {
@@ -217,7 +216,7 @@ export default function LoginPage(props: PaperProps) {
           </Stack>
 
           <Group justify="space-between" mt="xl">
-            <Anchor
+            {/* <Anchor
               component="button"
               type="button"
               c="dimmed"
@@ -227,7 +226,7 @@ export default function LoginPage(props: PaperProps) {
               {type === "register"
                 ? "Already have an account? Login"
                 : "Don't have an account? Register"}
-            </Anchor>
+            </Anchor> */}
             <Button type="submit" radius="xl">
               {upperFirst(type)}
             </Button>
