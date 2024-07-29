@@ -1,107 +1,85 @@
-// app/components/FeatureSection.tsx
-"use client";
-
+import React from "react";
 import {
   Container,
-  Title,
-  SimpleGrid,
+  Grid,
   Card,
+  CardSection,
+  GridCol,
   Text,
   ThemeIcon,
-  Group,
-  useMantineTheme,
-  Stack,
-  Box,
+  rem,
 } from "@mantine/core";
+import Image from "next/image";
 import {
-  IconHeart,
-  IconCalendarStats,
-  IconStar,
+  IconCheck,
+  IconGift,
   IconMapPin,
-  IconUserPlus,
-  IconDiscount2,
+  IconEyeDollar,
 } from "@tabler/icons-react";
-import classes from "./HomePage.module.css";
+import classes from "./FeatureSection.module.css";
 
-function FeatureSection() {
-  const theme = useMantineTheme();
-
-  return (
-    <section className={classes.section}>
-      <Container size="xl" p={0}>
-        <Title order={2} align="center" className={classes.sectionTitle}>
-          Tại sao chọn LifePass?
-        </Title>
-
-        <SimpleGrid
-          cols={3}
-          spacing="lg"
-          breakpoints={[
-            { maxWidth: "md", cols: 2, spacing: "md" },
-            { maxWidth: "sm", cols: 1, spacing: "sm" },
-          ]}
-        >
-          <FeatureCard
-            icon={<IconHeart size={24} />}
-            title="Đặt lịch linh hoạt"
-            description="Đặt trước các lớp học theo lịch trình của bạn, hủy bỏ bất cứ lúc nào với chính sách hủy linh hoạt."
-          />
-          <FeatureCard
-            icon={<IconCalendarStats size={24} />}
-            title="Đa dạng lựa chọn"
-            description="Khám phá hàng loạt lớp học từ yoga đến tập luyện sức mạnh, khiêu vũ đến võ thuật."
-          />
-          <FeatureCard
-            icon={<IconStar size={24} />}
-            title="Phòng tập hàng đầu"
-            description="Tìm kiếm các phòng tập và huấn luyện viên uy tín nhất trong khu vực
-            của bạn, với đánh giá từ cộng đồng người dùng."
-          />
-          <FeatureCard
-            icon={<IconUserPlus size={24} />}
-            title="Cộng đồng sôi động"
-            description="Kết nối và chia sẻ kinh nghiệm tập luyện với những người yêu thích
-            thể thao và làm đẹp khác."
-          />
-          <FeatureCard
-            icon={<IconDiscount2 size={24} />}
-            title="Ưu đãi độc quyền"
-            description="Nhận ưu đãi và khuyến mãi đặc biệt dành riêng cho thành viên LifePass."
-          />
-        </SimpleGrid>
-      </Container>
-    </section>
-  );
-}
-
-interface FeatureCardProps {
-  icon: React.ReactNode;
+interface Feature {
   title: string;
   description: string;
+  icon: React.ReactNode;
+  image: string;
 }
 
-function FeatureCard({ icon, title, description }: FeatureCardProps) {
+const features: Feature[] = [
+  {
+    title: "Tiết kiệm chi phí",
+    description:
+      "Đặt lịch trên LifePass luôn giúp bạn tiết kiệm nhiều hơn so với mua vé lẻ.",
+    icon: <IconEyeDollar size={rem(24)} color="#f5ac2d" />,
+    image: "/Savings-amico.svg", // Update with your downloaded image path
+  },
+  {
+    title: "Tiện lợi",
+    description:
+      "Dễ dàng tìm kiếm và đặt lịch các lớp học thể dục thể thao và các hoạt động giải trí gần bạn.",
+    icon: <IconMapPin size={rem(24)} color="#f5ac2d" />,
+    image: "/Date-picker-cuate.svg", // Update with your downloaded image path
+  },
+  {
+    title: "Đa dạng",
+    description:
+      "Tham gia các lớp yoga, gym, dance, bơi lội và nhiều hoạt động khác.",
+    icon: <IconGift size={rem(24)} color="#f5ac2d" />,
+    image: "/Gym-amico.svg", // Update with your downloaded image path
+  },
+];
+function FeatureSection() {
   return (
-    <Card shadow="md" p="md" radius="md" withBorder>
-      <ThemeIcon
-        variant="gradient"
-        gradient={{ from: "indigo", to: "cyan" }}
-        size={40}
-        radius="md"
-        className={classes.featureCardIcon}
-      >
-        {icon}
-      </ThemeIcon>
-      <Stack gap="md">
-        <Text fw={500} size="lg" mt="sm">
-          {title}
-        </Text>
-        <Text size="sm" color="dimmed" mt="xs">
-          {description}
-        </Text>
-      </Stack>
-    </Card>
+    <div className={classes.wrapper}>
+      <Container size={1200} className={classes["content-inner"]}>
+        <h2 className={classes.title}>Tính Năng Nổi Bật</h2>
+        <Grid gutter="lg">
+          {features.map((feature, index) => (
+            <GridCol key={index} span={12} md={4}>
+              <Card shadow="sm" padding="lg" className={classes.card}>
+                <CardSection>
+                  <Image src={feature.image} height={300} width={300}  alt={feature.title} />
+                </CardSection>
+                <ThemeIcon size={40} radius="xl" className={classes.icon}>
+                  {feature.icon}
+                </ThemeIcon>
+                <Text size="lg" fw={500} className={classes.cardTitle}>
+                  {feature.title}
+                </Text>
+                <Text
+                  size="sm"
+                  color="dimmed"
+                  className={classes.cardDescription}
+                >
+                  {feature.description}
+                </Text>
+              </Card>
+            </GridCol>
+          ))}
+        </Grid>
+      </Container>
+    </div>
   );
-}
+};
 
 export default FeatureSection;

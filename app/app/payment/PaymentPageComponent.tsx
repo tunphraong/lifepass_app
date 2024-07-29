@@ -42,17 +42,17 @@ const PaymentPageComponent = ({ userId }) => {
   const router = useRouter();
   const searchParams = useSearchParams();
   const scheduleId = searchParams.get("scheduleId") ?? null;
+  const studioId = searchParams.get("studioId") ?? null;
   const [selectedPaymentMethod, setSelectedPaymentMethod] =
     useState<string>("zalopay");
-  // console.log(scheduleId);
+  console.log("schedule ID", studioId);
+  console.log('studioId', studioId);
 
   const {
     data: schedule,
     error: scheduleError,
     isLoading: isScheduleLoading,
   } = useSWR(`/api/schedule/${scheduleId}`, fetcher);
-
-  console.log("schedule", schedule);
 
   const {
     data: studioData,
@@ -73,39 +73,28 @@ const PaymentPageComponent = ({ userId }) => {
   );
 
   const {
-    data: dynamicPriceData,
-    error: dynamicPriceError,
-    isLoading: isDynamicPricingLoading,
+    data: scheduleWithPrice,
+    error: scheduleWithPriceError,
+    isLoading: scheduleLoading,
   } = useSWR(
-    schedule && studioData && classData
-      ? [
-          `/api/calculate-price`,
-          {
-            studioId: studioData.id,
-            classId: classData.id,
-            startTime: schedule.start_time,
-            spotsRemaining: schedule.spots_remaining,
-          },
-        ]
-      : null,
-    ([url, body]) =>
-      fetch(url, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(body),
-      }).then((res) => res.json())
+    scheduleId
+      ? `/api/studio/${studioId}/schedule/${scheduleId}`
+      : null, // Change to new endpoint
+    fetcher
   );
 
-  console.log("dynamic", dynamicPriceData);
+  if (scheduleWithPriceError) {
+    console.log('scheduleWithPriceError', scheduleWithPriceError);
+  }
+
+  console.log('schedule with price' ,scheduleWithPrice);
+
 
   const isLoading =
     isScheduleLoading ||
     isStudioLoading ||
-    isClassLoading ||
-    isDynamicPricingLoading;
-  const error = scheduleError || studioError || classError || dynamicPriceError;
+    isClassLoading
+  const error = scheduleError || studioError || classError;
 
   console.log("studio", studioData);
 
@@ -119,8 +108,6 @@ const PaymentPageComponent = ({ userId }) => {
   }
   if (!schedule || !studioData || !classData) return <div>Not found.</div>;
 
-  const dynamicPrice = dynamicPriceData?.price ?? classData.price;
-
   // Calculate the end time based on duration
   const startTime = dayjs(schedule.start_time);
   const endTime = startTime.add(classData?.duration || 0, "minute");
@@ -131,7 +118,7 @@ const PaymentPageComponent = ({ userId }) => {
     // console.log("Proceed to payment for schedule:", schedule);
     // Implement payment logic here based on selectedPaymentMethod
     const paymentDetails = {
-      amount: dynamicPrice,
+      amount: scheduleWithPrice.price,
       bank_code: "zalopayapp",
       schedule_id: schedule.id,
       user_id: userId,
@@ -193,7 +180,7 @@ const PaymentPageComponent = ({ userId }) => {
           <Text>Lớp đã chọn: {classData.name}</Text>
           <Text>
             Giá:{" "}
-            {dynamicPrice.toLocaleString("vi-VN", {
+            {scheduleWithPrice.price.toLocaleString("vi-VN", {
               style: "currency",
               currency: "VND",
             })}

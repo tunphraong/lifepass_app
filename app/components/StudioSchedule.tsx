@@ -58,7 +58,7 @@ const StudioSchedule = ({ studioId }) => {
   const [selectedDay, setSelectedDay] = useState(currentDate);
 
   const handleEnroll = (schedule) => {
-    router.push(`/app/payment?scheduleId=${schedule.id}`);
+    router.push(`/app/payment?scheduleId=${schedule.id}&studioId=${schedule.studio_id}`);
   };
 
   const weekStart = selectedDay.startOf("week").format("YYYY-MM-DD");

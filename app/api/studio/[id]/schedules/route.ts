@@ -29,8 +29,6 @@ const fetchPricingRules = async (supabase, studioId) => {
   return data;
 };
 
-
-// Function to calculate dynamic price
 // Function to calculate dynamic price
 const calculateDynamicPrice = async (supabase, studioId, classData, startTime, spotsRemaining) => {
   const rules = await fetchPricingRules(supabase, studioId);

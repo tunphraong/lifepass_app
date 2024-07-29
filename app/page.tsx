@@ -17,7 +17,7 @@ import {
 import classes from "./HomePage.module.css";
 import Header from "./Header";
 import Footer from "./Footer";
-import FeatureSection from "./FeatureSection-1";
+import FeatureSection from "./FeatureSection";
 
 export default function HeroTitle() {
   return (
