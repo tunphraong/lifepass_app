@@ -55,7 +55,7 @@ function FeatureSection() {
         <h2 className={classes.title}>Tính Năng Nổi Bật</h2>
         <Grid gutter="lg">
           {features.map((feature, index) => (
-            <GridCol key={index} span={12} md={4}>
+            <GridCol key={index} span={12}>
               <Card shadow="sm" padding="lg" className={classes.card}>
                 <CardSection>
                   <Image src={feature.image} height={300} width={300}  alt={feature.title} />
