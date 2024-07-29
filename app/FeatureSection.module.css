@@ -1,0 +1,43 @@
+.wrapper {
+  background-color: #fcfaf9; /* nudge-white */
+  padding: 60px 0;
+}
+
+.content-inner {
+  color: #323d56; /* nudge-black */
+  text-align: center;
+}
+
+.title {
+  font-family: Greycliff CF, var(--mantine-font-family);
+  font-size: rem(42px);
+  font-weight: 700;
+  line-height: 1.2;
+  margin-bottom: 40px;
+  color: #323d56; /* nudge-black */
+}
+
+.card {
+  background-color: #ffffff;
+  border: 1px solid #eaeaea;
+  border-radius: 8px;
+}
+
+.icon {
+  background-color: #fcfaf9; /* nudge-white */
+  color: #f5ac2d; /* yellow */
+  margin: 20px auto;
+}
+
+.cardTitle {
+  font-size: 1.5rem;
+  font-weight: 600;
+  margin-top: 10px;
+  color: #323d56; /* nudge-black */
+}
+
+.cardDescription {
+  font-size: 1rem;
+  color: #6b7280; /* dimmed */
+  margin-top: 10px;
+}

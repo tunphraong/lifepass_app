@@ -3,6 +3,7 @@
   border-bottom: 1px solid #eaeaea;
   /* height: rem(56px); */
   margin-bottom: 16px;
+   display: flex;
 }
 
 .inner {

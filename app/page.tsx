@@ -17,6 +17,7 @@ import {
 import classes from "./HomePage.module.css";
 import Header from "./Header";
 import Footer from "./Footer";
+import FeatureSection from "./FeatureSection-1";
 
 export default function HeroTitle() {
   return (
@@ -95,6 +96,7 @@ export default function HeroTitle() {
           </Group>
         </Container>
       </div>
+      <FeatureSection />
       <Footer />
     </>
   );

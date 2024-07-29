@@ -8,6 +8,8 @@
 
   background-color: #fcfaf9; /* nudge-white */
   padding: 0 0;
+  display: flex;
+  flex-direction: column;
 }
 
 .inner {
@@ -15,6 +17,7 @@
   position: relative;
   padding-top: rem(50px) ;
   padding-bottom: rem(120px);
+    flex-grow: 1;
 
   @media (max-width: $mantine-breakpoint-sm) {
     padding-bottom: rem(80px);
