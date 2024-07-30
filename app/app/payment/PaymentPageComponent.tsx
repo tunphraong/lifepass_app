@@ -75,11 +75,9 @@ const PaymentPageComponent = ({ userId }) => {
   const {
     data: scheduleWithPrice,
     error: scheduleWithPriceError,
-    isLoading: scheduleLoading,
+    isLoading: scheduleWithPriceLoading,
   } = useSWR(
-    scheduleId
-      ? `/api/studio/${studioId}/schedule/${scheduleId}`
-      : null, // Change to new endpoint
+    scheduleId ? `/api/studio/${studioId}/schedule/${scheduleId}` : null, // Change to new endpoint
     fetcher
   );
 
@@ -93,10 +91,10 @@ const PaymentPageComponent = ({ userId }) => {
   const isLoading =
     isScheduleLoading ||
     isStudioLoading ||
-    isClassLoading
-  const error = scheduleError || studioError || classError;
-
-  console.log("studio", studioData);
+    isClassLoading ||
+    scheduleWithPriceLoading;
+  const error =
+    scheduleError || studioError || classError || scheduleWithPriceError;
 
   if (error) return <div>Error loading data. Please try again.</div>;
   if (isLoading) {
