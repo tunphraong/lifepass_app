@@ -4,15 +4,10 @@
 import { createHmac } from "crypto";
 import { NextRequest, NextResponse } from "next/server";
 import { createClient } from "../../../../utils/supabase/server";
-import { describe } from "node:test";
-import { timeStamp } from "console";
 const ZALOPAY_KEY1 = process.env.ZALOPAY_KEY1;
 const ZALOPAY_APP_ID = parseInt(process.env.ZALOPAY_APP_ID);
-const ZALOPAY_REFUND_ORDER_ENDPOINT = "https://sb-openapi.zalopay.vn/v2/refund";
+const ZALOPAY_REFUND_ORDER_ENDPOINT = process.env.ZALOPAY_REFUND_ORDER_ENDPOINT;
 import dayjs from "dayjs";
-
-// ... (import your Studio and Class interfaces from app/types.ts)
-const supabase = createClient();
 
 interface ZaloPayRefundResponse {
   success: boolean;
@@ -106,7 +101,7 @@ export async function PUT(request: NextRequest, { params }) {
     }
 
     // 3. Initiate refund with ZaloPay (replace with your actual implementation)
-    const refundResult = await initiateZaloPayRefund(transaction); // Placeholder function, you need to implement this
+    const refundResult = await initiateZaloPayRefund(supabase, transaction); // Placeholder function, you need to implement this
 
     if (!refundResult.success) {
       return NextResponse.json({ error: refundResult.error }, { status: 500 }); // Refund failed
@@ -172,6 +167,7 @@ export async function PUT(request: NextRequest, { params }) {
 }
 
 async function initiateZaloPayRefund(
+  supabase,
   transaction
 ): Promise<ZaloPayRefundResponse> {
   // ... your ZaloPay refund logic here ...
@@ -236,8 +232,6 @@ async function initiateZaloPayRefund(
   } else {
     return { success: false, error: "Refund failed. Please try again." }; // Example error message
   }
-
-  // update zalo payment table
 }
 
 function generateMacOrder(
