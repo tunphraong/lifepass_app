@@ -9,7 +9,7 @@ import { NextResponse } from "next/server";
 import { NextRequest } from "next/server";
 import { createClient } from "../../../utils/supabase/server";
 import dayjs from "dayjs";
-const HOST_URL = "https://9442cc5159a76dd0430645c99b7076bf.serveo.net";
+const HOST_URL = process.env.ZALOPAY_CALLBACK_URL;
 
 function generateUniqueCode(length: number): string {
   const characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
