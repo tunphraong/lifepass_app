@@ -83,10 +83,6 @@ export async function POST(req: NextRequest) {
       { status: 400 }
     );
   }
-
-  // let amount = 20000;
-
-  // console.log(amount, user_id, schedule_id);
   const reqtime = Date.now();
 
   const bank_code = "";
@@ -100,9 +96,9 @@ export async function POST(req: NextRequest) {
   const description = `LifePass_${app_trans_id}`;
   const item = [
     {
-      itemid: "knb",
-      itename: "kim nguyen bao",
-      itemprice: 198400,
+      itemid: schedule_id.toString(),
+      itename: description,
+      itemprice: amount,
       itemquantity: 1,
     },
   ];
@@ -146,8 +142,6 @@ export async function POST(req: NextRequest) {
     mac: mac,
   };
 
-  console.log(order);
-
   try {
     const response = await fetch(ZALOPAY_CREATE_ORDER_ENDPOINT, {
       method: "POST",
@@ -159,7 +153,6 @@ export async function POST(req: NextRequest) {
 
     const result = await response.json();
     if (result.return_code === 1) {
-      console.log(result);
 
       // Insert payment order into Supabase after successful order creation
       const { data, error } = await supabase
