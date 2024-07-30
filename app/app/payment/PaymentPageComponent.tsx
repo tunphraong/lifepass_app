@@ -27,7 +27,7 @@ import Image from "next/image";
 import classes from "./PaymentPage.module.css";
 import { showNotification } from "@mantine/notifications";
 // require("dayjs/locale/vi");
-import 'dayjs/locale/vi'
+import "dayjs/locale/vi";
 dayjs.locale("vi");
 // Define the type for the user prop
 interface User {
@@ -37,7 +37,6 @@ interface User {
 }
 
 const PaymentPageComponent = ({ userId }) => {
-  
   const [apiError, setApiError] = useState<string | null>(null);
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -46,7 +45,7 @@ const PaymentPageComponent = ({ userId }) => {
   const [selectedPaymentMethod, setSelectedPaymentMethod] =
     useState<string>("zalopay");
   console.log("schedule ID", studioId);
-  console.log('studioId', studioId);
+  console.log("studioId", studioId);
 
   const {
     data: schedule,
@@ -82,11 +81,10 @@ const PaymentPageComponent = ({ userId }) => {
   );
 
   if (scheduleWithPriceError) {
-    console.log('scheduleWithPriceError', scheduleWithPriceError);
+    console.log("scheduleWithPriceError", scheduleWithPriceError);
   }
 
-  console.log('schedule with price' ,scheduleWithPrice);
-
+  console.log("schedule with price", scheduleWithPrice);
 
   const isLoading =
     isScheduleLoading ||
@@ -131,13 +129,20 @@ const PaymentPageComponent = ({ userId }) => {
     })
       .then((response) => response.json())
       .then((data) => {
+        console.log("data", data);
         if (data.error) {
           // Set the API error state if there's an error
-          setApiError(data.error); // Set the API error state
-          showNotification({
-            title: "Error",
-            message: data.error || "Booking failed. Please try again.",
+          // setApiError(data.error); // Set the API error state
+          setApiError(
+            "Thanh toán không thành công. Xin liêc lạc với LifePass nếu vấn đề vẫn tiếp tục."
+          );
+          notifications.show({
             color: "red",
+            title: "Payment error",
+            message:
+              "Thanh toán không thành công. Xin liêc lạc với LifePass nếu vấn đề vẫn tiếp tục.",
+            autoClose: false,
+            classNames: classes,
           });
         } else {
           router.push(data.order_url);
@@ -185,8 +190,7 @@ const PaymentPageComponent = ({ userId }) => {
           </Text>
 
           <Text>
-            Ngày:{" "}
-            {dayjs(schedule?.start_time).format("dddd, DD MMMM, YYYY")}
+            Ngày: {dayjs(schedule?.start_time).format("dddd, DD MMMM, YYYY")}
           </Text>
           <Text>
             Thời gian: {dayjs(schedule?.start_time).format("h:mm A")} -{" "}
@@ -260,9 +264,7 @@ const PaymentPageComponent = ({ userId }) => {
           <Text fw={500} size="md">
             Lưu ý:
           </Text>
-          <Text size="sm">
-            Bạn cần hủy lớp trước 12 giờ để được hoàn tiền.
-          </Text>
+          <Text size="sm">Bạn cần hủy lớp trước 12 giờ để được hoàn tiền.</Text>
         </Group>
       </Alert>
     </Stack>

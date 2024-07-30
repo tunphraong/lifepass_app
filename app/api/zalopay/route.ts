@@ -1,10 +1,7 @@
-// const crypto = require("crypto");
 import { createHmac } from "crypto";
-import { randomBytes } from "crypto";
-
 const ZALOPAY_APP_ID = parseInt(process.env.ZALOPAY_APP_ID);
 const ZALOPAY_KEY1 = process.env.ZALOPAY_KEY1;
-const ZALOPAY_CREATE_ORDER_ENDPOINT = "https://sb-openapi.zalopay.vn/v2/create";
+const ZALOPAY_CREATE_ORDER_ENDPOINT = process.env.ZALOPAY_CREATE_ORDER_ENDPOINT;
 import { NextResponse } from "next/server";
 import { NextRequest } from "next/server";
 import { createClient } from "../../../utils/supabase/server";
@@ -102,6 +99,8 @@ export async function POST(req: NextRequest) {
       itemquantity: 1,
     },
   ];
+
+  console.log(item);
 
   const result = generateMacOrder(
     ZALOPAY_APP_ID,
