@@ -10,7 +10,7 @@ import StudioSchedule from "../../../components/StudioSchedule";
 
 const StudioPage = ({ params }: any) => {
   const { id } = params;
-  console.log('id', id);
+  // console.log('id', id);
   const {
     data: studio,
     error,

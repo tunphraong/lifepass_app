@@ -44,8 +44,6 @@ const PaymentPageComponent = ({ userId }) => {
   const studioId = searchParams.get("studioId") ?? null;
   const [selectedPaymentMethod, setSelectedPaymentMethod] =
     useState<string>("zalopay");
-  console.log("schedule ID", studioId);
-  console.log("studioId", studioId);
 
   const {
     data: schedule,
@@ -84,7 +82,7 @@ const PaymentPageComponent = ({ userId }) => {
     console.log("scheduleWithPriceError", scheduleWithPriceError);
   }
 
-  console.log("schedule with price", scheduleWithPrice);
+  // console.log("schedule with price", scheduleWithPrice);
 
   const isLoading =
     isScheduleLoading ||

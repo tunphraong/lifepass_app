@@ -49,12 +49,9 @@ export default function LoginPage(props: PaperProps) {
   });
 
   const handleSubmit = async (values: typeof form.values) => {
-    console.log("handle submit");
     const formData = new FormData();
     formData.append("email", values.email);
     formData.append("password", values.password);
-    console.log("get here", values);
-    console.log(type);
     try {
       if (type === "login") {
         await login(formData);

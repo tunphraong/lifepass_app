@@ -30,7 +30,7 @@ const PaymentResultPage = () => {
   const status = searchParams.get("status") ?? null;
   const apptransid = searchParams.get("apptransid") ?? null;
 
-  console.log("apptransid", apptransid);
+  // console.log("apptransid", apptransid);
 
   // const {
   //   data: paymentResult,

@@ -75,7 +75,7 @@ export default function UpcomingPage({ user }: { user: User | null }) {
         setRefundStatus("success");
       } else {
         const errorData = await refundResponse.json();
-        console.log(errorData);
+        // console.log(errorData);
          setRefundStatus(`Đã có lỗi: ${errorData.error}`);
       }
     } catch (error) {
@@ -91,7 +91,7 @@ export default function UpcomingPage({ user }: { user: User | null }) {
 
   useEffect(() => {
     if (data) {
-      console.log("data", data);
+      // console.log("data", data);
       const formattedBookings: BookingWithDetails[] = data.map((booking) => ({
         ...booking,
         classes: booking.classes, // Extract the classes object
@@ -99,10 +99,10 @@ export default function UpcomingPage({ user }: { user: User | null }) {
         studios: booking.studios.studios, // Extract the studios object
       }));
 
-      console.log("format bookings", formattedBookings);
+      // console.log("format bookings", formattedBookings);
       setBookings(formattedBookings as BookingWithDetails[]);
       setIsLoading(false);
-      console.log(bookings);
+      // console.log(bookings);
     }
   }, [data]);
 
@@ -134,7 +134,7 @@ export default function UpcomingPage({ user }: { user: User | null }) {
 
       <Group gap="md">
         {bookings.map((booking) => {
-          console.log('booking', booking);
+          // console.log('booking', booking);
           const { schedules, classes, studios, payments } = booking;
           const startTime = dayjs(schedules.start_time);
           const endTime = startTime.add(classes.duration, "minute");
