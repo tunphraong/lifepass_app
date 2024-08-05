@@ -30,7 +30,13 @@ const fetchPricingRules = async (supabase, studioId) => {
 };
 
 // Function to calculate dynamic price
-const calculateDynamicPrice = async (supabase, studioId, classData, startTime, spotsRemaining) => {
+const calculateDynamicPrice = async (
+  supabase,
+  studioId,
+  classData,
+  startTime,
+  spotsRemaining
+) => {
   const rules = await fetchPricingRules(supabase, studioId);
   let finalPrice = classData.price;
   const startTimeOfDayjs = dayjs(startTime);
@@ -40,7 +46,8 @@ const calculateDynamicPrice = async (supabase, studioId, classData, startTime, s
   rules.forEach((rule) => {
     if (
       (rule.time_of_day === "all" || rule.time_of_day === timeOfDay) &&
-      (rule.day_of_week === "all" || rule.day_of_week === startTimeOfDayjs.format("dddd").toLowerCase())
+      (rule.day_of_week === "all" ||
+        rule.day_of_week === startTimeOfDayjs.format("dddd").toLowerCase())
     ) {
       finalPrice *= rule.price_multiplier;
     }
@@ -55,9 +62,10 @@ export async function GET(request, { params }) {
   const { searchParams } = new URL(request.url);
   // const date = searchParams.get("date");
   const weekStart = searchParams.get("weekStart");
-  const weekEnd = searchParams.get("weekEnd");
+  let weekEnd = searchParams.get("weekEnd");
 
   // console.log(date);
+  console.log(weekEnd, weekStart);
 
   if (!weekStart || !weekEnd) {
     return NextResponse.json(
@@ -66,13 +74,14 @@ export async function GET(request, { params }) {
     );
   }
 
-  //   const { data, error } = await supabase
-  //     .from("schedules")
-  //     .select("*")
-  //     .eq("studio_id", id);
-  // const formattedDate = dayjs(date).format("YYYY-MM-DD");
-  // const formattedStartDate = dayjs(startDate).format("YYYY-MM-DD");
-  // const formattedEndDate = dayjs(endDate).format("YYYY-MM-DD");
+  // Ensure weekEnd is not more than 2 weeks from today
+  const today = dayjs().startOf("day");
+  const maxDate = today.add(2, "week").endOf("day");
+  let endDate = dayjs(weekEnd).endOf("day");
+
+  if (endDate.isAfter(maxDate)) {
+    weekEnd = maxDate.format("YYYY-MM-DD");
+  }
 
   console.log("get here", weekStart, weekEnd);
   const { data: schedules, error: schedulesError } = await supabase

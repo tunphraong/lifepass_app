@@ -113,11 +113,14 @@ const StudioSchedule = ({ studioId, filter, onClassClick }) => {
   if (!schedules) return <div>Loading...</div>;
   // console.log(schedules);
 
-  const handleDayChange = (newDay) => {
-    if (newDay.isAfter(dayjs().startOf("day").subtract(1, "day"))) {
-      setSelectedDay(newDay);
-    }
-  };
+   const handleDayChange = (newDay) => {
+     if (newDay.isAfter(dayjs().startOf("day").subtract(1, "day"))) {
+       if (newDay.isAfter(selectedDay.endOf("week"))) {
+         handleWeekChange(1);
+       }
+       setSelectedDay(newDay);
+     }
+   };
 
   const handleWeekChange = (direction) => {
     const newDate = currentDate.add(direction, "week");
@@ -186,7 +189,7 @@ const StudioSchedule = ({ studioId, filter, onClassClick }) => {
           {[...Array(7)].map((_, i) => {
             const day = currentDate.startOf("week").add(i, "day");
             return (
-              <Button
+              <Button 
                 key={i}
                 variant={selectedDay.isSame(day, "day") ? "filled" : "outline"}
                 color="yellow"
@@ -248,12 +251,24 @@ const StudioSchedule = ({ studioId, filter, onClassClick }) => {
           ))
         ) : (
           <Center>
-            <Text fw={500} size="xl">
-              Không có lớp nào được lên lịch cho ngày này. Quý khách lòng chọn
-              ngày khác.
-            </Text>
+            <Stack gap="sm" align="center">
+              <Text fw={500} size="xl">
+                Không có lớp nào được lên lịch cho ngày này. Quý khách lòng chọn
+                ngày khác.
+              </Text>
+            </Stack>
           </Center>
         )}
+
+        <Button
+          variant="outline"
+          color="yellow"
+          radius="xl"
+          size="md"
+          onClick={() => handleDayChange(selectedDay.add(1, "day"))}
+        >
+          Chuyển sang ngày kế tiếp
+        </Button>
       </Stack>
     </>
   );
