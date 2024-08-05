@@ -33,7 +33,7 @@ import isSameOrBefore from "dayjs/plugin/isSameOrBefore"; // ES 2015
 
 dayjs.extend(isSameOrBefore);
 
-const StudioSchedule = ({ studioId }) => {
+const StudioSchedule = ({ studioId, filter, onClassClick }) => {
   const fetcher = async (url) => {
     const response = await fetch(url);
     const data = await response.json();
@@ -56,9 +56,24 @@ const StudioSchedule = ({ studioId }) => {
   const endDate = dayjs(date).endOf("week").format("YYYY-MM-DD");
   const [currentDate, setCurrentDate] = useState(dayjs().startOf("day"));
   const [selectedDay, setSelectedDay] = useState(currentDate);
+  const [selectedClassName, setSelectedClassName] = useState<string | null>(
+    null
+  );
 
   const handleEnroll = (schedule) => {
-    router.push(`/app/payment?scheduleId=${schedule.id}&studioId=${schedule.studio_id}`);
+    router.push(
+      `/app/payment?scheduleId=${schedule.id}&studioId=${schedule.studio_id}`
+    );
+  };
+
+  // const handleClassClick = (schedule) => {
+  //   const className = schedule.classes.name.toLowerCase().replace(/ /g, "-");
+  //   router.push(`/app/classes/${schedule.studio_id}/${className}`);
+  // };
+
+  // Function to handle class name click
+  const handleClassNameClick = (className: string) => {
+    setSelectedClassName(className); // Update selected class name state
   };
 
   const weekStart = selectedDay.startOf("week").format("YYYY-MM-DD");
@@ -117,7 +132,7 @@ const StudioSchedule = ({ studioId }) => {
       style: "currency",
       currency: "VND",
     }).format(price);
-  }; 
+  };
 
   const filteredSchedules = schedules.filter(
     (schedule) =>
@@ -125,7 +140,8 @@ const StudioSchedule = ({ studioId }) => {
       dayjs(schedule.start_time).isAfter(dayjs()) &&
       schedule.lifepass_spots > 0 &&
       schedule.enrolled < schedule.lifepass_spots &&
-      schedule.price > 0
+      schedule.price > 0 &&
+      (!filter || schedule.classes.name === filter) // Apply filter
   );
 
   return (
@@ -196,7 +212,13 @@ const StudioSchedule = ({ studioId }) => {
             >
               <Group justify="space-between" grow>
                 <div>
-                  <Text fw={500}>{schedule.classes.name}</Text>
+                  <Text
+                    fw={500}
+                    onClick={() => onClassClick(schedule.classes)}
+                    className={styles.classNameButton}
+                  >
+                    {schedule.classes.name}
+                  </Text>
                   <Text size="sm" c="dimmed">
                     <IconClock size={16} style={{ verticalAlign: "middle" }} />{" "}
                     {dayjs(schedule.start_time).format("h:mm A")} -{" "}
@@ -226,7 +248,10 @@ const StudioSchedule = ({ studioId }) => {
           ))
         ) : (
           <Center>
-            <Text fw={500} size="xl">Không có lớp nào được lên lịch cho ngày này. Quý khách lòng chọn ngày khác.</Text>
+            <Text fw={500} size="xl">
+              Không có lớp nào được lên lịch cho ngày này. Quý khách lòng chọn
+              ngày khác.
+            </Text>
           </Center>
         )}
       </Stack>

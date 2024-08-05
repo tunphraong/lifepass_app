@@ -32,13 +32,14 @@ import {
   IconParking,
   IconWallpaper,
   IconYoga,
-  IconDroplet
+  IconDroplet,
 } from "@tabler/icons-react";
 import Image from "next/image";
 import StudioSchedule from "./StudioSchedule";
 import styles from "./StudioInfo.module.css";
 import Link from "next/link";
 import StudioAddress from "./StudioAddress";
+import { useState } from "react"; // Import useState
 
 interface StudioInfoProps {
   //   studio: Studio;
@@ -61,8 +62,6 @@ export function StudioInfo({ studio }: StudioInfoProps) {
     prepare,
   } = studio;
 
-  // console.log(studio);
-
   // Map amenities to corresponding icons (you'll need to import these icons)
   const amenityIcons = {
     Shower: <IconBath size={16} />,
@@ -74,54 +73,107 @@ export function StudioInfo({ studio }: StudioInfoProps) {
     // Add more amenity mappings as needed
   };
 
+  const [activeTab, setActiveTab] = useState<string | null>("info"); // State for active tab
+  // const handleTabChange = (value: string | null) => {
+  //   setActiveTab(value);
+  //   if (value === "info") {
+  //     setSelectedClassName(null); // Reset selected class when switching to Info tab
+  //   }
+  // };
+
+  const [selectedClass, setSelectedClass] = useState(null); // State to manage selected class
+  const [classFilter, setClassFilter] = useState(""); // State to manage class filter
+
+  const handleClassClick = (classInfo) => {
+    setSelectedClass(classInfo);
+    setClassFilter(classInfo.name);
+    setActiveTab("schedule");
+  };
+
   return (
     <Box mt={4}>
-      <Group align="center" justify="space-between">
-        <Title
-          order={2}
-          // color="yellow"
-        >
-          {name} 🌟
-        </Title>
-        <Image
-          src={"/test-icon.jpg"}
-          // src={imageUrl} // Assuming imageUrl is provided from props
-          width={70}
-          height={70}
-          alt={name}
-          className={styles.studioImage}
-        />
-      </Group>
-
-      <Group mt="md" align="center">
-        <ThemeIcon color="gray" variant="light">
-          <IconMapPin size={16} />
-        </ThemeIcon>
-        <Text size="sm" color="dimmed">
-          {location}
-        </Text>
-      </Group>
-
-      <Spoiler
-        maxHeight={60}
-        showLabel={<Text color="yellow">Đọc thêm</Text>}
-        hideLabel={<Text color="yellow">Ẩn</Text>}
-        mt="md"
+      <Tabs
+        value={activeTab}
+        defaultValue="info"
+        mt="lg"
+        onChange={setActiveTab}
       >
-        <Text color="dimmed">{description}</Text>
-      </Spoiler>
-
-      <Tabs defaultValue="info" mt="lg">
         <Tabs.List grow>
           <Tabs.Tab value="info">Thông tin ℹ️</Tabs.Tab>
           <Tabs.Tab value="schedule">Lịch 📅</Tabs.Tab>
         </Tabs.List>
 
         <Tabs.Panel value="schedule">
-          <StudioSchedule studioId={studio.id}></StudioSchedule>
+          <Group align="center" justify="space-between">
+            <Title
+              order={2}
+              // color="yellow"
+            >
+              {name} 🌟
+            </Title>
+            <Image
+              src={"/test-icon.jpg"}
+              // src={imageUrl} // Assuming imageUrl is provided from props
+              width={70}
+              height={70}
+              alt={name}
+              className={styles.studioImage}
+            />
+          </Group>
+
+          {selectedClass ? (
+            <Spoiler
+              maxHeight={60}
+              showLabel={<Text color="yellow">Read more</Text>}
+              hideLabel={<Text color="yellow">Hide</Text>}
+              mt="md"
+            >
+              <Text color="dimmed">{selectedClass.description}</Text>
+            </Spoiler>
+          ) : (
+            <Text color="dimmed">
+              No class selected. Please select a class to see its description.
+            </Text>
+          )}
+
+          <Divider my="md" />
+
+          <StudioSchedule
+            studioId={studio.id}
+            filter={classFilter}
+            onClassClick={handleClassClick}
+          />
         </Tabs.Panel>
 
         <Tabs.Panel value="info" className={styles.tabPanel}>
+          <Group align="center" justify="space-between">
+            <Title
+              order={2}
+              // color="yellow"
+            >
+              {name} 🌟
+            </Title>
+            <Image
+              src={"/test-icon.jpg"}
+              // src={imageUrl} // Assuming imageUrl is provided from props
+              width={70}
+              height={70}
+              alt={name}
+              className={styles.studioImage}
+            />
+          </Group>
+
+          <Spoiler
+            maxHeight={60}
+            showLabel={<Text color="yellow">Read more</Text>}
+            hideLabel={<Text color="yellow">Hide</Text>}
+            mt="md"
+          >
+            <Text color="dimmed">{description}</Text>
+          </Spoiler>
+
+          <Divider my="md" />
+
           <StudioAddress address={address}></StudioAddress>
           <Group mt={3} align="center">
             <ThemeIcon size={24} radius="md" color="yellow">
@@ -189,7 +241,11 @@ export function StudioInfo({ studio }: StudioInfoProps) {
 
           <Stack gap="sm">
             <Title order={3}>Đặt lớp 🎟️</Title>
-            <StudioSchedule studioId={studio.id}></StudioSchedule>
+            <StudioSchedule
+              studioId={studio.id}
+              filter=""
+              onClassClick={handleClassClick}
+            ></StudioSchedule>
           </Stack>
 
           <Space h="xl" />
