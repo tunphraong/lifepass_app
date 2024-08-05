@@ -253,7 +253,7 @@ const StudioSchedule = ({ studioId, filter, onClassClick }) => {
           <Center>
             <Stack gap="sm" align="center">
               <Text fw={500} size="xl">
-                Không có lớp nào được lên lịch cho ngày này. Quý khách lòng chọn
+                Không có lớp nào được lên lịch cho ngày này. Quý khách vui lòng chọn
                 ngày khác.
               </Text>
             </Stack>
