@@ -67,7 +67,7 @@ export default function RootLayout({
     <html lang={params.lang} style={{ backgroundColor: "#fcfaf9" }}>
       <head>
         <ColorSchemeScript />
-        <link rel="shortcut icon" href="/favicon.svg" />
+        <link rel="shortcut icon" href="/favicon.ico" />
         <meta
           name="viewport"
           content="minimum-scale=1, initial-scale=1, width=device-width, user-scalable=no"
