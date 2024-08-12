@@ -13,12 +13,13 @@ import {
 import { useDisclosure } from "@mantine/hooks";
 import classes from "./Navbar.module.css";
 import React, { useState, useEffect } from "react";
-import Link from "next/link";
-import { createClient } from "../../utils/supabase/client";
-import { useRouter } from "next/navigation";
+import { Link } from "../../../navigation";
+import { createClient } from "../../../utils/supabase/client";
+import { useRouter } from "../../../navigation";
 import { Session } from "@supabase/supabase-js"; // Import Session type
 import LoginForm from "../components/LoginForm"; // Import LoginForm component
 import styles from "./layout.module.css";
+import LocaleSwitcher from "../../components/LocaleSwitcher";
 
 export default function MobileNavbar({
   children,
@@ -100,10 +101,12 @@ Readonly<{
               size="sm"
             />
             <Group justify="space-between" style={{ flex: 1 }}>
-              {/* <MantineLogo size={30} /> */}
-              <UnstyledButton component="a" href="/app/search" className={`${classes.control}`}>
-                LifePass
-              </UnstyledButton>
+              <Link href="/app/search" className={classes.link} passHref>
+                <UnstyledButton component="a" className={`${classes.control}`}>
+                  LifePass
+                </UnstyledButton>
+              </Link>
+
               <Group ml="xl" gap={0} visibleFrom="sm">
                 <Link href="/app/search" className={classes.link} passHref>
                   <UnstyledButton className={`${classes.control}`}>
@@ -158,6 +161,7 @@ Readonly<{
                     </UnstyledButton>
                   </Link>
                 )}
+                <LocaleSwitcher />
               </Group>
             </Group>
           </Group>
@@ -229,6 +233,7 @@ Readonly<{
               Đăng Nhập
             </UnstyledButton>
           )}
+          <LocaleSwitcher />
         </AppShell.Navbar>
 
         <AppShell.Main className={styles.container}>

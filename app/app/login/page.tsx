@@ -1,4 +1,3 @@
-
 import { redirect } from "../../../../navigation";
 import { createClient } from "../../../../utils/supabase/server";
 
