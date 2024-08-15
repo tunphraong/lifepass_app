@@ -62,16 +62,21 @@ export function StudioInfo({ studio }: StudioInfoProps) {
     prepare,
   } = studio;
 
-  // Map amenities to corresponding icons (you'll need to import these icons)
-  const amenityIcons = {
-    Shower: <IconBath size={16} />,
-    Locker: <IconLock size={16} />,
-    Mat: <IconYoga size={16} />,
-    Towel: <IconWallpaper size={16} />,
-    Parking: <IconParking size={16} />,
-    Water: <IconDroplet size={16} />,
-    // Add more amenity mappings as needed
-  };
+  let logo;
+  logo = "/test-icon.jpg";
+  if (name == "Reborn Fitness & Health") {
+    logo = "/reborn.png";
+  }
+    // Map amenities to corresponding icons (you'll need to import these icons)
+    const amenityIcons = {
+      Shower: <IconBath size={16} />,
+      Locker: <IconLock size={16} />,
+      Mat: <IconYoga size={16} />,
+      Towel: <IconWallpaper size={16} />,
+      Parking: <IconParking size={16} />,
+      Water: <IconDroplet size={16} />,
+      // Add more amenity mappings as needed
+    };
 
   const [activeTab, setActiveTab] = useState<string | null>("info"); // State for active tab
   // const handleTabChange = (value: string | null) => {
@@ -112,7 +117,7 @@ export function StudioInfo({ studio }: StudioInfoProps) {
               {name} 🌟
             </Title>
             <Image
-              src={"/test-icon.jpg"}
+              src={logo}
               // src={imageUrl} // Assuming imageUrl is provided from props
               width={70}
               height={70}
@@ -148,16 +153,16 @@ export function StudioInfo({ studio }: StudioInfoProps) {
         <Tabs.Panel value="info" className={styles.tabPanel}>
           <Group align="center" justify="space-between">
             <Title
-              order={2}
+              order={3}
               // color="yellow"
             >
               {name} 🌟
             </Title>
             <Image
-              src={"/test-icon.jpg"}
+              src={logo}
               // src={imageUrl} // Assuming imageUrl is provided from props
-              width={70}
-              height={70}
+              width={100}
+              height={100}
               alt={name}
               className={styles.studioImage}
             />
