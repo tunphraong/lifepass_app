@@ -1,6 +1,7 @@
 import { createClient } from "../../../utils/supabase/server";
 import UpcomingPage from "./Upcoming";
-import { redirect } from "next/navigation";
+// import { redirect } from "next/navigation";
+import {redirect } from "../../../../navigation"
 
 
 export const dynamic = "force-dynamic";

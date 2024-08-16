@@ -9,7 +9,8 @@ import {
   CardSection,
 } from "@mantine/core";
 import { createClient } from "../../utils/supabase/client";
-import Link from "next/link";
+// import Link from "next/link";
+import { Link } from "../../navigation";
 
 // interface StudioCardProps {
 //   studio: Studio; // Assuming you have a Studio interface defined

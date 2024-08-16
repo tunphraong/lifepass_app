@@ -7,6 +7,7 @@ import { NextRequest } from "next/server";
 import { createClient } from "../../../utils/supabase/server";
 import dayjs from "dayjs";
 const HOST_URL = process.env.ZALOPAY_CALLBACK_URL;
+import { getLocale } from "next-intl/server";
 
 function generateUniqueCode(length: number): string {
   const characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
@@ -69,8 +70,7 @@ function generateMacOrder(
 
 export async function POST(req: NextRequest) {
   const supabase = createClient();
-  const { user_id, schedule_id, amount } = await req.json();
-  console.log("user id", user_id);
+  const { user_id, schedule_id, amount, locale } = await req.json();
 
   // Check if the class is in the past
   const isInPast = await isClassInPast(schedule_id);
@@ -85,8 +85,9 @@ export async function POST(req: NextRequest) {
   const bank_code = "";
   const embed_data = {
     preferred_payment_method: [],
-    redirecturl: `${HOST_URL}/app/payment-result`,
+    redirecturl: `${HOST_URL}${locale}/app/payment-result`,
   };
+  console.log(embed_data);
 
   const unique_code = generateUniqueCode(7);
   const app_trans_id = generateOrderId(unique_code);

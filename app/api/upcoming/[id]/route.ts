@@ -2,8 +2,8 @@
 // app/api/studio/[id]/route.js
 import { NextResponse } from "next/server";
 import { createClient } from "../../../../utils/supabase/server";
-import { redirect } from "next/navigation";
-import { BookingWithDetails } from "../../../app/types";
+import { redirect } from "../../../../navigation";
+import { BookingWithDetails } from "../../../[locale]/app/types";
 
 export async function GET(request, { params }) {
   const supabase = createClient();

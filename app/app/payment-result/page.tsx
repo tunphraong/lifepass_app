@@ -25,7 +25,6 @@ dayjs.locale("vi");
 const fetcher = (url: any) => fetch(url).then((res) => res.json());
 
 const PaymentResultPage = () => {
-  const router = useRouter();
   const searchParams = useSearchParams();
   const status = searchParams.get("status") ?? null;
   const apptransid = searchParams.get("apptransid") ?? null;

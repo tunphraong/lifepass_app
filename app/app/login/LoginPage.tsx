@@ -17,8 +17,6 @@ import {
 } from "@mantine/core";
 // import { useFormState } from "react-dom";
 import { login, signup } from "./action";
-import { useRouter } from "next/navigation";
-import Link from "next/link";
 import { SubmitButton } from "./submit-button";
 import { useToggle, upperFirst } from "@mantine/hooks";
 import { useForm } from "@mantine/form";

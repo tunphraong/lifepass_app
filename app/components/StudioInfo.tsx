@@ -37,9 +37,10 @@ import {
 import Image from "next/image";
 import StudioSchedule from "./StudioSchedule";
 import styles from "./StudioInfo.module.css";
-import Link from "next/link";
+import { Link } from "../../navigation";
 import StudioAddress from "./StudioAddress";
 import { useState } from "react"; // Import useState
+import { log } from "console";
 
 interface StudioInfoProps {
   //   studio: Studio;
@@ -65,18 +66,19 @@ export function StudioInfo({ studio }: StudioInfoProps) {
   let logo;
   logo = "/test-icon.jpg";
   if (name == "Reborn Fitness & Health") {
-    logo = "/reborn.png";
+    logo = "/reborn.png"
   }
-    // Map amenities to corresponding icons (you'll need to import these icons)
-    const amenityIcons = {
-      Shower: <IconBath size={16} />,
-      Locker: <IconLock size={16} />,
-      Mat: <IconYoga size={16} />,
-      Towel: <IconWallpaper size={16} />,
-      Parking: <IconParking size={16} />,
-      Water: <IconDroplet size={16} />,
-      // Add more amenity mappings as needed
-    };
+
+  // Map amenities to corresponding icons (you'll need to import these icons)
+  const amenityIcons = {
+    Shower: <IconBath size={16} />,
+    Locker: <IconLock size={16} />,
+    Mat: <IconYoga size={16} />,
+    Towel: <IconWallpaper size={16} />,
+    Parking: <IconParking size={16} />,
+    Water: <IconDroplet size={16} />,
+    // Add more amenity mappings as needed
+  };
 
   const [activeTab, setActiveTab] = useState<string | null>("info"); // State for active tab
   // const handleTabChange = (value: string | null) => {

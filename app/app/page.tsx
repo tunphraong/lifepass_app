@@ -1,5 +1,6 @@
 // import { CardWithStats } from "../../components/CardWithStats";
-import { redirect } from "next/navigation";
+import { redirect } from "../../../navigation";
+
 
 export default function Home() {
    redirect("/app/search");

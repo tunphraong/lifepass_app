@@ -15,7 +15,8 @@ import {
   Stack,
 } from "@mantine/core";
 import GoogleButton from "./GoogleButton";
-import { useRouter } from "next/navigation";
+// import { useRouter } from "next/navigation";
+import { useRouter } from "../../../../navigation";
 
 export default function AuthenticationForm(props: PaperProps) {
   const router = useRouter();

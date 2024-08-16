@@ -1,5 +1,8 @@
 "use client";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useSearchParams } from "next/navigation";
+import { useRouter } from "../../../../navigation";
+// import { usePathname } from "../../../../navigation";
+import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 import {
   Button,
@@ -22,10 +25,9 @@ import { Schedule, Class, Studio } from "../types";
 import useSWR from "swr";
 import dayjs from "dayjs";
 const fetcher = (url: any) => fetch(url).then((res) => res.json());
-import ZaloPayIcon from "../../../public/payments/logo-zalopay.svg"; // Replace with your actual icon path
+import { useTranslations } from "next-intl";
 import Image from "next/image";
 import classes from "./PaymentPage.module.css";
-import { showNotification } from "@mantine/notifications";
 // require("dayjs/locale/vi");
 import "dayjs/locale/vi";
 dayjs.locale("vi");
@@ -39,6 +41,11 @@ interface User {
 const PaymentPageComponent = ({ userId }) => {
   const [apiError, setApiError] = useState<string | null>(null);
   const router = useRouter();
+  const pathname = usePathname();
+  const parts = pathname.split("/");
+  const localePrefix = parts.length > 1 ? `/${parts[1]}` : "";
+  console.log(localePrefix); // Example output: "/en"
+
   const searchParams = useSearchParams();
   const scheduleId = searchParams.get("scheduleId") ?? null;
   const studioId = searchParams.get("studioId") ?? null;
@@ -116,6 +123,7 @@ const PaymentPageComponent = ({ userId }) => {
       bank_code: "zalopayapp",
       schedule_id: schedule.id,
       user_id: userId,
+      locale: localePrefix
     };
 
     fetch("/api/zalopay", {

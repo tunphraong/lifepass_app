@@ -2,7 +2,7 @@
 
 import { createClient } from "../../../utils/supabase/client";
 import AuthenticationForm from "./AuthenticationForm";
-import { redirect } from "next/navigation";
+import { redirect } from "../../../../navigation";
 
 export default async function Login() {
    const supabase = createClient();

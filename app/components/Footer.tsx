@@ -1,7 +1,7 @@
 'use client'
 import { Container, Group, Anchor } from "@mantine/core";
 import classes from "./Footer.module.css";
-import Link from "next/link";
+import { Link } from "../../navigation";
 
 const links = [
   { link: "/contact", label: "Contact" },

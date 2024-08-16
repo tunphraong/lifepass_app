@@ -25,7 +25,7 @@ import {
 } from "@tabler/icons-react"; // Import arrow icons
 import styles from "./StudioSchedule.module.css";
 import { useDisclosure, useMediaQuery } from "@mantine/hooks";
-import { useRouter } from "next/navigation";
+import { useRouter } from "../../navigation";
 import { IconChevronRight, IconCalendar } from "@tabler/icons-react";
 import { createClient } from "../../utils/supabase/client";
 require("dayjs/locale/vi");

@@ -1,5 +1,7 @@
-import { redirect } from "next/navigation";
-import { createClient } from "../../../utils/supabase/server";
+
+import { redirect } from "../../../../navigation";
+import { createClient } from "../../../../utils/supabase/server";
+
 import LoginPage from "./LoginPage";
 export const dynamic = "force-dynamic";
 
