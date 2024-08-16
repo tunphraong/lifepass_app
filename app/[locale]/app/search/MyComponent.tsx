@@ -28,13 +28,8 @@ const fetcher = async (url: string) => {
 };
 
 
-export default function MyComponent({loggedIn}) {
+export default function MyComponent() {
 
-const router = useRouter();
-  if (!loggedIn) {
-    router.push("/app/login")
-  }
-  
   const {
     data: studios,
     error,
