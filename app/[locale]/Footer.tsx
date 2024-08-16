@@ -36,12 +36,11 @@ export default function Footer() {
             Contact Us
           </Button>
 
-          <Button variant="subtle" component="a" href="/faq" color="dark">
-            <IconQuestionMark />
-            FAQ
-          </Button>
-
-          <Link href="/about">About
+          <Link href="/faq">
+            <Button variant="subtle" component="a" color="dark">
+              <IconQuestionMark />
+              FAQ
+            </Button>
           </Link>
 
           {/* <Button variant="subtle" component="a" href="/faq" color="dark">
