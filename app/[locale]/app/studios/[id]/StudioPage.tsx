@@ -14,6 +14,8 @@ const StudioPage = ({ id, loggedIn }: any) => {
     isLoading,
   } = useSWR(`/api/studio/${id}`, fetcher);
 
+  const isUserLoggedIn = loggedIn;
+
   console.log('logged in', loggedIn);
 
   if (error) {
@@ -36,7 +38,7 @@ const StudioPage = ({ id, loggedIn }: any) => {
   return (
     <>
       <StudioImagesCarousel studio={studio} isLoading={isLoading} />
-      <StudioInfo studio={studio}></StudioInfo>
+      <StudioInfo studio={studio} loggedIn={isUserLoggedIn}></StudioInfo>
       {/* <StudioSchedule studioId={studio.id}></StudioSchedule> */}
     </>
   );

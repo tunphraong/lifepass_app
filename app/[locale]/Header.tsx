@@ -5,7 +5,6 @@ import { IconChevronDown } from "@tabler/icons-react";
 // import { MantineLogo } from "@mantinex/mantine-logo";
 import classes from "./Header.module.css";
 import LocaleSwitcher from "../components/LocaleSwitcher";
-import NavigationLink from "../components/NavigationLink";
 import { useTranslations } from "next-intl";
 import {Link} from "../../navigation";
 const links = [

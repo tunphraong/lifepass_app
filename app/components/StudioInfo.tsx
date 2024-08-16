@@ -43,7 +43,6 @@ import { useState } from "react"; // Import useState
 import { log } from "console";
 
 interface StudioInfoProps {
-  //   studio: Studio;
   studio: any;
   loggedIn: boolean;
 }
@@ -147,6 +146,7 @@ export function StudioInfo({ studio, loggedIn }: StudioInfoProps) {
           <Divider my="md" />
 
           <StudioSchedule
+            loggedIn={loggedIn}
             studioId={studio.id}
             filter={classFilter}
             onClassClick={handleClassClick}
@@ -249,6 +249,7 @@ export function StudioInfo({ studio, loggedIn }: StudioInfoProps) {
           <Stack gap="sm">
             <Title order={3}>Đặt lớp 🎟️</Title>
             <StudioSchedule
+              loggedIn={loggedIn}
               studioId={studio.id}
               filter=""
               onClassClick={handleClassClick}

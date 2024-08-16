@@ -14,8 +14,6 @@ import {
   IconHeartHandshake
 } from "@tabler/icons-react";
 import styles from "./Footer.module.css";
-import NavigationLink from "../components/NavigationLink";
-// import Link from "next/link";
 import { Link } from "../../navigation";
 
 
