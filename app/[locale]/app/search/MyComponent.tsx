@@ -13,7 +13,7 @@ import {
 } from "@mantine/core"; // Import Mantine components
 import StudioCard from "../../../components/StudioCard";
 import { createClient } from "../../../../utils/supabase/client"; // Import your Supabase client
-
+import { useRouter } from "../../../../navigation";
 const supabase = createClient();
 import styles from "./search.module.css"
 // Fetcher function for SWR
@@ -27,12 +27,20 @@ const fetcher = async (url: string) => {
   return data as any[];
 };
 
-export default function MyComponent() {
+
+export default function MyComponent({loggedIn}) {
+
+const router = useRouter();
+  if (!loggedIn) {
+    router.push("/app/login")
+  }
+  
   const {
     data: studios,
     error,
     isLoading,
   } = useSWR("/api/studios", fetcher, { revalidateOnFocus: false });
+
 
   if (error) {
     return (

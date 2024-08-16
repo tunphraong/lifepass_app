@@ -5,13 +5,16 @@ import { createClient } from "../../../../utils/supabase/server";
 export default async function Search() {
   const supabase = createClient();
   const { data, error } = await supabase.auth.getUser();
+  let loggedIn = false;
   if (error || !data?.user) {
-    redirect("/app/login");
+    loggedIn = false;
+  } else{
+    loggedIn = true;
   }
 
   return (
     <>
-      <MyComponent />
+      <MyComponent loggedIn={loggedIn}/>
     </>
   );
 }
