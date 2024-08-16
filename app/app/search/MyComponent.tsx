@@ -11,7 +11,6 @@ import {
   Center,
   Loader,
 } from "@mantine/core"; // Import Mantine components
-import { CardWithStats } from "../../components/CardWithStats";
 import StudioCard from "../../components/StudioCard";
 import { createClient } from "../../../utils/supabase/client"; // Import your Supabase client
 const supabase = createClient();
@@ -50,12 +49,14 @@ export default function MyComponent() {
     );
   }
   return (
-    <div className="styles.wrapper">
+    <div className={styles.wrapper}>
+      <div className={styles.container}>
         <Stack>
-        {studios?.map((studio) => (
-              <StudioCard key={studio.id} studio={studio} />
-        ))}
-      </Stack>
+          {studios?.map((studio) => (
+            <StudioCard key={studio.id} studio={studio} />
+          ))}
+        </Stack>
+      </div>
     </div>
   );
 }

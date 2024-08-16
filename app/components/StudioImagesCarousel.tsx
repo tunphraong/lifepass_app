@@ -50,8 +50,8 @@ const StudioImagesCarousel: React.FC<StudioCarouselProps> = ({
             src={imageUrl}
             key={imageUrl}
             alt={studio.name}
-            width={300}
-            height={300}
+            // width={300}
+            // height={300}
             fit="cover"
           />
         ))}

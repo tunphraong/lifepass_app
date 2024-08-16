@@ -1,6 +1,7 @@
 .wrapper {
   position: relative;
   box-sizing: border-box;
-  background-color: #fcfaf9; /* nudge-white */
+  background-color: #fcfaf9;
   padding: 0 0;
 }
+

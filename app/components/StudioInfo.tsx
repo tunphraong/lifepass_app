@@ -154,7 +154,6 @@ export function StudioInfo({ studio }: StudioInfoProps) {
           <Group align="center" justify="space-between">
             <Title
               order={3}
-              // color="yellow"
             >
               {name} 🌟
             </Title>
