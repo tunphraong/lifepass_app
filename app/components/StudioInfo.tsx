@@ -45,9 +45,10 @@ import { log } from "console";
 interface StudioInfoProps {
   //   studio: Studio;
   studio: any;
+  loggedIn: boolean;
 }
 
-export function StudioInfo({ studio }: StudioInfoProps) {
+export function StudioInfo({ studio, loggedIn }: StudioInfoProps) {
   const {
     name,
     description,

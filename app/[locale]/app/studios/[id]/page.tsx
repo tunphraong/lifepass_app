@@ -1,47 +1,23 @@
-"use client";
-import useSWR from "swr";
-import { Center, Text, Loader, Image } from "@mantine/core";
-const fetcher = (url: any) => fetch(url).then((res) => res.json());
-import React from "react";
-import StudioImagesCarousel from "../../../../components/StudioImagesCarousel";
-import { StudioInfo } from "../../../../components/StudioInfo";
-import StudioSchedule from "../../../../components/StudioSchedule";
+import StudioPage from "./StudioPage";
 
+import { createClient } from "../../../../../utils/supabase/server";
+import { NextResponse } from "next/server";
+// import { redirect } from "../../../../navigation";
 
-const StudioPage = ({ params }: any) => {
-  const { id } = params;
-  // console.log('id', id);
-  const {
-    data: studio,
-    error,
-    isLoading,
-  } = useSWR(`/api/studio/${id}`, fetcher);
-
-  if (error) {
-    return (
-      <Center className="my-6">
-        <Text>Lỗi hiển thì studio. Bạn vui lòng thử lại sau</Text>
-      </Center>
-    );
+export default async function StudioDisplayServer({params}) {
+  console.log(params);
+  const id = params.id;
+  const supabase = createClient();
+  const { data, error } = await supabase.auth.getUser();
+  // if (error || !data?.user) {
+  //   redirect("/app/login");
+  // }
+  let loggedIn;
+  loggedIn = false;
+  if (data?.user) {
+    loggedIn = true
   }
 
-  if (isLoading) {
-    return (
-      <Center className="my-6">
-        <Loader />
-      </Center>
-    );
-  }
-  
 
-  if (!studio) return <div>Studio not found</div>;
-  return (
-    <>
-      <StudioImagesCarousel studio={studio} isLoading={isLoading} />
-      <StudioInfo studio={studio}></StudioInfo>
-      {/* <StudioSchedule studioId={studio.id}></StudioSchedule> */}
-    </>
-  );
-};
-
-export default StudioPage;
+  return <StudioPage id={id} loggedIn={loggedIn} />;
+}

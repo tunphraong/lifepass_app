@@ -33,7 +33,7 @@ import isSameOrBefore from "dayjs/plugin/isSameOrBefore"; // ES 2015
 
 dayjs.extend(isSameOrBefore);
 
-const StudioSchedule = ({ studioId, filter, onClassClick }) => {
+const StudioSchedule = ({ studioId, filter, onClassClick, loggedIn }) => {
   const fetcher = async (url) => {
     const response = await fetch(url);
     const data = await response.json();
@@ -189,7 +189,7 @@ const StudioSchedule = ({ studioId, filter, onClassClick }) => {
           {[...Array(7)].map((_, i) => {
             const day = currentDate.startOf("week").add(i, "day");
             return (
-              <Button 
+              <Button
                 key={i}
                 variant={selectedDay.isSame(day, "day") ? "filled" : "outline"}
                 color="yellow"
@@ -235,17 +235,31 @@ const StudioSchedule = ({ studioId, filter, onClassClick }) => {
                   {schedule.instructor_name}
                 </Text>
 
-                <Button
-                  className={styles.button}
-                  fullWidth
-                  color="yellow"
-                  onClick={() => handleEnroll(schedule)}
-                  variant="filled"
-                  radius="xl"
-                  size="sm"
-                >
-                  {formatPrice(schedule.price)}
-                </Button>
+                {loggedIn ? (
+                  <Button
+                    className={styles.button}
+                    fullWidth
+                    color="yellow"
+                    onClick={() => handleEnroll(schedule)}
+                    variant="filled"
+                    radius="xl"
+                    size="sm"
+                  >
+                    {formatPrice(schedule.price)}
+                  </Button>
+                ) : (
+                  <Button
+                    className={styles.button}
+                    fullWidth
+                    color="yellow"
+                    onClick={() => handleEnroll(schedule)}
+                    variant="filled"
+                    radius="xl"
+                    size="sm"
+                  >
+                    See Price
+                  </Button>
+                )}
               </Group>
             </Card>
           ))
@@ -253,8 +267,8 @@ const StudioSchedule = ({ studioId, filter, onClassClick }) => {
           <Center>
             <Stack gap="sm" align="center">
               <Text fw={500} size="xl">
-                Không có lớp nào được lên lịch cho ngày này. Quý khách vui lòng chọn
-                ngày khác.
+                Không có lớp nào được lên lịch cho ngày này. Quý khách vui lòng
+                chọn ngày khác.
               </Text>
             </Stack>
           </Center>
