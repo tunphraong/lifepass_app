@@ -1,8 +1,8 @@
-import { type NextRequest } from 'next/server'
-import { updateSession } from './utils/supabase/middleware'
+import { type NextRequest } from "next/server";
+import { updateSession } from "./utils/supabase/middleware";
 import { i18n } from "./i18n-config";
 import { NextResponse } from "next/server";
-
+import createMiddleware from "next-intl/middleware";
 
 // function getLocale(request: NextRequest): string | undefined {
 //   // Negotiator expects plain object so we need to transform headers
@@ -22,33 +22,39 @@ import { NextResponse } from "next/server";
 //   return locale;
 // }
 
-export async function middleware(request: NextRequest) {
-  // const pathname = request.nextUrl.pathname;
-  // // Check if there is any supported locale in the pathname
-  // const pathnameIsMissingLocale = i18n.locales.every(
-  //   (locale) => !pathname.startsWith(`/${locale}/`) && pathname !== `/${locale}`
-  // );
+// export async function middleware(request: NextRequest) {
+//   // const pathname = request.nextUrl.pathname;
+//   // // Check if there is any supported locale in the pathname
+//   // const pathnameIsMissingLocale = i18n.locales.every(
+//   //   (locale) => !pathname.startsWith(`/${locale}/`) && pathname !== `/${locale}`
+//   // );
 
-  //   const locale = getLocale(request);
-  //   console.log
+//   //   const locale = getLocale(request);
+//   //   console.log
 
+//   // // Redirect if there is no locale
+//   // if (pathnameIsMissingLocale) {
+//   //   const locale = getLocale(request);
 
+//   //   // e.g. incoming request is /products
+//   //   // The new URL is now /en-US/products
+//   //   return NextResponse.redirect(
+//   //     new URL(
+//   //       `/${locale}${pathname.startsWith("/") ? "" : "/"}${pathname}`,
+//   //       request.url
+//   //     )
+//   //   );
+//   // }
+//   return await updateSession(request);
+// }
 
-  // // Redirect if there is no locale
-  // if (pathnameIsMissingLocale) {
-  //   const locale = getLocale(request);
+export default createMiddleware({
+  // A list of all locales that are supported
+  locales: ["vi", "en"],
 
-  //   // e.g. incoming request is /products
-  //   // The new URL is now /en-US/products
-  //   return NextResponse.redirect(
-  //     new URL(
-  //       `/${locale}${pathname.startsWith("/") ? "" : "/"}${pathname}`,
-  //       request.url
-  //     )
-  //   );
-  // }
-  return await updateSession(request);
-}
+  // Used when no locale matches
+  defaultLocale: "vi",
+});
 
 export const config = {
   matcher: [
@@ -59,6 +65,8 @@ export const config = {
      * - favicon.ico (favicon file)
      * Feel free to modify this pattern to include more paths.
      */
-    '/((?!_next/static|_next/image|favicon.ico|.*\\.(?:svg|png|jpg|jpeg|gif|webp)$).*)',
+    // '/((?!_next/static|_next/image|favicon.ico|.*\\.(?:svg|png|jpg|jpeg|gif|webp)$).*)', '/(vi|en)/:path*',
+    "/",
+    "/(vi|en)/:path*",
   ],
-}
+};

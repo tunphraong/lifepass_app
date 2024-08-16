@@ -1,7 +1,7 @@
 // lib/sendEmail.ts
 import formData from "form-data";
 import Mailgun from "mailgun.js";
-import { createClient } from "../../../utils/supabase/server";
+import { createClient } from "../../../../utils/supabase/server";
 import dayjs from "dayjs";
 import "dayjs/locale/vi";
 dayjs.locale("vi");

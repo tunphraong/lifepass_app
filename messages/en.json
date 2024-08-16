@@ -1,0 +1,37 @@
+{
+  "HomePage": {
+    "title": "One app that covers <all> all </all> your fitness needs",
+    "description": "Discover and choose from hundreds of gyms across Vietnam with just one Lifepass application. Convenient, diverse and economical!",
+    "listSaveTitle": "Cost savings",
+    "listSaveDescription": "Booking on Lifepass always saves you more than buying retail tickets 💰",
+    "listEasyTitle": "Convenient",
+    "listEasyDescription": "Easily find and book fitness classes and activities near you 📍",
+    "listDiverseTitle": "Diverse",
+    "listDiverseDescription": "Join yoga, gym, dance, swimming classes and many other activities🎁",
+    "getStartedButton": "Book class",
+    "learnMoreButton": "Learn More",
+    "featuresTitle": "Features",
+    "features": [
+      {
+        "title": "Cost savings",
+        "description": "Booking on Lifepass always saves you more than buying retail tickets"
+      },
+      {
+        "title": "Convenient",
+        "description": "Easily find and book fitness classes and activities near you "
+      },
+      {
+        "title": "Diverse",
+        "description": "Join yoga, gym, dance, swimming classes and many other activities"
+      }
+    ]
+  },
+  "LocaleSwitcher": {
+    "label": "Change language",
+    "locale": "{locale, select, vi {🇻🇳 Tiếng Việt} en {🇺🇸 English} other {Unknown}}"
+  },
+  "Navigation": {
+    "home": "LifePass",
+    "contact": "Contact Us"
+  }
+}

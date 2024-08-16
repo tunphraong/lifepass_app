@@ -1,10 +1,11 @@
 'use client'
-import { Menu, Group, Center, Burger, Container, Text, Title } from "@mantine/core";
+import { Menu, Group, Center, Burger, Container, Text } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
 import { IconChevronDown } from "@tabler/icons-react";
 // import { MantineLogo } from "@mantinex/mantine-logo";
 import classes from "./Header.module.css";
 import LocaleSwitcher from "../components/LocaleSwitcher";
+import NavigationLink from "../components/NavigationLink";
 import { useTranslations } from "next-intl";
 import {Link} from "../../navigation";
 const links = [
@@ -82,11 +83,13 @@ export default function Header() {
     <header className={classes.header}>
       <Container size="md">
         <div className={classes.inner}>
-          <Link href="/"><Title order={2}>LifePass</Title></Link>
+          {/* <Text size="xl">LifePass</Text> */}
+          <Link href="/">LifePass</Link>
           {/* <NavigationLink href="/">{t("home")}</NavigationLink> */}
           {/* <Group gap={5} visibleFrom="sm"> */}
-          
-          <LocaleSwitcher />
+            {/* {items} */}
+            {/* <NavigationLink href="/contact">{t("contact")}</NavigationLink> */}
+            <LocaleSwitcher />
           {/* </Group> */}
           {/* <Burger opened={opened} onClick={toggle} size="sm" hiddenFrom="sm" /> */}
         </div>

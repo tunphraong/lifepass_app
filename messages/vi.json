@@ -1,0 +1,37 @@
+{
+  "HomePage": {
+    "title": "Một app cho <all> tất cả </all> nhu cầu thể dục, thể hình và làm đẹp của bạn",
+    "description": "Khám phá và lựa chọn từ hàng trăm phòng tập trên khắp Việt Nam chỉ với một ứng dụng LifePass. Tiện lợi, đa dạng và tiết kiệm!",
+    "listSaveTitle": "Tiết kiệm chi phí",
+    "listSaveDescription": "Đặt lịch trên LifePass luôn giúp bạn tiết kiệm nhiều hơn so với mua vé lẻ 💰",
+    "listEasyTitle": "Tiện lợi",
+    "listEasyDescription": "Dễ dàng tìm kiếm và đặt lịch các lớp học thể dục thể thao và các hoạt động giải trí gần bạn 📍",
+    "listDiverseTitle": "Đa dạng",
+    "listDiverseDescription": "Tham gia các lớp yoga, gym, dance, bơi lội và nhiều hoạt động khác 🎁",
+    "getStartedButton": "Đặt lớp",
+    "learnMoreButton": "Tìm Hiểu",
+    "featuresTitle": "Tính Năng Nổi Bật",
+    "features": [
+      {
+        "title": "Tiết kiệm chi phí",
+        "description": "Đặt lịch trên LifePass luôn giúp bạn tiết kiệm nhiều hơn so với mua vé lẻ."
+      },
+      {
+        "title": "Tiện lợi",
+        "description": "Dễ dàng tìm kiếm và đặt lịch các lớp học thể dục thể thao và các hoạt động giải trí gần bạn."
+      },
+      {
+        "title": "Đa dạng",
+        "description": "Tham gia các lớp yoga, gym, dance, bơi lội và nhiều hoạt động khác."
+      }
+    ]
+  },
+  "LocaleSwitcher": {
+    "label": "Chọn ngôn ngữ",
+    "locale": "{locale, select, vi {🇻🇳 Tiếng Việt} en {🇺🇸 English} other {Unknown}}"
+  },
+  "Navigation": {
+    "home": "LifePass",
+    "contact": "Liên hệ"
+  }
+}

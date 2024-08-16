@@ -3,7 +3,7 @@ import { NextResponse } from "next/server";
 import { createClient } from "../../../../utils/supabase/server";
 import { createHmac } from "crypto";
 import { NextRequest } from "next/server";
-import { sendConfirmationEmail } from "../../../app/lib/sendEmail";
+import { sendConfirmationEmail } from "../../../[locale]/app/lib/sendEmail";
 
 const ZALOPAY_KEY2 = process.env.ZALOPAY_CALLBACK_KEY;
 

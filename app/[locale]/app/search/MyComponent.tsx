@@ -11,8 +11,9 @@ import {
   Center,
   Loader,
 } from "@mantine/core"; // Import Mantine components
-import StudioCard from "../../components/StudioCard";
-import { createClient } from "../../../utils/supabase/client"; // Import your Supabase client
+import StudioCard from "../../../components/StudioCard";
+import { createClient } from "../../../../utils/supabase/client"; // Import your Supabase client
+
 const supabase = createClient();
 import styles from "./search.module.css"
 // Fetcher function for SWR

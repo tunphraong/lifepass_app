@@ -13,13 +13,13 @@ import {
 import { useDisclosure } from "@mantine/hooks";
 import classes from "./Navbar.module.css";
 import React, { useState, useEffect } from "react";
+// import Link from "next/link";
 import { Link } from "../../../navigation";
 import { createClient } from "../../../utils/supabase/client";
-import { useRouter } from "../../../navigation";
+import { useRouter } from "next/navigation";
 import { Session } from "@supabase/supabase-js"; // Import Session type
-import LoginForm from "../components/LoginForm"; // Import LoginForm component
+import LoginForm from "../../components/LoginForm"; // Import LoginForm component
 import styles from "./layout.module.css";
-import LocaleSwitcher from "../../components/LocaleSwitcher";
 
 export default function MobileNavbar({
   children,
@@ -101,32 +101,16 @@ Readonly<{
               size="sm"
             />
             <Group justify="space-between" style={{ flex: 1 }}>
-              <Link href="/app/search" className={classes.link} passHref>
-                <UnstyledButton component="a" className={`${classes.control}`}>
-                  LifePass
-                </UnstyledButton>
+              {/* <MantineLogo size={30} /> */}
+              <Link href="/app/search" className={`${styles.control}`}>
+                <UnstyledButton component="a">LifePass</UnstyledButton>
               </Link>
-
               <Group ml="xl" gap={0} visibleFrom="sm">
-                <Link href="/app/search" className={classes.link} passHref>
-                  <UnstyledButton className={`${classes.control}`}>
+                <Link href="/app/search" className={styles.link} passHref>
+                  <UnstyledButton className={`${styles.control}`}>
                     Home
                   </UnstyledButton>
                 </Link>
-                {/* {session ? (
-                <UnstyledButton
-                  className={`${classes.control}`}
-                  onClick={handleLogout}
-                >
-                  Đăng Xuất
-                </UnstyledButton>
-              ) : (
-                <Link href="/app/login" className={classes.link} passHref>
-                  <UnstyledButton className={`${classes.control}`}>
-                    Đăng Nhập
-                  </UnstyledButton>
-                </Link>
-              )} */}
                 {session ? (
                   <>
                     {/* Upcoming Schedule Button (if logged in) */}
@@ -161,7 +145,6 @@ Readonly<{
                     </UnstyledButton>
                   </Link>
                 )}
-                <LocaleSwitcher />
               </Group>
             </Group>
           </Group>
@@ -233,7 +216,6 @@ Readonly<{
               Đăng Nhập
             </UnstyledButton>
           )}
-          <LocaleSwitcher />
         </AppShell.Navbar>
 
         <AppShell.Main className={styles.container}>

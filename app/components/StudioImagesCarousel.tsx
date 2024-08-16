@@ -42,6 +42,24 @@ const StudioImagesCarousel: React.FC<StudioCarouselProps> = ({
   }
 
   return (
+    // <div className="mt-4">
+    //   {/* Add margin-top to space carousel from other content */}
+    //   <AliceCarousel
+    //     items={imageUrls.map((imageUrl) => (
+    //       <Image
+    //         src={imageUrl}
+    //         key={imageUrl}
+    //         alt={studio.name}
+    //         // width={300}
+    //         // height={300}
+    //         fit="cover"
+    //       />
+    //     ))}
+    //     mouseTracking
+    //     autoPlay={false}
+    //     disableDotsControls
+    //   />
+    // </div>
     <div className="mt-4">
       {/* Add margin-top to space carousel from other content */}
       <AliceCarousel
@@ -50,10 +68,9 @@ const StudioImagesCarousel: React.FC<StudioCarouselProps> = ({
             src={imageUrl}
             key={imageUrl}
             alt={studio.name}
-            width="100%"
-            height="auto"
+            // width={300}
+            // height={300}
             fit="cover"
-            style={{maxHeight: "700px"}}
           />
         ))}
         mouseTracking

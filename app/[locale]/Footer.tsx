@@ -14,7 +14,10 @@ import {
   IconHeartHandshake
 } from "@tabler/icons-react";
 import styles from "./Footer.module.css";
-import Link from "next/link";
+import NavigationLink from "../components/NavigationLink";
+// import Link from "next/link";
+import { Link } from "../../navigation";
+
 
 export default function Footer() {
   return (
@@ -26,7 +29,7 @@ export default function Footer() {
           <Button
             variant="subtle"
             component="a"
-            href="/contact"
+            href="https://tally.so/r/mOLjDM"
             color="dark"
             leftSection={<IconPhone color="#323d56" />}
           >
@@ -37,6 +40,9 @@ export default function Footer() {
             <IconQuestionMark />
             FAQ
           </Button>
+
+          <Link href="/about">About
+          </Link>
 
           {/* <Button variant="subtle" component="a" href="/faq" color="dark">
             <IconHeartHandshake />

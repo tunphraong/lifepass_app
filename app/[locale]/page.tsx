@@ -18,30 +18,33 @@ import classes from "./HomePage.module.css";
 import Header from "./Header";
 import Footer from "./Footer";
 import FeatureSection from "./FeatureSection";
+import { useTranslations } from "next-intl";
+import { Link } from "../../navigation";
 
 export default function HeroTitle() {
+  const t = useTranslations("HomePage");
   return (
     <>
       <Header />
       <div className={classes.wrapper}>
         <Container size={700} className={classes.inner}>
           <h1 className={classes.title}>
-            Một app cho{" "}
-            <Text
-              component="span"
-              variant="gradient"
-              // gradient={{ from: "blue", to: "cyan" }}
-              gradient={{ from: "#f5ac2d", to: "#f4b82c" }}
-              inherit
-            >
-              tất cả
-            </Text>{" "}
-            nhu cầu thể dục, thể hình và làm đẹp của bạn
+            {t.rich("title", {
+              all: (chunks) => (
+                <Text
+                  component="span"
+                  variant="gradient"
+                  gradient={{ from: "#f5ac2d", to: "#f4b82c" }}
+                  inherit
+                >
+                  {chunks}
+                </Text>
+              ),
+            })}
           </h1>
 
           <Text className={classes.description} color="dimmed">
-            Khám phá hàng trăm phòng tập, spa và cơ sở làm đẹp trên khắp Việt
-            Nam chỉ với một ứng dụng LifePass. Tiện lợi, đa dạng và tiết kiệm!
+            {t("description")}
           </Text>
 
           <List
@@ -58,21 +61,18 @@ export default function HeroTitle() {
             }
           >
             <ListItem icon={<IconEyeDollar color="#f4b82c" />}>
-              <b>Tiết kiệm chi phí</b> – Đặt lịch trên LifePass luôn giúp bạn
-              tiết kiệm nhiều hơn so với mua vé lẻ 💰
+              <b> {t("listSaveTitle")} </b> – {t("listSaveDescription")}
             </ListItem>
             <ListItem icon={<IconMapPin color="#f4b82c" />}>
-              <b>Tiện lợi</b> – Dễ dàng tìm kiếm và đặt lịch các lớp học thể dục
-              thể thao và các hoạt động giải trí gần bạn 📍
+              <b>{t("listEasyTitle")} </b> – {t("listEasyDescription")}
             </ListItem>
             <ListItem icon={<IconGift color="#f4b82c" />}>
-              <b>Đa dạng</b> – Tham gia các lớp yoga, gym, dance, bơi lội và
-              nhiều hoạt động khác 🎁
+              <b>{t("listDiverseTitle")} </b> – {t("listDiverseDescription")}
             </ListItem>
           </List>
 
           <Group className={classes.controls}>
-            <Button
+            {/* <Button
               size="lg"
               className={classes.control}
               variant="gradient"
@@ -80,19 +80,31 @@ export default function HeroTitle() {
               href="/app/search"
               gradient={{ from: "#f5ac2d", to: "#f4b82c" }}
             >
-              Bắt đầu ngay
-            </Button>
+              {t("getStartedButton")}
+            </Button> */}
 
-            <Button
-              component="a"
-              href="/app/search"
-              size="xl"
-              variant="default"
-              className={classes.control}
-              leftSection={<IconGift color="#323d56" />}
-            >
-              Tìm Hiểu
-            </Button>
+            <Link href="/app/search">
+              <Button
+                size="xl"
+                className={classes.control}
+                variant="gradient"
+                gradient={{ from: "#f5ac2d", to: "#f4b82c" }}
+              >
+                {t("getStartedButton")}
+              </Button>
+            </Link>
+
+            <Link href="/faq">
+              <Button
+                // component="a"
+                size="lg"
+                variant="default"
+                className={classes.control}
+                leftSection={<IconGift color="#323d56" />}
+              >
+                {t("learnMoreButton")}
+              </Button>
+            </Link>
           </Group>
         </Container>
       </div>

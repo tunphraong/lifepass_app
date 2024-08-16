@@ -7,10 +7,11 @@ import {
   MantineColorsTuple,
   ColorSchemeScript,
 } from "@mantine/core";
-
-import { i18n, type Locale } from "../i18n-config";
+import { i18n, type Locale } from "../../i18n-config";
 import { Analytics } from "@vercel/analytics/react";
 import { SpeedInsights } from "@vercel/speed-insights/next";
+import { NextIntlClientProvider } from "next-intl";
+import { getMessages } from "next-intl/server";
 
 export const metadata = {
   title: "Lifepass",
@@ -56,15 +57,17 @@ const theme = createTheme({
   luminanceThreshold: 0.31,
 });
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
-  params,
+  params: {locale},
 }: {
   children: any;
-  params: { lang: Locale };
+  params: { locale: string };
 }) {
+
+  const messages = await getMessages();
   return (
-    <html lang={params.lang} style={{ backgroundColor: "#fcfaf9" }}>
+    <html lang={locale} style={{ backgroundColor: "#fcfaf9" }}>
       <head>
         <ColorSchemeScript />
         <link rel="shortcut icon" href="/favicon.ico" />
@@ -74,12 +77,14 @@ export default function RootLayout({
         />
       </head>
       <body>
-        <MantineProvider theme={theme}>
-          <Notifications />
-          {children}
-          <Analytics />
-          <SpeedInsights />
-        </MantineProvider>
+        <NextIntlClientProvider messages={messages}>
+          <MantineProvider theme={theme}>
+            <Notifications />
+            {children}
+            <Analytics />
+            <SpeedInsights />
+          </MantineProvider>
+        </NextIntlClientProvider>
       </body>
     </html>
   );

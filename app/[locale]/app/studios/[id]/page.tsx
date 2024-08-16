@@ -3,9 +3,9 @@ import useSWR from "swr";
 import { Center, Text, Loader, Image } from "@mantine/core";
 const fetcher = (url: any) => fetch(url).then((res) => res.json());
 import React from "react";
-import StudioImagesCarousel from "../../../components/StudioImagesCarousel";
-import { StudioInfo } from "../../../components/StudioInfo";
-import StudioSchedule from "../../../components/StudioSchedule";
+import StudioImagesCarousel from "../../../../components/StudioImagesCarousel";
+import { StudioInfo } from "../../../../components/StudioInfo";
+import StudioSchedule from "../../../../components/StudioSchedule";
 
 
 const StudioPage = ({ params }: any) => {
