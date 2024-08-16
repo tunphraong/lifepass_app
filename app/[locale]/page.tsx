@@ -20,8 +20,10 @@ import Footer from "./Footer";
 import FeatureSection from "./FeatureSection";
 import { useTranslations } from "next-intl";
 import { Link } from "../../navigation";
+import { unstable_setRequestLocale } from "next-intl/server";
 
-export default function HeroTitle() {
+export default function HeroTitle({ params: { locale } }) {
+   unstable_setRequestLocale(locale);
   const t = useTranslations("HomePage");
   return (
     <>

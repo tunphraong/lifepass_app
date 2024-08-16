@@ -12,6 +12,7 @@ import { Analytics } from "@vercel/analytics/react";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import { NextIntlClientProvider } from "next-intl";
 import { getMessages } from "next-intl/server";
+import { unstable_setRequestLocale } from "next-intl/server";
 
 export const metadata = {
   title: "Lifepass",
@@ -64,7 +65,7 @@ export default async function RootLayout({
   children: any;
   params: { locale: string };
 }) {
-
+  unstable_setRequestLocale(locale);
   const messages = await getMessages();
   return (
     <html lang={locale} style={{ backgroundColor: "#fcfaf9" }}>
