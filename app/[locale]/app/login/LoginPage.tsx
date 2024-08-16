@@ -136,7 +136,7 @@ export default function LoginPage(props: PaperProps) {
         />
 
         <form onSubmit={form.onSubmit(handleSubmit)}>
-        {/* <form
+          {/* <form
           onSubmit={(e) => {
             e.preventDefault();
             handleSubmit();
@@ -222,8 +222,17 @@ export default function LoginPage(props: PaperProps) {
                 ? "Already have an account? Login"
                 : "Don't have an account? Register"}
             </Anchor> */}
-            <Button type="submit" radius="xl">
+            <Button type="submit" radius="xl" color="yellow">
               {upperFirst(type)}
+            </Button>
+
+            <Button
+              variant="filled"
+              radius="xl"
+              component="a"
+              href="https://tally.so/r/3yxeAd"
+            >
+              Join our waitlist
             </Button>
           </Group>
         </form>

@@ -88,17 +88,17 @@ export default function HeroTitle({ params: { locale } }) {
             <Link href="/app/search">
               <Button
                 size="xl"
-                className={classes.control}
-                variant="gradient"
+                // variant="gradient"
+                variant="filled"
+                color="yellow"
                 gradient={{ from: "#f5ac2d", to: "#f4b82c" }}
               >
                 {t("getStartedButton")}
               </Button>
             </Link>
 
-            <Link href="/faq">
+            <Link href="https://tally.so/r/3yxeAd">
               <Button
-                // component="a"
                 size="lg"
                 variant="default"
                 className={classes.control}
