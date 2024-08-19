@@ -189,7 +189,7 @@ const PaymentPageComponent = ({ userId }) => {
           <Text>Lớp đã chọn: {classData.name}</Text>
           <Text>
             Giá:{" "}
-            {scheduleWithPrice.price.toLocaleString("vi-VN", {
+            {scheduleWithPrice?.price.toLocaleString("vi-VN", {
               style: "currency",
               currency: "VND",
             })}

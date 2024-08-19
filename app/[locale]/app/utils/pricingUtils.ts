@@ -1,7 +1,12 @@
 // app/utils/pricingUtils.ts
 
 import dayjs from "dayjs";
-// import { PricingRule } from "@/app/types";
+import utc from "dayjs/plugin/utc";
+import timezone from "dayjs/plugin/timezone";
+
+dayjs.extend(utc);
+dayjs.extend(timezone);
+dayjs.tz.setDefault("Asia/Ho_Chi_Minh");
 
 // Function to categorize time of day into ranges
 function getTimeOfDayRange(hour) {
