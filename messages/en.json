@@ -33,5 +33,23 @@
   "Navigation": {
     "home": "LifePass",
     "contact": "Contact Us"
+  },
+  "StudioInfo": {
+    "info": "Information ℹ️",
+    "schedule": "Schedule 📅",
+    "bookClass": "Book Class 🎟️",
+    "preparation": "Preparation 📋",
+    "amenities": "Amenities 🛀",
+    "directions": "Directions 🗺️",
+    "readMore": "Read more",
+    "hide": "Hide",
+    "noClassSelected": "No class selected. Please select a class to see its description."
+  },
+  "StudioSchedule": {
+    "failedToLoad": "Failed to load schedules",
+    "loading": "Loading...",
+    "seePrice": "See Price",
+    "noClasses": "No classes scheduled for this day. Please choose another day.",
+    "nextDay": "Go to next day"
   }
 }

@@ -40,7 +40,7 @@ import styles from "./StudioInfo.module.css";
 import { Link } from "../../navigation";
 import StudioAddress from "./StudioAddress";
 import { useState } from "react"; // Import useState
-import { log } from "console";
+import { useTranslations } from "next-intl";
 
 interface StudioInfoProps {
   studio: any;
@@ -48,6 +48,7 @@ interface StudioInfoProps {
 }
 
 export function StudioInfo({ studio, loggedIn }: StudioInfoProps) {
+  const t = useTranslations("StudioInfo");
   const {
     name,
     description,
@@ -106,8 +107,8 @@ export function StudioInfo({ studio, loggedIn }: StudioInfoProps) {
         onChange={setActiveTab}
       >
         <Tabs.List grow>
-          <Tabs.Tab value="info">Thông tin ℹ️</Tabs.Tab>
-          <Tabs.Tab value="schedule">Lịch 📅</Tabs.Tab>
+          <Tabs.Tab value="info">{t("info")}</Tabs.Tab>
+          <Tabs.Tab value="schedule">{t("schedule")}</Tabs.Tab>
         </Tabs.List>
 
         <Tabs.Panel value="schedule">
@@ -138,9 +139,7 @@ export function StudioInfo({ studio, loggedIn }: StudioInfoProps) {
               <Text color="dimmed">{selectedClass.description}</Text>
             </Spoiler>
           ) : (
-            <Text color="dimmed">
-              No class selected. Please select a class to see its description.
-            </Text>
+            <Text color="dimmed">{t("noClassSelected")}</Text>
           )}
 
           <Divider my="md" />
@@ -155,11 +154,7 @@ export function StudioInfo({ studio, loggedIn }: StudioInfoProps) {
 
         <Tabs.Panel value="info" className={styles.tabPanel}>
           <Group align="center" justify="space-between">
-            <Title
-              order={3}
-            >
-              {name} 🌟
-            </Title>
+            <Title order={3}>{name} 🌟</Title>
             <Image
               src={logo}
               // src={imageUrl} // Assuming imageUrl is provided from props
@@ -247,7 +242,7 @@ export function StudioInfo({ studio, loggedIn }: StudioInfoProps) {
           <Space h="xl" />
 
           <Stack gap="sm">
-            <Title order={3}>Đặt lớp 🎟️</Title>
+            <Title order={3}>{t("bookClass")}</Title>
             <StudioSchedule
               loggedIn={loggedIn}
               studioId={studio.id}
@@ -261,14 +256,14 @@ export function StudioInfo({ studio, loggedIn }: StudioInfoProps) {
           <Divider my={10} />
 
           <Stack gap="sm">
-            <Title order={3}>Chuẩn bị 📋</Title>
+            <Title order={3}>{t("preparation")}</Title>
             <Text>{prepare}</Text>
           </Stack>
 
           <Divider my={20} />
 
           <Stack gap="sm">
-            <Title order={3}>Tiện nghi 🛀</Title>
+            <Title order={3}>{t("amenities")}</Title>
             <div className={styles.amenitiesGrid}>
               {amenities.map((amenity) => (
                 <Center key={amenity}>
@@ -284,7 +279,7 @@ export function StudioInfo({ studio, loggedIn }: StudioInfoProps) {
           <Divider my={20} />
 
           <Stack gap="sm">
-            <Title order={3}>Chỉ dẫn đường 🗺️</Title>
+            <Title order={3}>{t("directions")}</Title>
             <Spoiler
               maxHeight={80}
               showLabel="Đọc thêm"

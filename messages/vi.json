@@ -33,5 +33,23 @@
   "Navigation": {
     "home": "LifePass",
     "contact": "Liên hệ"
+  },
+  "StudioInfo": {
+    "info": "Thông tin ℹ️",
+    "schedule": "Lịch 📅",
+    "bookClass": "Đặt lớp 🎟️",
+    "preparation": "Chuẩn bị 📋",
+    "amenities": "Tiện nghi 🛀",
+    "directions": "Chỉ dẫn đường 🗺️",
+    "readMore": "Đọc thêm",
+    "hide": "Ẩn",
+    "noClassSelected": "Không có lớp nào được chọn. Vui lòng chọn một lớp để xem mô tả."
+  },
+  "StudioSchedule": {
+    "failedToLoad": "Không thể tải lịch",
+    "loading": "Đang tải...",
+    "seePrice": "Xem giá",
+    "noClasses": "Không có lớp nào được lên lịch cho ngày này. Quý khách vui lòng chọn ngày khác.",
+    "nextDay": "Chuyển sang ngày kế tiếp"
   }
 }

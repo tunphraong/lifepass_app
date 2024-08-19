@@ -30,6 +30,7 @@ import { IconChevronRight, IconCalendar } from "@tabler/icons-react";
 import { createClient } from "../../utils/supabase/client";
 require("dayjs/locale/vi");
 import isSameOrBefore from "dayjs/plugin/isSameOrBefore"; // ES 2015
+import { useTranslations } from "next-intl";
 
 dayjs.extend(isSameOrBefore);
 
@@ -59,6 +60,7 @@ const StudioSchedule = ({ studioId, filter, onClassClick, loggedIn }) => {
   const [selectedClassName, setSelectedClassName] = useState<string | null>(
     null
   );
+  const t = useTranslations("StudioSchedule");
 
   const handleEnroll = (schedule) => {
     router.push(
@@ -79,15 +81,6 @@ const StudioSchedule = ({ studioId, filter, onClassClick, loggedIn }) => {
   const weekStart = selectedDay.startOf("week").format("YYYY-MM-DD");
   const weekEnd = selectedDay.endOf("week").format("YYYY-MM-DD");
 
-  // const {
-  //   data: schedules,
-  //   error,
-  //   isLoading,
-  // } = useSWR(
-  //   `/api/studio/${studioId}/schedules?startDate=${startDate}&endDate=${endDate}`,
-  //   fetcher
-  // );
-
   const {
     data: schedules,
     error,
@@ -95,11 +88,9 @@ const StudioSchedule = ({ studioId, filter, onClassClick, loggedIn }) => {
   } = useSWR(
     `/api/studio/${studioId}/schedules?weekStart=${weekStart}&weekEnd=${weekEnd}`,
     fetcher
-  );
+  );  
 
-  // console.log('schedules', schedules);
-
-  if (error) return <div>Failed to load schedules</div>;
+  if (error) return <div>{t("failedToLoad")}</div>;
   if (isLoading) {
     return (
       <Stack gap="sm">
@@ -110,7 +101,7 @@ const StudioSchedule = ({ studioId, filter, onClassClick, loggedIn }) => {
     );
   }
 
-  if (!schedules) return <div>Loading...</div>;
+  if (!schedules) return <div>{t("loading")}</div>;
   // console.log(schedules);
 
    const handleDayChange = (newDay) => {
@@ -257,7 +248,7 @@ const StudioSchedule = ({ studioId, filter, onClassClick, loggedIn }) => {
                     radius="xl"
                     size="sm"
                   >
-                    See Price
+                    {t("seePrice")}
                   </Button>
                 )}
               </Group>
@@ -267,8 +258,7 @@ const StudioSchedule = ({ studioId, filter, onClassClick, loggedIn }) => {
           <Center>
             <Stack gap="sm" align="center">
               <Text fw={500} size="xl">
-                Không có lớp nào được lên lịch cho ngày này. Quý khách vui lòng
-                chọn ngày khác.
+                {t("noClasses")}
               </Text>
             </Stack>
           </Center>
@@ -281,7 +271,7 @@ const StudioSchedule = ({ studioId, filter, onClassClick, loggedIn }) => {
           size="md"
           onClick={() => handleDayChange(selectedDay.add(1, "day"))}
         >
-          Chuyển sang ngày kế tiếp
+          {t("nextDay")}
         </Button>
       </Stack>
     </>
