@@ -19,45 +19,33 @@ function getSpotsRemainingRange(spots) {
 }
 
 export const calculateDynamicPrice = async (
-  supabaseClient, // Assuming you're using SupabaseClient type
+  supabase,
   studioId,
   classData,
   startTime,
   spotsRemaining
 ) => {
-    const rules = await fetchPricingRules(supabaseClient, studioId);
-    let finalPrice = classData.price;
-    const startTimeOfDayjs = dayjs(startTime);
-    const hour = startTimeOfDayjs.hour();
-    const timeOfDay = getTimeOfDayRange(hour);
+  const rules = await fetchPricingRules(supabase, studioId);
+  let finalPrice = classData.price;
+  const startTimeOfDayjs = dayjs(startTime).tz("Asia/Ho_Chi_Minh");
+  const hour = startTimeOfDayjs.hour();
+  const timeOfDay = getTimeOfDayRange(hour);
 
-    rules.forEach((rule) => {
-      if (
-        (rule.time_of_day === "all" || rule.time_of_day === timeOfDay) &&
-        (rule.day_of_week === "all" ||
-          rule.day_of_week === startTimeOfDayjs.format("dddd").toLowerCase())
-      ) {
-        finalPrice *= rule.price_multiplier;
-      }
-    });
+  rules.forEach((rule) => {
+    if (
+      (rule.time_of_day === "all" || rule.time_of_day === timeOfDay) &&
+      (rule.day_of_week === "all" ||
+        rule.day_of_week === startTimeOfDayjs.format("dddd").toLowerCase())
+    ) {
+      finalPrice *= rule.price_multiplier;
+    }
+  });
 
-    return finalPrice;
+  // Round the final price to the nearest thousand
+  finalPrice = Math.round(finalPrice / 1000) * 1000;
+
+  return finalPrice;
 };
-
-// Fetch pricing rules
-// async function fetchPricingRules(
-//   supabaseClient, // Assuming you're using SupabaseClient type
-//   studioId: string
-// ) => {
-//   const { data, error } = await supabaseClient
-//     .from("pricing_rules")
-//     .select("time_of_day, day_of_week, spots_remaining, price_multiplier")
-//     .eq("studio_id", studioId)
-//     .eq("is_active", true);
-
-//   if (error) throw new Error("Could not fetch pricing rules.");
-//   return data;
-// }
 
 const fetchPricingRules = async (supabase, studioId) => {
   const { data, error } = await supabase
