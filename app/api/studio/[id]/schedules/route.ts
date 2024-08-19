@@ -6,7 +6,6 @@ import timezone from "dayjs/plugin/timezone";
 
 dayjs.extend(utc);
 dayjs.extend(timezone);
-dayjs.tz.setDefault("Asia/Ho_Chi_Minh");
 
 // Function to categorize time of day into ranges
 function getTimeOfDayRange(hour) {
@@ -45,11 +44,11 @@ const calculateDynamicPrice = async (
 ) => {
   const rules = await fetchPricingRules(supabase, studioId);
   let finalPrice = classData.price;
-  console.log('start time', startTime);
-  const startTimeOfDayjs = dayjs.tz(startTime);
-  console.log('startTimeOfDayjs', startTimeOfDayjs);
+  console.log("start time", startTime);
+  const startTimeOfDayjs = dayjs(startTime);
+  console.log("startTimeOfDayjs", startTimeOfDayjs);
   const hour = startTimeOfDayjs.hour();
-  console.log('hour', hour);
+  console.log("hour", hour);
   const timeOfDay = getTimeOfDayRange(hour);
   console.log("timeOfDay", timeOfDay);
 
@@ -59,11 +58,10 @@ const calculateDynamicPrice = async (
       (rule.day_of_week === "all" ||
         rule.day_of_week === startTimeOfDayjs.format("dddd").toLowerCase())
     ) {
-      
       console.log("final price", finalPrice);
       finalPrice *= rule.price_multiplier;
       console.log(rule.price_multiplier);
-      console.log('final price', finalPrice);
+      console.log("final price", finalPrice);
     }
   });
 
@@ -134,7 +132,7 @@ export async function GET(request, { params }) {
         supabase,
         schedule.studio_id,
         schedule.classes,
-        schedule.start_time,
+        dayjs.utc(schedule.start_time).tz("Asia/Ho_Chi_Minh").toISOString(),
         spotsRemaining
       );
       return { ...schedule, price };
