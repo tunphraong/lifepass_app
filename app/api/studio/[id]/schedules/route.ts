@@ -6,6 +6,7 @@ import timezone from "dayjs/plugin/timezone";
 
 dayjs.extend(utc);
 dayjs.extend(timezone);
+dayjs.tz.setDefault("Asia/Ho_Chi_Minh");
 
 // Function to categorize time of day into ranges
 function getTimeOfDayRange(hour) {
@@ -45,7 +46,8 @@ const calculateDynamicPrice = async (
   const rules = await fetchPricingRules(supabase, studioId);
   let finalPrice = classData.price;
   console.log("start time", startTime);
-  const startTimeOfDayjs = dayjs(startTime);
+  // const startTimeOfDayjs = dayjs(startTime, "Asia/Ho_Chi_Minh");
+  const startTimeOfDayjs = dayjs(startTime).tz("Asia/Ho_Chi_Minh");
   console.log("startTimeOfDayjs", startTimeOfDayjs);
   const hour = startTimeOfDayjs.hour();
   console.log("hour", hour);
@@ -67,6 +69,36 @@ const calculateDynamicPrice = async (
 
   return finalPrice;
 };
+
+// start time 2024-08-21T02:00:00+00:00
+// startTimeOfDayjs M {
+//   '$L': 'en',
+//   '$d': 2024-08-20T19:00:00.000Z,
+//   '$y': 2024,
+//   '$M': 7,
+//   '$D': 21,
+//   '$W': 3,
+//   '$H': 2,
+//   '$m': 0,
+//   '$s': 0,
+//   '$ms': 0,
+//   '$x': { '$localOffset': -420, '$timezone': 'Asia/Ho_Chi_Minh' },
+
+// start time 2024-08-21T03:00:00+00:00
+// startTimeOfDayjs M {
+//   '$L': 'en',
+//   '$d': 2024-08-21T03:00:00.000Z,
+//   '$y': 2024,
+//   '$M': 7,
+//   '$D': 21,
+//   '$W': 3,
+//   '$H': 10,
+//   '$m': 0,
+//   '$s': 0,
+//   '$ms': 0,
+//   '$x': {},
+//   '$isDayjsObject': true
+// }
 
 export async function GET(request, { params }) {
   const supabase = createClient();
@@ -128,11 +160,14 @@ export async function GET(request, { params }) {
   const schedulesWithPrice = await Promise.all(
     schedules.map(async (schedule) => {
       const spotsRemaining = schedule.capacity - schedule.enrolled;
+      console.log('start time', schedule.start_time);
+      console.log('start time convert', dayjs.utc(schedule.start_time).tz("Asia/Ho_Chi_Minh").toISOString());
+
       const price = await calculateDynamicPrice(
         supabase,
         schedule.studio_id,
         schedule.classes,
-        dayjs.utc(schedule.start_time).tz("Asia/Ho_Chi_Minh").toISOString(),
+        schedule.start_time,
         spotsRemaining
       );
       return { ...schedule, price };
