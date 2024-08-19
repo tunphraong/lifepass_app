@@ -160,8 +160,6 @@ export async function GET(request, { params }) {
   const schedulesWithPrice = await Promise.all(
     schedules.map(async (schedule) => {
       const spotsRemaining = schedule.capacity - schedule.enrolled;
-      console.log('start time', schedule.start_time);
-      console.log('start time convert', dayjs.utc(schedule.start_time).tz("Asia/Ho_Chi_Minh").toISOString());
 
       const price = await calculateDynamicPrice(
         supabase,
