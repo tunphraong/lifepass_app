@@ -22,6 +22,7 @@ import { createEvent } from "ics";
 import "dayjs/locale/vi";
 dayjs.locale("vi");
 
+
 const fetcher = (url: any) => fetch(url).then((res) => res.json());
 
 const PaymentResultPage = () => {

@@ -1,7 +1,7 @@
 import PaymentPageComponent from "./PaymentPageComponent";
 import { createClient } from "../../../../utils/supabase/server";
-import { NextResponse } from "next/server";
 import { redirect } from "../../../../navigation";
+export const dynamic = "force-dynamic";
 
 
 export default async function PaymentPage() {
