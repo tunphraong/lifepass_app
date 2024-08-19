@@ -45,14 +45,9 @@ const calculateDynamicPrice = async (
 ) => {
   const rules = await fetchPricingRules(supabase, studioId);
   let finalPrice = classData.price;
-  console.log("start time", startTime);
-  // const startTimeOfDayjs = dayjs(startTime, "Asia/Ho_Chi_Minh");
   const startTimeOfDayjs = dayjs(startTime).tz("Asia/Ho_Chi_Minh");
-  console.log("startTimeOfDayjs", startTimeOfDayjs);
   const hour = startTimeOfDayjs.hour();
-  console.log("hour", hour);
   const timeOfDay = getTimeOfDayRange(hour);
-  console.log("timeOfDay", timeOfDay);
 
   rules.forEach((rule) => {
     if (
@@ -60,10 +55,7 @@ const calculateDynamicPrice = async (
       (rule.day_of_week === "all" ||
         rule.day_of_week === startTimeOfDayjs.format("dddd").toLowerCase())
     ) {
-      console.log("final price", finalPrice);
       finalPrice *= rule.price_multiplier;
-      console.log(rule.price_multiplier);
-      console.log("final price", finalPrice);
     }
   });
 
@@ -108,8 +100,6 @@ export async function GET(request, { params }) {
   const weekStart = searchParams.get("weekStart");
   let weekEnd = searchParams.get("weekEnd");
 
-  // console.log(date);
-  console.log(weekEnd, weekStart);
 
   if (!weekStart || !weekEnd) {
     return NextResponse.json(
@@ -127,7 +117,7 @@ export async function GET(request, { params }) {
     weekEnd = maxDate.format("YYYY-MM-DD");
   }
 
-  console.log("get here", weekStart, weekEnd);
+  
   const { data: schedules, error: schedulesError } = await supabase
     .from("schedules")
     .select(
