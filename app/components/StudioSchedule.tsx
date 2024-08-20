@@ -28,10 +28,11 @@ import { useDisclosure, useMediaQuery } from "@mantine/hooks";
 import { useRouter } from "../../navigation";
 import { IconChevronRight, IconCalendar } from "@tabler/icons-react";
 import { createClient } from "../../utils/supabase/client";
-require("dayjs/locale/vi");
 import isSameOrBefore from "dayjs/plugin/isSameOrBefore"; // ES 2015
 import { useTranslations } from "next-intl";
 import { useFormatter } from "next-intl";
+import "dayjs/locale/vi";
+dayjs.locale("vi");
 
 dayjs.extend(isSameOrBefore);
 
