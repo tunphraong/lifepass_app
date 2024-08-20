@@ -32,8 +32,12 @@ import isSameOrBefore from "dayjs/plugin/isSameOrBefore"; // ES 2015
 import { useTranslations } from "next-intl";
 import { useFormatter } from "next-intl";
 import "dayjs/locale/vi";
+import utc from "dayjs/plugin/utc";
+import timezone from "dayjs/plugin/timezone";
 dayjs.locale("vi");
-
+dayjs.extend(utc);
+dayjs.extend(timezone);
+dayjs.tz.setDefault("Asia/Ho_Chi_Minh");
 dayjs.extend(isSameOrBefore);
 
 const StudioSchedule = ({ studioId, filter, onClassClick, loggedIn }) => {
