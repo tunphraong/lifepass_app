@@ -67,6 +67,7 @@ export default async function RootLayout({
 }) {
   unstable_setRequestLocale(locale);
   const messages = await getMessages();
+  const timeZone = "Asia/Ho_Chi_Minh";
   return (
     <html lang={locale} style={{ backgroundColor: "#fcfaf9" }}>
       <head>
@@ -78,7 +79,7 @@ export default async function RootLayout({
         />
       </head>
       <body>
-        <NextIntlClientProvider messages={messages}>
+        <NextIntlClientProvider timeZone={timeZone} messages={messages}>
           <MantineProvider theme={theme}>
             <Notifications />
             {children}
