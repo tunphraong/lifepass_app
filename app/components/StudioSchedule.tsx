@@ -31,6 +31,7 @@ import { createClient } from "../../utils/supabase/client";
 require("dayjs/locale/vi");
 import isSameOrBefore from "dayjs/plugin/isSameOrBefore"; // ES 2015
 import { useTranslations } from "next-intl";
+import { useFormatter } from "next-intl";
 
 dayjs.extend(isSameOrBefore);
 
@@ -61,6 +62,7 @@ const StudioSchedule = ({ studioId, filter, onClassClick, loggedIn }) => {
     null
   );
   const t = useTranslations("StudioSchedule");
+  const format = useFormatter();
 
   const handleEnroll = (schedule) => {
     router.push(
@@ -160,7 +162,12 @@ const StudioSchedule = ({ studioId, filter, onClassClick, loggedIn }) => {
             <Group>
               <IconCalendar size={isSmallScreen ? 16 : 20} />
               <Text size={isSmallScreen ? "sm" : "md"}>
-                {selectedDay.locale("vi").format("DD, MMMM")}
+                {/* {selectedDay.format("DD/MM/YYYY")} */}
+                {format.dateTime(selectedDay.toDate(), {
+                  year: "numeric",
+                  month: "long",
+                  day: "numeric",
+                })}
               </Text>
             </Group>
           </Box>
@@ -189,7 +196,10 @@ const StudioSchedule = ({ studioId, filter, onClassClick, loggedIn }) => {
                 onClick={() => handleDayChange(day)}
                 disabled={day.isBefore(dayjs().startOf("day"))}
               >
-                {day.format("ddd")}
+                {/* {day.format("ddd")} */}
+                {format.dateTime(day.toDate(), {
+                  weekday: "short"
+                })}
               </Button>
             );
           })}

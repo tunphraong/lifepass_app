@@ -51,5 +51,20 @@
     "seePrice": "Xem giá",
     "noClasses": "Không có lớp nào được lên lịch cho ngày này. Quý khách vui lòng chọn ngày khác.",
     "nextDay": "Chuyển sang ngày kế tiếp"
+  },
+  "PaymentPage": {
+    "errorLoading": "Lỗi khi tải dữ liệu. Vui lòng thử lại.",
+    "notFound": "Không tìm thấy.",
+    "selectPaymentMethod": "Chọn phương thức thanh toán",
+    "selectedClass": "Lớp đã chọn:",
+    "price": "Giá:",
+    "date": "Ngày:",
+    "time": "Thời gian:",
+    "choosePaymentMethod": "Chọn phương thức thanh toán của bạn",
+    "proceedToPayment": "Tiếp tục thanh toán",
+    "note": "Lưu ý:",
+    "cancellationPolicy": "Bạn cần hủy lớp trước 12 tiếng để được hoàn tiền.",
+    "paymentError": "Thanh toán không thành công. Xin liên lạc với LifePass nếu vấn đề vẫn tiếp tục.",
+    "goBack": "Quay lại"
   }
 }

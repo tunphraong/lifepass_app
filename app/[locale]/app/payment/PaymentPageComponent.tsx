@@ -26,12 +26,12 @@ import useSWR from "swr";
 import dayjs from "dayjs";
 const fetcher = (url: any) => fetch(url).then((res) => res.json());
 import { useTranslations } from "next-intl";
+import { useFormatter } from "next-intl";
 import Image from "next/image";
 import classes from "./PaymentPage.module.css";
 // require("dayjs/locale/vi");
 import "dayjs/locale/vi";
 dayjs.locale("vi");
-// Define the type for the user prop
 interface User {
   id: string;
   email: string;
@@ -44,7 +44,9 @@ const PaymentPageComponent = ({ userId }) => {
   const pathname = usePathname();
   const parts = pathname.split("/");
   const localePrefix = parts.length > 1 ? `/${parts[1]}` : "";
-  console.log(localePrefix); // Example output: "/en"
+  // console.log(localePrefix); // Example output: "/en"
+  const t = useTranslations("PaymentPage");
+  const format = useFormatter();
 
   const searchParams = useSearchParams();
   const scheduleId = searchParams.get("scheduleId") ?? null;
@@ -112,6 +114,7 @@ const PaymentPageComponent = ({ userId }) => {
   // Calculate the end time based on duration
   const startTime = dayjs(schedule.start_time);
   const endTime = startTime.add(classData?.duration || 0, "minute");
+  const dateTime = new Date(schedule.start_time);
   const formattedEndTime = endTime.format("h:mm A");
 
   const handlePayment = () => {
@@ -123,7 +126,7 @@ const PaymentPageComponent = ({ userId }) => {
       bank_code: "zalopayapp",
       schedule_id: schedule.id,
       user_id: userId,
-      locale: localePrefix
+      locale: localePrefix,
     };
 
     fetch("/api/zalopay", {
@@ -182,13 +185,15 @@ const PaymentPageComponent = ({ userId }) => {
     </Alert>
   ) : (
     <Stack align="center" gap="md">
-      <Text fw={500}>Chọn phương thức thanh toán</Text>
+      <Text fw={500}>{t("selectPaymentMethod")}</Text>
       <Card shadow="sm" padding="sm" radius="md" withBorder>
         <Stack gap="lg">
           <Title order={3}>{studioData.name}</Title>
-          <Text>Lớp đã chọn: {classData.name}</Text>
           <Text>
-            Giá:{" "}
+            {t("selectedClass")} {classData.name}
+          </Text>
+          <Text>
+            {t("price")}{" "}
             {scheduleWithPrice?.price.toLocaleString("vi-VN", {
               style: "currency",
               currency: "VND",
@@ -196,10 +201,16 @@ const PaymentPageComponent = ({ userId }) => {
           </Text>
 
           <Text>
-            Ngày: {dayjs(schedule?.start_time).format("dddd, DD MMMM, YYYY")}
+            {t("date")}{" "}
+            {format.dateTime(dateTime, {
+              year: "numeric",
+              month: "long",
+              day: "numeric",
+            })}
+            {/* {dayjs(schedule?.start_time).format("dddd, DD MMMM, YYYY")} */}
           </Text>
           <Text>
-            Thời gian: {dayjs(schedule?.start_time).format("h:mm A")} -{" "}
+            {t("time")} {dayjs(schedule?.start_time).format("h:mm A")} -{" "}
             {dayjs(schedule?.start_time)
               .add(classData?.duration, "minute")
               .format("h:mm A")}
@@ -209,7 +220,7 @@ const PaymentPageComponent = ({ userId }) => {
             value={selectedPaymentMethod}
             onChange={setSelectedPaymentMethod}
             // label=""
-            label="Chọn phương thức thanh toán của bạn"
+            label={t("choosePaymentMethod")}
             required
           >
             <Radio
@@ -259,7 +270,7 @@ const PaymentPageComponent = ({ userId }) => {
             /> */}
           </RadioGroup>
           <Button fullWidth color="yellow" onClick={handlePayment}>
-            Tiếp tục thanh toán
+            {t("proceedToPayment")}
             {/* Proceed to Payment */}
           </Button>
         </Stack>
@@ -268,9 +279,9 @@ const PaymentPageComponent = ({ userId }) => {
       <Alert color="yellow" radius="md">
         <Group>
           <Text fw={500} size="md">
-            Lưu ý:
+            {t("note")}
           </Text>
-          <Text size="sm">Bạn cần hủy lớp trước 12 giờ để được hoàn tiền.</Text>
+          <Text size="sm">{t("cancellationPolicy")}</Text>
         </Group>
       </Alert>
     </Stack>

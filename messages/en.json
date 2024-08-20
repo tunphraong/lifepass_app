@@ -51,5 +51,20 @@
     "seePrice": "See Price",
     "noClasses": "No classes scheduled for this day. Please choose another day.",
     "nextDay": "Go to next day"
+  },
+  "PaymentPage": {
+    "errorLoading": "Error loading data. Please try again.",
+    "notFound": "Not found.",
+    "selectPaymentMethod": "Select Payment Method",
+    "selectedClass": "Selected Class:",
+    "price": "Price:",
+    "date": "Date:",
+    "time": "Time:",
+    "choosePaymentMethod": "Choose your payment method",
+    "proceedToPayment": "Proceed to Payment",
+    "note": "Note:",
+    "cancellationPolicy": "You need to cancel the class 12 hours in advance to get a refund.",
+    "paymentError": "Payment unsuccessful. Please contact LifePass if the problem persists.",
+    "goBack": "Go Back"
   }
 }

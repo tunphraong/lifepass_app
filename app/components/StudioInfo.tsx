@@ -33,6 +33,7 @@ import {
   IconWallpaper,
   IconYoga,
   IconDroplet,
+  IconCoffee,
 } from "@tabler/icons-react";
 import Image from "next/image";
 import StudioSchedule from "./StudioSchedule";
@@ -67,7 +68,7 @@ export function StudioInfo({ studio, loggedIn }: StudioInfoProps) {
   let logo;
   logo = "/test-icon.jpg";
   if (name == "Reborn Fitness & Health") {
-    logo = "/reborn.png"
+    logo = "/reborn.png";
   }
 
   // Map amenities to corresponding icons (you'll need to import these icons)
@@ -78,6 +79,7 @@ export function StudioInfo({ studio, loggedIn }: StudioInfoProps) {
     Towel: <IconWallpaper size={16} />,
     Parking: <IconParking size={16} />,
     Water: <IconDroplet size={16} />,
+    Coffee: <IconCoffee size={16} />,
     // Add more amenity mappings as needed
   };
 
@@ -211,9 +213,16 @@ export function StudioInfo({ studio, loggedIn }: StudioInfoProps) {
                   rel="noopener noreferrer"
                   className={styles.link}
                 >
-                  <IconBrandInstagram size={24} />
+                  <ThemeIcon size={24} radius="md" color="yellow">
+                    <IconBrandInstagram size={24} />
+                  </ThemeIcon>
                 </a>
               )}
+            </Group>
+          )}
+
+          {socialMedia && (
+            <Group mt={3} gap="xs">
               {socialMedia.facebook && (
                 <a
                   href={socialMedia.facebook}
@@ -221,19 +230,11 @@ export function StudioInfo({ studio, loggedIn }: StudioInfoProps) {
                   rel="noopener noreferrer"
                   className={styles.link}
                 >
-                  <IconBrandFacebook size={24} />
+                  <ThemeIcon size={24} radius="md" color="yellow">
+                    <IconBrandFacebook size={24} />
+                  </ThemeIcon>
                 </a>
               )}
-              {/* {socialMedia.twitter && (
-                <a
-                  href={socialMedia.twitter}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className={styles.socialLink}
-                >
-                  <IconBrandTwitter size={24} color="yellow" />
-                </a>
-              )} */}
             </Group>
           )}
 
