@@ -11,3 +11,8 @@
     background-color: rgba(0, 0, 0, 0.1);
   }
 } */
+
+.strikethrough {
+  text-decoration: line-through;
+  color: #888;
+}

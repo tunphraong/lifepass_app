@@ -70,7 +70,9 @@ function generateMacOrder(
 
 export async function POST(req: NextRequest) {
   const supabase = createClient();
-  const { user_id, schedule_id, amount, locale } = await req.json();
+  const { user_id, schedule_id, amount, locale, discount_code } = await req.json();
+
+  console.log(discount_code);
 
   // Check if the class is in the past
   const isInPast = await isClassInPast(schedule_id);
@@ -86,6 +88,7 @@ export async function POST(req: NextRequest) {
   const embed_data = {
     preferred_payment_method: [],
     redirecturl: `${HOST_URL}${locale}/app/payment-result`,
+    promotioninfo: {"campaigncode": discount_code}
   };
   console.log(embed_data);
 

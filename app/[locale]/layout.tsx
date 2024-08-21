@@ -1,4 +1,5 @@
 import "@mantine/core/styles.css";
+import "@mantine/notifications/styles.css";
 import React from "react";
 import { Notifications } from "@mantine/notifications";
 import {
@@ -81,7 +82,7 @@ export default async function RootLayout({
       <body>
         <NextIntlClientProvider timeZone={timeZone} messages={messages}>
           <MantineProvider theme={theme}>
-            <Notifications />
+            <Notifications position="top-center"/>
             {children}
             <Analytics />
             <SpeedInsights />

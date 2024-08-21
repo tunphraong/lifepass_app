@@ -18,7 +18,7 @@ import {
   Radio,
   RadioGroup,
   Title,
-  rem,
+  TextInput,
 } from "@mantine/core";
 import { notifications } from "@mantine/notifications";
 import { Schedule, Class, Studio } from "../types";
@@ -47,12 +47,14 @@ const PaymentPageComponent = ({ userId }) => {
   // console.log(localePrefix); // Example output: "/en"
   const t = useTranslations("PaymentPage");
   const format = useFormatter();
-
   const searchParams = useSearchParams();
   const scheduleId = searchParams.get("scheduleId") ?? null;
   const studioId = searchParams.get("studioId") ?? null;
   const [selectedPaymentMethod, setSelectedPaymentMethod] =
     useState<string>("zalopay");
+  const [discountCode, setDiscountCode] = useState<string>("");
+  const [discountApplied, setDiscountApplied] = useState<boolean>(false);
+  const [discountAmount, setDiscountAmount] = useState<number>(0);
 
   const {
     data: schedule,
@@ -122,11 +124,12 @@ const PaymentPageComponent = ({ userId }) => {
     // console.log("Proceed to payment for schedule:", schedule);
     // Implement payment logic here based on selectedPaymentMethod
     const paymentDetails = {
-      amount: scheduleWithPrice.price,
+      amount: scheduleWithPrice.price - discountAmount,
       bank_code: "zalopayapp",
       schedule_id: schedule.id,
       user_id: userId,
       locale: localePrefix,
+      discount_code: discountCode
     };
 
     fetch("/api/zalopay", {
@@ -138,7 +141,6 @@ const PaymentPageComponent = ({ userId }) => {
     })
       .then((response) => response.json())
       .then((data) => {
-        console.log("data", data);
         if (data.error) {
           // Set the API error state if there's an error
           // setApiError(data.error); // Set the API error state
@@ -171,6 +173,62 @@ const PaymentPageComponent = ({ userId }) => {
       });
   };
 
+  const handleApplyDiscount = () => {
+    if (discountCode.trim() === "") {
+      notifications.show({
+        color: "red",
+        title: "Error",
+        message: "Please enter a discount code.",
+        autoClose: false,
+        classNames: classes,
+      });
+      return;
+    }
+
+    fetch(`/api/apply-discount`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ discountCode, scheduleId, userId, originalPrice: scheduleWithPrice.price }),
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        if (data.error) {
+          notifications.show({
+            color: "red",
+            position: "top-center",
+            title: "Discount error",
+            message: data.error,
+            autoClose: false, 
+          });
+        } else {
+          console.log(data);
+          setDiscountApplied(true);
+          setDiscountAmount(data.discountAmount);
+          notifications.show({
+            color: "green",
+            position: "top-center",
+            title: "Discount Applied",
+            message: `Discount of ${data.discountAmount} VND applied!`,
+            autoClose: false,
+          });
+        }
+      })
+      .catch((error) => {
+        notifications.show({
+          color: "red",
+          position: "top-center",
+          title: "Error",
+          message:
+            "There was an error applying the discount. Please try again.",
+          autoClose: false,
+        });
+        console.error("Error:", error);
+      });
+  };
+
+
   return apiError ? (
     <Alert
       color="red"
@@ -184,7 +242,7 @@ const PaymentPageComponent = ({ userId }) => {
       </Button>
     </Alert>
   ) : (
-    <Stack align="center" gap="md">
+    <Stack align="center" gap="md" mt={20}>
       <Text fw={500}>{t("selectPaymentMethod")}</Text>
       <Card shadow="sm" padding="sm" radius="md" withBorder>
         <Stack gap="lg">
@@ -192,13 +250,42 @@ const PaymentPageComponent = ({ userId }) => {
           <Text>
             {t("selectedClass")} {classData.name}
           </Text>
-          <Text>
+          {/* <Text>
             {t("price")}{" "}
-            {scheduleWithPrice?.price.toLocaleString("vi-VN", {
+            {(scheduleWithPrice?.price - discountAmount).toLocaleString("vi-VN", {
               style: "currency",
               currency: "VND",
             })}
-          </Text>
+          </Text> */}
+
+          {discountApplied ? (
+            <>
+              <Text>
+                {t("price")}{" "}
+                <span className={classes.strikethrough}>
+                  {scheduleWithPrice.price.toLocaleString("vi-VN", {
+                    style: "currency",
+                    currency: "VND",
+                  })}
+                </span>
+                {(scheduleWithPrice.price - discountAmount).toLocaleString(
+                  "vi-VN",
+                  {
+                    style: "currency",
+                    currency: "VND",
+                  }
+                )}
+              </Text>
+            </>
+          ) : (
+            <Text>
+              {t("price")}{" "}
+              {scheduleWithPrice.price.toLocaleString("vi-VN", {
+                style: "currency",
+                currency: "VND",
+              })}
+            </Text>
+          )}
 
           <Text>
             {t("date")}{" "}
@@ -269,13 +356,29 @@ const PaymentPageComponent = ({ userId }) => {
               }
             /> */}
           </RadioGroup>
-          <Button fullWidth color="yellow" onClick={handlePayment}>
+
+          <TextInput
+            placeholder="Enter discount code"
+            value={discountCode}
+            onChange={(event) => setDiscountCode(event.currentTarget.value)}
+          />
+          <Button fullWidth autoContrast={true} color="blue" onClick={handleApplyDiscount}>
+            Apply Discount
+          </Button>
+
+          <Button
+            fullWidth
+            variant="filled"
+            color="yellow"
+            autoContrast={true}
+            onClick={handlePayment}
+          >
             {t("proceedToPayment")}
             {/* Proceed to Payment */}
           </Button>
         </Stack>
       </Card>
-      <Divider my="md" />
+      {/* <Divider my="md" /> */}
       <Alert color="yellow" radius="md">
         <Group>
           <Text fw={500} size="md">
