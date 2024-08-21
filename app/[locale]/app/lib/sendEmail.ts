@@ -2,10 +2,17 @@
 import formData from "form-data";
 import Mailgun from "mailgun.js";
 import { createClient } from "../../../../utils/supabase/server";
+
 import dayjs from "dayjs";
+import utc from "dayjs/plugin/utc";
+import timezone from "dayjs/plugin/timezone";
+
+dayjs.extend(utc);
+dayjs.extend(timezone);
+dayjs.tz.setDefault("Asia/Ho_Chi_Minh");
+
 import "dayjs/locale/vi";
 dayjs.locale("vi");
-import { useFormatter } from "next-intl";
 
 const mailgun = new Mailgun(formData);
 const mg = mailgun.client({
@@ -19,7 +26,6 @@ export const sendConfirmationEmail = async (
   userId: string
 ) => {
   const supabase = createClient(); // Use the appropriate Supabase client (server or client, depending on the context)
-    const format = useFormatter();
 
   // 3. Fetch schedule details
   const { data: scheduleData, error: scheduleError } = await supabase
