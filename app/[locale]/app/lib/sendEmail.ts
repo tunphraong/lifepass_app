@@ -5,6 +5,7 @@ import { createClient } from "../../../../utils/supabase/server";
 import dayjs from "dayjs";
 import "dayjs/locale/vi";
 dayjs.locale("vi");
+import { useFormatter } from "next-intl";
 
 const mailgun = new Mailgun(formData);
 const mg = mailgun.client({
@@ -18,6 +19,7 @@ export const sendConfirmationEmail = async (
   userId: string
 ) => {
   const supabase = createClient(); // Use the appropriate Supabase client (server or client, depending on the context)
+    const format = useFormatter();
 
   // 3. Fetch schedule details
   const { data: scheduleData, error: scheduleError } = await supabase
@@ -77,9 +79,11 @@ export const sendConfirmationEmail = async (
             <h2>${classData.name}</h2>
             <p>Studio: ${studioData.name}</p>
             <p>Địa chỉ: ${studioData.address}</p>
-            <p>Thời gian: ${dayjs(scheduleData.start_time).format(
+            <p>Thời gian: 
+            ${dayjs(scheduleData.start_time).format(
               "HH:mm dddd, DD MMMM YYYY "
-            )}</p> 
+            )}
+            </p> 
             <p>Chúng tôi rất mong được gặp bạn ở lớp học!</p>
             <p>Trân trọng,</p>
             <p>Đội ngũ LifePass</p>
