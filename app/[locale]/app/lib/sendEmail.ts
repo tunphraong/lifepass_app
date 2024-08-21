@@ -86,9 +86,9 @@ export const sendConfirmationEmail = async (
             <p>Studio: ${studioData.name}</p>
             <p>Địa chỉ: ${studioData.address}</p>
             <p>Thời gian: 
-            ${dayjs(scheduleData.start_time).format(
-              "HH:mm dddd, DD MMMM YYYY "
-            )}
+            ${dayjs(scheduleData.start_time)
+              .tz("Asia/Ho_Chi_Minh")
+              .format("HH:mm dddd, DD MMMM YYYY ")}
             </p> 
             <p>Chúng tôi rất mong được gặp bạn ở lớp học!</p>
             <p>Trân trọng,</p>
@@ -106,9 +106,10 @@ export const sendConfirmationEmail = async (
       <html>
         <body>
           <p>Dear ${studioData.name},</p>
-          <p>Bạn có một booking mới cho lớp ${classData.name} on ${dayjs(
-        scheduleData.start_time
-      ).format("dddd, DD MMMM YYYY HH:mm")}.</p>
+          <p>Bạn có một booking mới cho lớp ${classData.name} on 
+          ${dayjs(scheduleData.start_time)
+          .tz("Asia/Ho_Chi_Minh")
+          .format("dddd, DD MMMM YYYY HH:mm")}.</p>
           <p>Customer Name: ${user.first_name} ${user.last_name}</p>
           <p>Customer Email: ${user.email}</p>
           <p>Cảm ơn bạn đã đồng hành cùng LifePass!</p>
