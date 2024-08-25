@@ -7,6 +7,11 @@ import classes from "./Header.module.css";
 import LocaleSwitcher from "../components/LocaleSwitcher";
 import { useTranslations } from "next-intl";
 import {Link} from "../../navigation";
+import logo from "../../public/lifepass.svg";
+import { UnstyledButton } from "@mantine/core";
+import Image from "next/image";
+
+
 const links = [
   { link: "/about", label: "Features" },
   {
@@ -82,17 +87,14 @@ export default function Header() {
     <header className={classes.header}>
       <Container size="md">
         <div className={classes.inner}>
-          {/* <Text size="xl">LifePass</Text> */}
-          <Link href="/">LifePass</Link>
-          {/* <NavigationLink href="/">{t("home")}</NavigationLink> */}
-          {/* <Group gap={5} visibleFrom="sm"> */}
-            {/* {items} */}
-            {/* <NavigationLink href="/contact">{t("contact")}</NavigationLink> */}
-            <LocaleSwitcher />
-          {/* </Group> */}
-          {/* <Burger opened={opened} onClick={toggle} size="sm" hiddenFrom="sm" /> */}
+          <Link href="/">
+            {/* <UnstyledButton component="a"> */}
+              <Image src={logo} alt="LifePass Logo" width={150} height={60} />
+            {/* </UnstyledButton> */}
+          </Link>
+          {/* Your navigation and other components go here */}
+          <LocaleSwitcher />
         </div>
-        {/* <LocaleSwitcher> */}
       </Container>
     </header>
   );

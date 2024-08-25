@@ -20,6 +20,8 @@ import { useRouter } from "../../../navigation";
 import { Session } from "@supabase/supabase-js"; // Import Session type
 import LoginForm from "../../components/LoginForm"; // Import LoginForm component
 import styles from "./layout.module.css";
+import logo from "../../../public/lifepass.svg";
+import Image from "next/image";
 
 export default function MobileNavbar({
   children,
@@ -83,7 +85,7 @@ Readonly<{
   return (
     <>
       <AppShell
-        header={{ height: 60 }}
+        header={{ height: 80 }}
         navbar={{
           width: 300,
           breakpoint: "sm",
@@ -101,10 +103,17 @@ Readonly<{
               size="sm"
             />
             <Group justify="space-between" style={{ flex: 1 }}>
-              {/* <MantineLogo size={30} /> */}
-              <Link href="/app/search" className={`${styles.control}`}>
-                <UnstyledButton component="a">LifePass</UnstyledButton>
+              <Link href="/">
+                <UnstyledButton component="a">
+                  <Image
+                    src={logo}
+                    alt="LifePass Logo"
+                    width={150}
+                    height={60}
+                  />
+                </UnstyledButton>
               </Link>
+
               <Group ml="xl" gap={0} visibleFrom="sm">
                 <Link href="/app/search" className={styles.link} passHref>
                   <UnstyledButton className={`${styles.control}`}>
@@ -156,15 +165,6 @@ Readonly<{
               Home
             </UnstyledButton>
           </Link>
-          {/* <Link
-            href={session ? "/app/logout" : "/app/login"}
-            className={classes.link}
-            passHref
-          >
-            <UnstyledButton className={`${classes.control}`}>
-              {session ? "Đăng Xuất" : "Đăng Nhập"}
-            </UnstyledButton>
-          </Link> */}
 
           {session ? (
             <>

@@ -17,6 +17,14 @@
   box-sizing: border-box;
 }
 
+/* Center buttons horizontally */
+.centered-group {
+  display: flex;
+  justify-content: center; /* Center items horizontally */
+  align-items: center; /* Center items vertically */
+  width: 100%; /* Ensure it takes full width */
+}
+
 /* Adjust padding and centering for smaller screens */
 @media (max-width: 768px) {
   .container {
