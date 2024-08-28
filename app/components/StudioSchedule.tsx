@@ -154,7 +154,7 @@ const StudioSchedule = ({ studioId, filter, onClassClick, loggedIn }) => {
             variant="filled"
             color="yellow"
             radius="xl"
-            size={isSmallScreen ? "md" : "lg"}
+            size={isSmallScreen ? "sm" : "md"}
             onClick={() => handleWeekChange(-1)}
             disabled={currentDate
               .startOf("week")
@@ -167,10 +167,9 @@ const StudioSchedule = ({ studioId, filter, onClassClick, loggedIn }) => {
             <Group>
               <IconCalendar size={isSmallScreen ? 16 : 20} />
               <Text size={isSmallScreen ? "sm" : "md"}>
-                {/* {selectedDay.format("DD/MM/YYYY")} */}
                 {format.dateTime(selectedDay.toDate(), {
                   year: "numeric",
-                  month: "long",
+                  month: "short",
                   day: "numeric",
                 })}
               </Text>
@@ -181,7 +180,7 @@ const StudioSchedule = ({ studioId, filter, onClassClick, loggedIn }) => {
             variant="filled"
             color="yellow"
             radius="xl"
-            size={isSmallScreen ? "md" : "lg"}
+            size={isSmallScreen ? "sm" : "md"}
             onClick={() => handleWeekChange(1)}
           >
             <IconArrowRight size={isSmallScreen ? 16 : 20} />

@@ -7,29 +7,28 @@ import {
   Text,
   ThemeIcon,
   Title,
-  Rating,
   Tabs,
   Divider,
-  ActionIcon,
   Stack,
   Space,
   Spoiler,
   Center,
+  Button,
+  Loader,
+  Card,
+  HoverCard,
+  HoverCardDropdown,
+  HoverCardTarget,
 } from "@mantine/core";
-import {
-  IconUserPlus,
-  IconHeart,
-  IconStar,
-  IconMapPin,
-  IconInfoCircle,
+import { 
   IconPhone,
   IconAt,
   IconBrandFacebook,
   IconBrandInstagram,
-  IconBrandTwitter,
   IconBath,
   IconLock,
   IconParking,
+  IconClock,
   IconWallpaper,
   IconYoga,
   IconDroplet,
@@ -42,6 +41,8 @@ import { Link } from "../../navigation";
 import StudioAddress from "./StudioAddress";
 import { useState } from "react"; // Import useState
 import { useTranslations } from "next-intl";
+import useSWR from "swr";
+const fetcher = (url: any) => fetch(url).then((res) => res.json());
 
 interface StudioInfoProps {
   studio: any;
@@ -83,14 +84,17 @@ export function StudioInfo({ studio, loggedIn }: StudioInfoProps) {
     // Add more amenity mappings as needed
   };
 
-  const [activeTab, setActiveTab] = useState<string | null>("info"); // State for active tab
-  // const handleTabChange = (value: string | null) => {
-  //   setActiveTab(value);
-  //   if (value === "info") {
-  //     setSelectedClassName(null); // Reset selected class when switching to Info tab
-  //   }
-  // };
 
+  const {
+    data: classData,
+    isLoading: isClassLoading,
+    error: classError,
+  } = useSWR(
+    studio.id ? `/api/classes-by-studio-id/${studio.id}` : null,
+    fetcher
+  );
+
+  const [activeTab, setActiveTab] = useState<string | null>("info"); // State for active tab
   const [selectedClass, setSelectedClass] = useState(null); // State to manage selected class
   const [classFilter, setClassFilter] = useState(""); // State to manage class filter
 
@@ -99,6 +103,15 @@ export function StudioInfo({ studio, loggedIn }: StudioInfoProps) {
     setClassFilter(classInfo.name);
     setActiveTab("schedule");
   };
+
+  if (classError) return <div>Error loading data. Please try again.</div>;
+  if (isClassLoading) {
+    return (
+      <Center className="my-6">
+        <Loader />
+      </Center>
+    );
+  }
 
   return (
     <Box mt={4}>
@@ -244,12 +257,54 @@ export function StudioInfo({ studio, loggedIn }: StudioInfoProps) {
 
           <Stack gap="sm">
             <Title order={3}>{t("bookClass")}</Title>
-            <StudioSchedule
-              loggedIn={loggedIn}
-              studioId={studio.id}
-              filter=""
-              onClassClick={handleClassClick}
-            ></StudioSchedule>
+
+            <Stack>
+              {classData.map((activity) => (
+                <Card
+                  key={activity.id}
+                  shadow="sm"
+                  padding="sm"
+                  radius="md"
+                  withBorder
+                >
+                  <Group justify="space-between" grow>
+                    <div>
+                      <HoverCard width={280} shadow="md">
+                        <HoverCard.Target>
+                          <Title order={6}>{activity.name}</Title>
+                        </HoverCard.Target>
+                        <HoverCard.Dropdown>
+                          <Text size="sm">
+                            {activity.description}
+                          </Text>
+                        </HoverCard.Dropdown>
+                      </HoverCard>
+
+                      <Text size="sm" color="dimmed">
+                        <IconClock
+                          size={16}
+                          style={{ verticalAlign: "middle" }}
+                        />{" "}
+                        {activity.duration} mins
+                      </Text>
+                    </div>
+
+                    <Button
+                      className={styles.button}
+                      fullWidth
+                      color="yellow"
+                      onClick={() => handleClassClick(activity)}
+                      variant="filled"
+                      radius="xl"
+                      size="sm"
+                    >
+                      Book now
+                    </Button>
+                  </Group>
+            
+                </Card>
+              ))}
+            </Stack>
           </Stack>
 
           <Space h="xl" />

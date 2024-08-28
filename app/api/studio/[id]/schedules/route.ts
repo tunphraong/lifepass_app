@@ -56,6 +56,8 @@ export async function GET(request, { params }) {
     .lt("start_time", `${weekEnd}T23:59:59Z`)
     .order("start_time", { ascending: true });
 
+    // console.log(schedules);
+
   if (schedulesError) {
     return NextResponse.json(
       { error: schedulesError.message },
