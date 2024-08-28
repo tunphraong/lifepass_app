@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState} from "react";
 import {
   Card,
   Text,
@@ -12,6 +12,7 @@ import {
   Title,
   Center,
   Box,
+  Collapse,
   Skeleton,
   useMantineTheme,
 } from "@mantine/core";
@@ -56,16 +57,18 @@ const StudioSchedule = ({ studioId, filter, onClassClick, loggedIn }) => {
   const supabase = createClient();
   const [userSession, setUserSession] = useState(null); // State to hold user session
   const router = useRouter();
-  const [opened, { open, close }] = useDisclosure(false);
+  // const [opened, { toggle }] = useDisclosure(false);
   const [selectedSchedule, setSelectedSchedule] = useState(null);
   const [date, setDate] = useState(dayjs().format("YYYY-MM-DD"));
   const startDate = dayjs(date).startOf("week").format("YYYY-MM-DD");
   const endDate = dayjs(date).endOf("week").format("YYYY-MM-DD");
   const [currentDate, setCurrentDate] = useState(dayjs().startOf("day"));
   const [selectedDay, setSelectedDay] = useState(currentDate);
-  const [selectedClassName, setSelectedClassName] = useState<string | null>(
-    null
-  );
+  // const [selectedClassName, setSelectedClassName] = useState<string | null>(
+  //   null
+  // );
+  // const [selectedClass, setSelectedClass] = useState(null);
+  const [selectedClassId, setSelectedClassId] = useState(null);
   const t = useTranslations("StudioSchedule");
   const format = useFormatter();
 
@@ -75,15 +78,9 @@ const StudioSchedule = ({ studioId, filter, onClassClick, loggedIn }) => {
     );
   };
 
-  // const handleClassClick = (schedule) => {
-  //   const className = schedule.classes.name.toLowerCase().replace(/ /g, "-");
-  //   router.push(`/app/classes/${schedule.studio_id}/${className}`);
-  // };
-
-  // Function to handle class name click
-  const handleClassNameClick = (className: string) => {
-    setSelectedClassName(className); // Update selected class name state
-  };
+    const handleClassClick = (scheduleId) => {
+      setSelectedClassId(selectedClassId === scheduleId ? null : scheduleId);
+    };
 
   const weekStart = selectedDay.startOf("week").format("YYYY-MM-DD");
   const weekEnd = selectedDay.endOf("week").format("YYYY-MM-DD");
@@ -109,7 +106,6 @@ const StudioSchedule = ({ studioId, filter, onClassClick, loggedIn }) => {
   }
 
   if (!schedules) return <div>{t("loading")}</div>;
-  // console.log(schedules);
 
    const handleDayChange = (newDay) => {
      if (newDay.isAfter(dayjs().startOf("day").subtract(1, "day"))) {
@@ -120,6 +116,12 @@ const StudioSchedule = ({ studioId, filter, onClassClick, loggedIn }) => {
      }
    };
 
+  //  const handleDayChange = useCallback((newDay) => {
+  //    if (newDay.isAfter(dayjs().startOf("day").subtract(1, "day"))) {
+  //      setSelectedDay(newDay);
+  //    }
+  //  }, []);
+
   const handleWeekChange = (direction) => {
     const newDate = currentDate.add(direction, "week");
     if (newDate.isAfter(dayjs().startOf("week").subtract(1, "week"))) {
@@ -127,6 +129,17 @@ const StudioSchedule = ({ studioId, filter, onClassClick, loggedIn }) => {
       setSelectedDay(newDate.startOf("week"));
     }
   };
+
+    // const handleWeekChange = useCallback(
+    //   (direction) => {
+    //     const newDate = currentDate.add(direction, "week");
+    //     if (newDate.isAfter(dayjs().startOf("week").subtract(1, "week"))) {
+    //       setCurrentDate(newDate);
+    //       setSelectedDay(newDate.startOf("week"));
+    //     }
+    //   },
+    //   [currentDate]
+    // );
 
   const formatPrice = (price: number) => {
     return new Intl.NumberFormat("vi-VN", {
@@ -144,6 +157,23 @@ const StudioSchedule = ({ studioId, filter, onClassClick, loggedIn }) => {
       schedule.price > 0 &&
       (!filter || schedule.classes.name === filter) // Apply filter
   );
+
+
+  // const filteredSchedules = useMemo(() => {
+  //   return (
+  //     data?.pages.flatMap((page) =>
+  //       page.filter(
+  //         (schedule) =>
+  //           dayjs(schedule.start_time).isSame(selectedDay, "day") &&
+  //           dayjs(schedule.start_time).isAfter(dayjs()) &&
+  //           schedule.lifepass_spots > 0 &&
+  //           schedule.enrolled < schedule.lifepass_spots &&
+  //           schedule.price > 0 &&
+  //           (!filter || schedule.classes.name === filter)
+  //       )
+  //     ) || []
+  //   );
+  // }, [data, selectedDay, filter]);
 
   return (
     <>
@@ -203,7 +233,7 @@ const StudioSchedule = ({ studioId, filter, onClassClick, loggedIn }) => {
               >
                 {/* {day.format("ddd")} */}
                 {format.dateTime(day.toDate(), {
-                  weekday: "short"
+                  weekday: "short",
                 })}
               </Button>
             );
@@ -223,7 +253,7 @@ const StudioSchedule = ({ studioId, filter, onClassClick, loggedIn }) => {
                 <div>
                   <Text
                     fw={500}
-                    onClick={() => onClassClick(schedule.classes)}
+                    onClick={() => handleClassClick(schedule.id)}
                     className={styles.classNameButton}
                   >
                     {schedule.classes.name}
@@ -266,6 +296,11 @@ const StudioSchedule = ({ studioId, filter, onClassClick, loggedIn }) => {
                     {t("seePrice")}
                   </Button>
                 )}
+              </Group>
+              <Group>
+                <Collapse in={selectedClassId === schedule.id}>
+                  <Text mt="sm">{schedule.classes.description}</Text>
+                </Collapse>
               </Group>
             </Card>
           ))

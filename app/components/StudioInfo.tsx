@@ -97,7 +97,7 @@ export function StudioInfo({ studio, loggedIn }: StudioInfoProps) {
   const handleClassClick = (classInfo) => {
     setSelectedClass(classInfo);
     setClassFilter(classInfo.name);
-    setActiveTab("schedule");
+    // setActiveTab("schedule");
   };
 
   return (
@@ -247,7 +247,7 @@ export function StudioInfo({ studio, loggedIn }: StudioInfoProps) {
             <StudioSchedule
               loggedIn={loggedIn}
               studioId={studio.id}
-              filter=""
+              filter={classFilter}
               onClassClick={handleClassClick}
             ></StudioSchedule>
           </Stack>
