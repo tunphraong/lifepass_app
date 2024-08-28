@@ -1,3 +1,4 @@
+'use client'
 import {
   Container,
   Text,
@@ -21,9 +22,10 @@ import FeatureSection from "./FeatureSection";
 import { useTranslations } from "next-intl";
 import { Link } from "../../navigation";
 import { unstable_setRequestLocale } from "next-intl/server";
+import ChatWidget from "../components/9AssistantWidget";
 
 export default function HeroTitle({ params: { locale } }) {
-   unstable_setRequestLocale(locale);
+  //  unstable_setRequestLocale(locale);
   const t = useTranslations("HomePage");
   return (
     <>
@@ -110,6 +112,18 @@ export default function HeroTitle({ params: { locale } }) {
           </Group>
         </Container>
       </div>
+      <ChatWidget
+        token="L3BmO6FyWdsy"
+        assistantName="Penelope"
+        options={{
+          primaryBackgroundColor: "#000",
+          secondaryBackgroundColor: "#f9f9f9",
+          primaryTextColor: "#fff",
+          secondaryTextColor: "#000",
+          messageContainerBackgroundColor: "#f2f2f2",
+          opacity: 1,
+        }}
+      />
       <FeatureSection />
       <Footer />
     </>

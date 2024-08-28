@@ -14,6 +14,8 @@ import { SpeedInsights } from "@vercel/speed-insights/next";
 import { NextIntlClientProvider } from "next-intl";
 import { getMessages } from "next-intl/server";
 import { unstable_setRequestLocale } from "next-intl/server";
+import Head from "next/head";
+
 
 export const metadata = {
   title: "Lifepass",
@@ -63,6 +65,7 @@ export default async function RootLayout({
   children,
   params: {locale},
 }: {
+  
   children: any;
   params: { locale: string };
 }) {
@@ -71,18 +74,18 @@ export default async function RootLayout({
   const timeZone = "Asia/Ho_Chi_Minh";
   return (
     <html lang={locale} style={{ backgroundColor: "#fcfaf9" }}>
-      <head>
+      <Head>
         <ColorSchemeScript />
         <link rel="shortcut icon" href="/favicon.ico" />
         <meta
           name="viewport"
           content="minimum-scale=1, initial-scale=1, width=device-width, user-scalable=no"
         />
-      </head>
+      </Head>
       <body>
         <NextIntlClientProvider timeZone={timeZone} messages={messages}>
           <MantineProvider theme={theme}>
-            <Notifications position="top-center"/>
+            <Notifications position="top-center" />
             {children}
             <Analytics />
             <SpeedInsights />
