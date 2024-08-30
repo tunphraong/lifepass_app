@@ -105,7 +105,7 @@ export const sendConfirmationEmail = async (
       // 5. Construct and send the email with ICS attachment
       const msg = {
         from: "LifePass <no-reply@mg.lifepass.one>",
-        to: user.email,
+        to: studioData.email,
         subject: "Xác nhận đặt lớp thành công!",
         html: `
       <html>
@@ -123,7 +123,10 @@ export const sendConfirmationEmail = async (
         </body>
       </html>
       `,
-        attachment: fs.createReadStream(icsFilePath), // Attach the ICS file
+        attachment: {
+          data: fs.createReadStream(icsFilePath),
+          filename: "event.ics",
+        },
       };
 
       // Send the email
