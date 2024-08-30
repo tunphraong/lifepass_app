@@ -2,6 +2,8 @@
 import formData from "form-data";
 import Mailgun from "mailgun.js";
 import { createClient } from "../../../../utils/supabase/server";
+import fs from "fs"; // To handle file system operations
+import { createEvent, EventAttributes } from "ics";
 
 import dayjs from "dayjs";
 import utc from "dayjs/plugin/utc";
@@ -71,6 +73,70 @@ export const sendConfirmationEmail = async (
       throw new Error(`Failed to fetch studio details: ${studioError.message}`);
     }
 
+    // Create ICS Event
+    const startTime = dayjs(scheduleData.start_time);
+    const event: EventAttributes = {
+      start: [
+        startTime.year(),
+        startTime.month() + 1,
+        startTime.date(),
+        startTime.hour(),
+        startTime.minute(),
+      ],
+      duration: { minutes: classData.duration },
+      title: `${user.first_name} ${user.last_name} at ${classData.name}`,
+      description: `${user.first_name} ${user.last_name} will attend Class: ${classData.name} at ${scheduleData.start_time}`,
+      location: studioData.address,
+      status: "CONFIRMED",
+    };
+
+    createEvent(event, (error, value) => {
+      if (error) {
+        console.log("Error creating ICS file:", error);
+        throw new Error(`Failed to create ICS event: ${error.message}`);
+      }
+
+      // Save the ICS content to a temporary file
+      const icsFilePath = `/tmp/${classData.name}-${startTime.format(
+        "YYYYMMDD"
+      )}.ics`;
+      fs.writeFileSync(icsFilePath, value);
+
+      // 5. Construct and send the email with ICS attachment
+      const msg = {
+        from: "LifePass <no-reply@mg.lifepass.one>",
+        to: user.email,
+        subject: "Xác nhận đặt lớp thành công!",
+        html: `
+      <html>
+        <body>
+          <p>Dear ${studioData.name},</p>
+          <p>Bạn có một booking mới cho lớp ${classData.name} on 
+          ${dayjs(scheduleData.start_time)
+            .tz("Asia/Ho_Chi_Minh")
+            .format("dddd, DD MMMM YYYY HH:mm")}.</p>
+          <p>Customer Name: ${user.first_name} ${user.last_name}</p>
+          <p>Customer Email: ${user.email}</p>
+          <p>Cảm ơn bạn đã đồng hành cùng LifePass!</p>
+          <p>Trân trọng,</p>
+          <p>Đội ngũ LifePass</p>
+        </body>
+      </html>
+      `,
+        attachment: fs.createReadStream(icsFilePath), // Attach the ICS file
+      };
+
+      // Send the email
+      mg.messages
+        .create(process.env.MAILGUN_DOMAIN, msg)
+        .then((res) => console.log("Email sent:", res))
+        .catch((err) => console.error("Error sending email:", err))
+        .finally(() => {
+          // Clean up: delete the temporary ICS file after sending the email
+          fs.unlinkSync(icsFilePath);
+        });
+    });
+
     // 5. Construct and send the email
     const msg = {
       from: "LifePass <no-reply@mg.lifepass.one>",
@@ -90,6 +156,7 @@ export const sendConfirmationEmail = async (
               .tz("Asia/Ho_Chi_Minh")
               .format("HH:mm dddd, DD MMMM YYYY ")}
             </p> 
+            <p><strong>Lưu ý quan trọng: Vui lòng đưa email này (hoặc hiển thị trên điện thoại của bạn) cho nhân viên tại studio fitness trước khi vào lớp để xác nhận đặt chỗ của bạn.</strong></p>
             <p>Chúng tôi rất mong được gặp bạn ở lớp học!</p>
             <p>Trân trọng,</p>
             <p>Đội ngũ LifePass</p>
@@ -98,41 +165,25 @@ export const sendConfirmationEmail = async (
       `,
     };
 
-    const msgToStudio = {
-      from: "LifePass <no-reply@mg.lifepass.one>",
-      to: studioData.email, // Assuming you have the studio's email in studioData
-      subject: `New booking for ${classData.name}`,
-      html: `
-      <html>
-        <body>
-          <p>Dear ${studioData.name},</p>
-          <p>Bạn có một booking mới cho lớp ${classData.name} on 
-          ${dayjs(scheduleData.start_time)
-          .tz("Asia/Ho_Chi_Minh")
-          .format("dddd, DD MMMM YYYY HH:mm")}.</p>
-          <p>Customer Name: ${user.first_name} ${user.last_name}</p>
-          <p>Customer Email: ${user.email}</p>
-          <p>Cảm ơn bạn đã đồng hành cùng LifePass!</p>
-          <p>Trân trọng,</p>
-          <p>Đội ngũ LifePass</p>
-        </body>
-      </html>
-    `,
-    };
+    // const msgToStudio = {
+    //   from: "LifePass <no-reply@mg.lifepass.one>",
+    //   to: studioData.email, // Assuming you have the studio's email in studioData
+    //   subject: `New booking for ${classData.name}`,
+    //   html: `
+     
+    // `,
+    // };
 
     try {
-        const userRes = await mg.messages.create(
-          process.env.MAILGUN_DOMAIN,
-          msg
-        );
-        console.log("Email sent to user:", userRes);
+      const userRes = await mg.messages.create(process.env.MAILGUN_DOMAIN, msg);
+      console.log("Email sent to user:", userRes);
 
-        // Send email to studio
-        const studioRes = await mg.messages.create(
-          process.env.MAILGUN_DOMAIN,
-          msgToStudio
-        );
-        console.log("Email sent to studio:", studioRes);
+      // Send email to studio
+      // const studioRes = await mg.messages.create(
+      //   process.env.MAILGUN_DOMAIN,
+      //   msgToStudio
+      // );
+      // console.log("Email sent to studio:", studioRes);
     } catch (error) {
       console.error("Error sending email:", error);
       throw error;
