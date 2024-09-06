@@ -1,4 +1,4 @@
-.wrapper {
+/* .wrapper {
   position: relative;
   box-sizing: border-box;
   background-color: light-dark(
@@ -6,14 +6,14 @@
     var(--mantine-color-dark-8)
   );
 
-  background-color: #fcfaf9; /* nudge-white */
+  background-color: #fcfaf9; 
   padding: 0 0;
   display: flex;
   flex-direction: column;
 }
 
 .inner {
-  color: #323d56; /* nudge-black */
+  color: #323d56;
   position: relative;
   padding-top: rem(50px) ;
   padding-bottom: rem(120px);
@@ -32,9 +32,8 @@
   line-height: 1.1;
   margin: 0;
   padding: 0;
-  /* color: light-dark(var(--mantine-color-black), var(--mantine-color-white)); */
-
-  color: #323d56; /* nudge-black */
+  
+  color: #323d56;
   margin-bottom: 20px;
   font-size: 2.5rem;
   font-weight: 700;
@@ -47,9 +46,8 @@
 
 .description {
   font-size: 1.125rem;
-  color: #6b7280; /* dimmed */
+  color: #6b7280; 
   margin-top: var(--mantine-spacing-xl);
-  /* font-size: rem(24px); */
 
   @media (max-width: $mantine-breakpoint-sm) {
     font-size: rem(18px);
@@ -77,4 +75,69 @@
     padding-right: rem(18px);
     flex: 1;
   }
+} */
+
+.wrapper {
+  position: relative;
+  box-sizing: border-box;
+  background-color: light-dark(
+    var(--mantine-color-white),
+    var(--mantine-color-dark-8)
+  );
+
+  background-color: #fcfaf9;
+  padding: 0 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.inner {
+  display: flex;
+  justify-content: space-between;
+  padding-top: calc(var(--mantine-spacing-xl) * 2);
+  padding-bottom: calc(var(--mantine-spacing-xl) * 2);
+}
+
+.content {
+  /* max-width: rem(480px); */
+  margin-right: calc(var(--mantine-spacing-xl) * 3);
+
+  @media (max-width: $mantine-breakpoint-md) {
+    max-width: 100%;
+    margin-right: 0;
+  }
+}
+
+.title {
+  color: light-dark(var(--mantine-color-black), var(--mantine-color-white));
+  font-family: Greycliff CF, var(--mantine-font-family);
+  font-size: rem(44px);
+  line-height: 1.2;
+  font-weight: 900;
+
+  @media (max-width: $mantine-breakpoint-xs) {
+    font-size: rem(28px);
+  }
+}
+
+.control {
+  @media (max-width: $mantine-breakpoint-xs) {
+    flex: 1;
+  }
+}
+
+.image {
+  width: rem(600px);
+  height: rem(600px);
+
+  @media (max-width: $mantine-breakpoint-md) {
+    display: none;
+  }
+}
+
+.highlight {
+  position: relative;
+  background-color: var(--mantine-color-blue-light);
+  border-radius: var(--mantine-radius-sm);
+  padding: rem(4px) rem(12px);
 }

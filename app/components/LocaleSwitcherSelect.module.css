@@ -1,0 +1,53 @@
+.wrapper {
+  position: relative;
+  color: #4b5563; /* Tailwind's gray-400 */
+  display: inline-block;
+}
+
+.pending {
+  transition: opacity 0.3s ease;
+  opacity: 0.6;
+}
+
+.select {
+  appearance: none;
+  background-color: transparent;
+  border: 1px solid #d1d5db; /* Tailwind's gray-300 */
+  padding: 8px 32px 8px 12px;
+  border-radius: 8px;
+  color: #111827; /* Tailwind's gray-900 */
+  cursor: pointer;
+  transition: border-color 0.2s ease;
+  font-size: 1rem;
+  line-height: 1.5;
+
+  /* Remove default select styles */
+  -webkit-appearance: none;
+  -moz-appearance: none;
+}
+
+.select:focus {
+  border-color: #f5ac2d; /* Use your theme's yellow */
+  outline: none;
+}
+
+.select:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.arrow {
+  pointer-events: none;
+  position: absolute;
+  top: 50%;
+  right: 12px;
+  transform: translateY(-50%);
+  border-width: 6px 6px 0 6px;
+  border-color: #4b5563 transparent transparent transparent;
+  border-style: solid;
+  content: "";
+}
+
+.select:hover {
+  border-color: #f4b82c; /* Slight hover effect */
+}
