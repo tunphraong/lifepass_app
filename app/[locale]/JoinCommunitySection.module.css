@@ -1,0 +1,93 @@
+.section {
+  width: 100%;
+  padding: 2rem;
+  background-color: var(--mantine-color-gray-0);
+}
+
+.content {
+  display: flex;
+  flex-direction: column;
+  gap: var(--mantine-spacing-md);
+}
+
+.title {
+  font-size: rem(30px);
+  font-weight: 700;
+  line-height: 1.2;
+  letter-spacing: -0.02em;
+}
+
+.description {
+  max-width: 600px;
+  color: var(--mantine-color-gray-6);
+  font-size: var(--mantine-font-size-sm);
+}
+
+.buttonContainer {
+  display: flex;
+  flex-direction: column;
+  gap: var(--mantine-spacing-sm);
+}
+
+.primaryButton {
+  /* background-color: var(--mantine-color-blue-6); */
+  /* color: var(--mantine-color-white); */
+    width: 100%;
+}
+
+.primaryButton:hover {
+  background-color: var(--mantine-color-yellow-7);
+}
+
+.secondaryButton {
+  background-color: var(--mantine-color-white);
+  color: var(--mantine-color-gray-7);
+  border-color: var(--mantine-color-gray-3);
+  width: 100%;
+}
+
+.secondaryButton:hover {
+  background-color: var(--mantine-color-gray-0);
+}
+
+
+@media (min-width: 400px) {
+  .buttonContainer {
+    flex-direction: row; 
+  }
+}
+
+@media (min-width: 768px) {
+  /* .section {
+    padding: var(--mantine-spacing-2xl) 0;
+  } */
+
+   .primaryButton,
+  .secondaryButton {
+    width: auto; /* Auto width on tablet and larger screens */
+  }
+
+  .title {
+    font-size: rem(36px);
+  }
+
+  .description {
+    font-size: var(--mantine-font-size-lg);
+  }
+}
+
+@media (min-width: 1024px) {
+  /* .section {
+    padding: var(--mantine-spacing-3xl) 0;
+  } */
+
+  .buttonContainer {
+    justify-content: flex-end;
+  }
+}
+
+@media (min-width: 1200px) {
+  .description {
+    font-size: var(--mantine-font-size-xl);
+  }
+}

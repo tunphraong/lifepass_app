@@ -1,10 +1,10 @@
-.wrapper {
-  background-color: #fcfaf9; /* nudge-white */
+/* .wrapper {
+  background-color: #fcfaf9;
   padding: 60px 0;
 }
 
 .content-inner {
-  color: #323d56; /* nudge-black */
+  color: #323d56;
   text-align: center;
 }
 
@@ -14,7 +14,7 @@
   font-weight: 700;
   line-height: 1.2;
   margin-bottom: 40px;
-  color: #323d56; /* nudge-black */
+  color: #323d56;
 }
 
 .card {
@@ -24,8 +24,8 @@
 }
 
 .icon {
-  background-color: #fcfaf9; /* nudge-white */
-  color: #f5ac2d; /* yellow */
+  background-color: #fcfaf9;
+  color: #f5ac2d;
   margin: 20px auto;
 }
 
@@ -33,11 +33,106 @@
   font-size: 1.5rem;
   font-weight: 600;
   margin-top: 10px;
-  color: #323d56; /* nudge-black */
+  color: #323d56;
 }
 
 .cardDescription {
   font-size: 1rem;
-  color: #6b7280; /* dimmed */
+  color: #6b7280;
   margin-top: 10px;
+} */
+
+.featureSection {
+  background-color: var(--mantine-color-dark-9);
+  color: var(--mantine-color-white);
+  padding: var(--mantine-spacing-xl) 0;
+}
+
+.box {
+  background-color: white;
+  padding: var(--mantine-spacing-md);
+
+  /* @media (min-width: $mantine-breakpoint-md) {
+    padding-left: 5rem;
+    padding-right: 5rem;
+  } */
+  /* padding: 2rem; */
+}
+
+.mainTitle {
+  /* font-size: rem(28px); */
+  line-height: 1.3;
+  
+
+  @media (min-width: $mantine-breakpoint-sm) {
+    /* display: block; */
+    font-size: rem(36px);
+  }
+}
+
+.mobileScroll {
+  @media (min-width: $mantine-breakpoint-md) {
+    display: none;
+  }
+}
+
+.scrollContent {
+  display: flex;
+  gap: var(--mantine-spacing-md);
+  padding-bottom: var(--mantine-spacing-md);
+}
+
+.mobileContent {
+  margin-top: var(--mantine-spacing-xl);
+  text-align: center;
+
+  @media (min-width: $mantine-breakpoint-md) {
+    display: none;
+  }
+}
+
+.desktopGrid {
+  display: none;
+
+  @media (min-width: $mantine-breakpoint-md) {
+    display: grid;
+  }
+}
+
+.desktopContent {
+  display: none;
+
+  @media (min-width: $mantine-breakpoint-md) {
+    display: block;
+  }
+}
+
+.activityCard {
+  width: rem(250px);
+  flex-shrink: 0;
+
+  @media (min-width: $mantine-breakpoint-md) {
+    width: 100%;
+  }
+}
+
+.activityImage {
+  width: 100%;
+  height: rem(200px);
+  object-fit: cover;
+}
+
+.activityName {
+  position: absolute;
+  bottom: var(--mantine-spacing-xs);
+  left: var(--mantine-spacing-xs);
+  background-color: white;
+  padding: rem(4px) rem(8px);
+  border-radius: var(--mantine-radius-sm);
+}
+
+.featureList {
+  display: flex;
+  flex-direction: column;
+  gap: var(--mantine-spacing-lg);
 }

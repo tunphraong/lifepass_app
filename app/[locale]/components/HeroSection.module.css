@@ -1,0 +1,72 @@
+.section {
+  padding: var(--mantine-spacing-xl) 0;
+
+  @media (min-width: $mantine-breakpoint-md) {
+    padding: calc(var(--mantine-spacing-xl) * 2) 0;
+  }
+
+  @media (min-width: $mantine-breakpoint-xl) {
+    padding: calc(var(--mantine-spacing-xl) * 3) 0;
+  }
+}
+
+.content {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  height: 100%;
+}
+
+.title {
+  font-size: rem(32);
+  font-weight: 700;
+  line-height: 1.2;
+  margin-bottom: var(--mantine-spacing-md);
+
+  @media (min-width: $mantine-breakpoint-sm) {
+    font-size: rem(48);
+  }
+
+  @media (min-width: $mantine-breakpoint-xl) {
+    font-size: rem(56);
+  }
+}
+
+.description {
+  max-width: rem(600);
+  font-size: var(--mantine-font-size-md);
+  color: var(--mantine-color-gray-6);
+  margin-bottom: var(--mantine-spacing-xl);
+
+  @media (min-width: $mantine-breakpoint-md) {
+    font-size: var(--mantine-font-size-lg);
+  }
+}
+
+.buttonWrapper {
+  display: flex;
+  flex-direction: column;
+  gap: var(--mantine-spacing-xs);
+
+  @media (min-width: $mantine-breakpoint-xs) {
+    flex-direction: row;
+  }
+}
+
+.button {
+  width: 100%;
+
+  @media (min-width: $mantine-breakpoint-xs) {
+    width: auto;
+  }
+}
+
+.image {
+  width: 100%;
+  max-width: rem(550);
+  height: auto;
+  aspect-ratio: 1 / 1;
+  border-radius: var(--mantine-radius-md);
+  overflow: hidden;
+  margin: 0 auto;
+}

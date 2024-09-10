@@ -1,0 +1,75 @@
+.container {
+  /* padding: 2rem; */
+  padding: 60px 0;
+  background-color: white;
+}
+
+.textContainer {
+  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.title {
+  /* font-weight: bold; */
+  /* line-height: 1.2; */
+  margin-bottom: 1rem;  
+}
+
+.description {
+  font-size: 1.125rem;
+  color: #323d56; /* LifePass black */
+  margin-bottom: 1.5rem;
+}
+
+/* Adjusting button style */
+.button {
+  background-color: #f4b82c;
+  transition: background-color 0.3s ease;
+}
+
+.button:hover {
+  background-color: #f5ac2d; /* Slight hover effect */
+}
+
+/* Image container styling */
+.imageContainer {
+  width: 100%;
+  height: auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.image {
+  width: 100%;
+  height: auto;
+  max-width: 500px; /* Max width to maintain image aspect ratio */
+  object-fit: cover;
+  border-radius: 0.5rem;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .container {
+    padding: 1rem;
+  }
+
+  .textContainer {
+    padding: 1rem;
+  }
+
+  .title {
+    font-size: 1.75rem;
+  }
+
+  .description {
+    font-size: 1rem;
+  }
+
+  .image {
+    max-width: 100%;
+    height: auto;
+  }
+}
