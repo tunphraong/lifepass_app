@@ -17,9 +17,8 @@ export default function CorporateFitness() {
               </Title>
               <p className={styles.description}>
                 Boost employee morale and health by offering exclusive fitness
-                and wellness benefits. From gym access to online classes,
-                LifePass provides flexible solutions that fit your company's
-                unique needs.
+                and wellness benefits. LifePass provides flexible 
+                solutions that fit your company's unique needs.
               </p>
               <Button
                 size="md"

@@ -105,7 +105,6 @@ const activities = [
   { name: "Bouldering", image: "/bouldering.jpg?height=300&width=300" },
   { name: "Dance", image: "/dance.jpg?height=300&width=300" },
   { name: "Wellness", image: "/wellness.jpeg?height=320&width=320" },
-  { name: "Fitness", image: "/placeholder.svg?height=300&width=300" },
 ];
 
 export default function FeatureSection() {
