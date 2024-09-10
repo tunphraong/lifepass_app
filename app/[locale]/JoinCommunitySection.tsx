@@ -12,7 +12,11 @@ function JoinCommunitySection() {
               <Title order={2} className={classes.title}>
                 Join the LifePass Community
               </Title>
-              <Text className={classes.description}>Join our newsletter</Text>
+              <Text className={classes.description}>
+                Subscribe to our newsletter and we’ll update you when we onboard
+                new partners and activities. You’ll also have exclusive
+                access to discounts, fitness, wellness, nutrition and lifestyle stories.
+              </Text>
             </Box>
           </Grid.Col>
         </Grid>
