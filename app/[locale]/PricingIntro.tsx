@@ -8,7 +8,7 @@ import { Link } from "../../navigation";
 const plans = [
   {
     title: "S",
-    price: "599₫",
+    price: "599000₫",
     description: "Access to all standard classes",
     features: [
       // "Unlimited class bookings",
@@ -23,7 +23,7 @@ const plans = [
   },
   {
     title: "M",
-    price: "899₫",
+    price: "899000₫",
     description: "Access to all premium classes",
     features: [
       // "Unlimited class bookings",
@@ -39,7 +39,7 @@ const plans = [
   },
   {
     title: "L",
-    price: "1199₫",
+    price: "1199000₫",
     description: "Best for enthusiasts",
     features: [
       // "Unlimited class bookings",
