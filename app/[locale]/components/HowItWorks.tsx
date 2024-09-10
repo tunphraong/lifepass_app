@@ -1,4 +1,4 @@
-import { Container, Grid, Title, Text, Box, Group, Stack } from '@mantine/core';
+import { Container, Grid, Title, Text, Box, Group, Stack, AspectRatio } from '@mantine/core';
 import { IconUser, IconSparkles, IconCalendar, IconCircle } from '@tabler/icons-react';
 import Image from 'next/image';
 import classes from './HowItWorks.module.css';
@@ -32,16 +32,15 @@ export default function Component() {
       <Container size="xl">
         <Grid gutter="xl" align="center">
           <Grid.Col span={{ base: 12, md: 6 }}>
-            <Box className={classes.imageWrapper}>
+            <AspectRatio ratio={375 / 812} className={classes.imageWrapper}>
               <Image
-                src="/screenshot.png?height=812&width=375"
-                width={375}
-                height={812}
+                src="/screenshot.png"
+                fill
                 alt="Fitness app interface showing various sports activities"
                 className={classes.image}
               />
               <Box className={classes.imageOverlay} />
-            </Box>
+            </AspectRatio>
           </Grid.Col>
           <Grid.Col span={{ base: 12, md: 6 }}>
             <Stack gap="xl">
@@ -53,8 +52,12 @@ export default function Component() {
                   <Group key={index} align="flex-start" gap="md">
                     <feature.icon size={24} className={classes.icon} />
                     <div>
-                      <Text className={classes.featureTitle}>{feature.title}</Text>
-                      <Text className={classes.featureDescription}>{feature.description}</Text>
+                      <Text className={classes.featureTitle}>
+                        {feature.title}
+                      </Text>
+                      <Text className={classes.featureDescription}>
+                        {feature.description}
+                      </Text>
                     </div>
                   </Group>
                 ))}
