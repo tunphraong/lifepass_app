@@ -97,7 +97,7 @@ export function PricingIntroduction() {
               </Text>
               <Stack gap="xs">
                 {plan.example.map((activity, actIndex) => (
-                  <Group key={actIndex} position="apart" spacing="xs">
+                  <Group key={actIndex} gap="xs">
                     <Text size="sm">
                       {activity.name} x {activity.count}
                     </Text>
