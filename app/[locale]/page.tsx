@@ -61,7 +61,7 @@ export default function HeroTitle({ params: { locale } }) {
       <HowItWorks></HowItWorks>
       <TestimonialSection></TestimonialSection>
 
-      <PricingPage></PricingPage>
+      {/* <PricingPage></PricingPage> */}
 
       <CorporateFitness></CorporateFitness>
       <JoinCommunitySection></JoinCommunitySection>
