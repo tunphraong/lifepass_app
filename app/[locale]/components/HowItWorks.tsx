@@ -55,7 +55,7 @@ export default function Component() {
                       <Text className={classes.featureTitle}>
                         {feature.title}
                       </Text>
-                      <Text className={classes.featureDescription}>
+                      <Text fw={700} className={classes.featureDescription}>
                         {feature.description}
                       </Text>
                     </div>

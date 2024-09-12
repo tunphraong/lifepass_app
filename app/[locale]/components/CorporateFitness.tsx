@@ -13,7 +13,7 @@ export default function CorporateFitness() {
               direction="column"
               justify="center"
             >
-              <Title order={1} className={styles.title}>
+              <Title order={2} className={styles.title}>
                 Empower Your Teams with LifePass Corporate Fitness
               </Title>
               <p className={styles.description}>

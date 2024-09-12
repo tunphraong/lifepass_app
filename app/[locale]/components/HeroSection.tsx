@@ -25,6 +25,7 @@ export default function HeroSection() {
                   color="yellow"
                   className={styles.button}
                   prefetch={false}
+                  radius="xl"
                 >
                   View membership
                 </Button>

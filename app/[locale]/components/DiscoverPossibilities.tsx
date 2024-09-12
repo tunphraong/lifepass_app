@@ -12,7 +12,7 @@ export default function DiscoverPossibilities() {
           Search and find all venues offering your favorite fitness and
           wellness activities. In your area, your city, and anywhere in Vietnam.
         </Text>
-        <Button size="lg" color="yellow" className={styles.button}>
+        <Button size="lg" color="yellow" radius="xl" className={styles.button}>
           Find venues
         </Button>
       </Container>

@@ -1,7 +1,7 @@
 .container {
   /* padding: 2rem; */
   padding: 60px 0;
-  background-color: white;
+  background-color: #F5F0ED;
 }
 
 .textContainer {
@@ -12,8 +12,17 @@
 }
 
 .title {
-  /* font-weight: bold; */
-  /* line-height: 1.2; */
+    font-size: rem(32);
+  font-weight: 700;
+  line-height: 1.2;
+
+  @media (min-width: $mantine-breakpoint-md) {
+    font-size: rem(36);
+  }
+
+  @media (min-width: $mantine-breakpoint-lg) {
+    font-size: rem(48);
+  }
   margin-bottom: 1rem;  
 }
 

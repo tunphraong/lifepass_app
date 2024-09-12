@@ -60,7 +60,7 @@ export default function NetworkSection() {
           </Carousel.Slide>
           <Carousel.Slide>
             <Image
-              src="/boxing.jpg"
+              src="/pilates_class.jpg"
               alt="boxing"
               // width={500}
               height={500}
@@ -69,7 +69,7 @@ export default function NetworkSection() {
           </Carousel.Slide>
           <Carousel.Slide>
             <Image
-              src="/pilates.jpg"
+              src="/cycling.jpg"
               alt="pilates"
               // width={500}
               height={500}

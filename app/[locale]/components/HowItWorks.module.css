@@ -1,6 +1,6 @@
 .wrapper {
-  background-color: var(--mantine-color-dark-9);
-  color: var(--mantine-color-white);
+  background-color: #F5F0ED;
+  /* color: var(--mantine-color-white); */
   padding: var(--mantine-spacing-xl);
 
   @media (min-width: $mantine-breakpoint-md) {
@@ -65,5 +65,5 @@
 }
 
 .featureDescription {
-  color: var(--mantine-color-gray-5);
+  /* color: var(--mantine-color-gray-5); */
 }

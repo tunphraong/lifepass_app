@@ -58,7 +58,8 @@ const theme = createTheme({
     yellow: myColor,
     white: nudgeWhite,
   },
-  autoContrast: true,
+  primaryColor: 'yellow',
+  // autoContrast: true,
   luminanceThreshold: 0.31,
 });
 

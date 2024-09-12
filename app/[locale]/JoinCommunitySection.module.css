@@ -1,7 +1,7 @@
 .section {
   width: 100%;
   padding: 2rem;
-  background-color: var(--mantine-color-gray-0);
+  background-color: var(--mantine-color-gray-3);
 }
 
 .content {
