@@ -26,7 +26,7 @@ import { unstable_setRequestLocale } from "next-intl/server";
 import ChatWidget from "../components/9AssistantWidget";
 import LifePassActivities from "../../public/lifepass_activities.png"
 import Image from "next/image";
-import { PricingIntroduction } from "./PricingIntro";
+import PricingPage from "./PricingIntro";
 import TestimonialSection from "./TestimonialSection";
 import JoinCommunitySection from "./JoinCommunitySection";
 import CorporateFitness from "./components/CorporateFitness";
@@ -61,7 +61,7 @@ export default function HeroTitle({ params: { locale } }) {
       <HowItWorks></HowItWorks>
       <TestimonialSection></TestimonialSection>
 
-      {/* <PricingIntroduction></PricingIntroduction> */}
+      <PricingPage></PricingPage>
 
       <CorporateFitness></CorporateFitness>
       <JoinCommunitySection></JoinCommunitySection>

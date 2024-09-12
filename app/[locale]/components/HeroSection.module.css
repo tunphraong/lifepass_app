@@ -19,8 +19,8 @@
 }
 
 .title {
-    color: #f5ac2d;
-    font-size: rem(36px);
+  color: #f5ac2d;
+  font-size: rem(36px);
   font-weight: 700;
   line-height: 1.2;
   margin-bottom: var(--mantine-spacing-md);
