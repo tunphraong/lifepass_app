@@ -49,6 +49,7 @@ export default function PricingIntroduction() {
       <Carousel
         slideSize="33.333333%"
         slideGap="lg"
+        loop
         align="start"
         withIndicators
         slidesToScroll={2}
