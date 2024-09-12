@@ -55,6 +55,7 @@ export default function DynamicList() {
               component={Link}
               href="https://tally.so/r/mOLjDM"
               rightSection={<IconArrowRight size={14} />}
+              color="yellow"
               className={classes.button}
             >
               Get quote

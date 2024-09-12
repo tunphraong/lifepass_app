@@ -62,7 +62,7 @@
 }
 
 .button {
-  background-color: #f5ac2d;
+  /* background-color: #f5ac2d; */
   color: white;
 
   &:hover {
