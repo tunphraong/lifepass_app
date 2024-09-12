@@ -1,5 +1,6 @@
 import { Button, Grid, Flex, Container, Title } from "@mantine/core";
 import styles from "./CorporateFitness.module.css";
+import { Link } from "../../../navigation";
 
 export default function CorporateFitness() {
   return (
@@ -21,6 +22,8 @@ export default function CorporateFitness() {
                 solutions that fit your company's unique needs.
               </p>
               <Button
+                component={Link}
+                href="/companies"
                 size="md"
                 radius="xl"
                 color="yellow"

@@ -1,0 +1,95 @@
+.section {
+  background-color: #fff;
+  color: #374151;
+  padding: var(--mantine-spacing-xl) 0;
+
+  @media (min-width: $mantine-breakpoint-md) {
+    padding: calc(var(--mantine-spacing-xl) * 2) 0;
+  }
+
+  @media (min-width: $mantine-breakpoint-lg) {
+    padding: calc(var(--mantine-spacing-xl) * 3) 0;
+  }
+}
+
+.header {
+  text-align: center;
+  max-width: rem(900);
+  margin: 0 auto var(--mantine-spacing-xl);
+}
+
+.subtitle {
+  font-size: var(--mantine-font-size-sm);
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--mantine-color-gray-6);
+  margin-bottom: var(--mantine-spacing-md);
+}
+
+.title {
+  font-size: rem(36px);
+  font-weight: 700;
+  line-height: 1.1;
+  color: #374151;
+
+  @media (min-width: $mantine-breakpoint-sm) {
+    font-size: rem(48px);
+  }
+
+  @media (min-width: $mantine-breakpoint-md) {
+    font-size: rem(56px);
+  }
+}
+
+.description {
+  color: var(--mantine-color-gray-6);
+  margin-top: var(--mantine-spacing-md);
+}
+
+.statsGrid {
+  margin-top: var(--mantine-spacing-xl);
+  margin-bottom: var(--mantine-spacing-xl);
+}
+
+.statCard {
+  background-color: rgba(255, 255, 255, 0.1);
+  text-align: center;
+  padding: var(--mantine-spacing-lg);
+}
+
+.imagePlaceholder {
+  height: rem(160);
+  background-color: rgba(255, 255, 255, 0.2);
+  border-radius: var(--mantine-radius-md);
+  margin-bottom: var(--mantine-spacing-md);
+}
+
+.statNumber {
+  font-size: rem(36px);
+  font-weight: 700;
+  margin-bottom: var(--mantine-spacing-xs);
+}
+
+.buttonGroup {
+  margin-top: var(--mantine-spacing-xl);
+}
+
+.primaryButton {
+  background-color: #f4b82c;
+  color: white;
+
+  &:hover {
+    background-color: darken(#f4b82c, 10%);
+  }
+}
+
+.secondaryButton {
+  background-color: transparent;
+  border-color: #374151;
+  color: #374151;
+
+  &:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+  }
+}

@@ -15,6 +15,7 @@ import { NextIntlClientProvider } from "next-intl";
 import { getMessages } from "next-intl/server";
 import { unstable_setRequestLocale } from "next-intl/server";
 import Head from "next/head";
+import "@mantine/carousel/styles.css";
 
 
 export const metadata = {

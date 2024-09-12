@@ -1,0 +1,85 @@
+.section {
+  background-color: #f5ac2d;
+  padding: var(--mantine-spacing-xl) 0;
+
+  @media (min-width: $mantine-breakpoint-md) {
+    padding: calc(var(--mantine-spacing-xl) * 2) 0;
+  }
+
+  @media (min-width: $mantine-breakpoint-lg) {
+    padding: calc(var(--mantine-spacing-xl) * 3) 0;
+  }
+}
+
+.header {
+  text-align: center;
+  max-width: rem(800);
+  margin: 0 auto;
+}
+
+.title {
+  font-size: rem(36px);
+  font-weight: 700;
+  line-height: 1.1;
+  color: white;
+
+  @media (min-width: $mantine-breakpoint-sm) {
+    font-size: rem(48px);
+  }
+
+  @media (min-width: $mantine-breakpoint-md) {
+    font-size: rem(56px);
+  }
+}
+
+.description {
+  color: white;
+  max-width: rem(600);
+}
+
+.benefitsGrid {
+  margin: var(--mantine-spacing-xl) 0;
+}
+
+.checkIcon {
+  color: white;
+}
+
+.benefitText {
+  color: white;
+}
+
+.formWrapper {
+  background-color: #fcfaf9;
+  padding: var(--mantine-spacing-md);
+  border-radius: var(--mantine-radius-md);
+  max-width: rem(400);
+  margin: 0 auto;
+}
+
+.input {
+  flex: 1;
+}
+
+.button {
+  background-color: #f5ac2d;
+  color: white;
+
+  &:hover {
+    background-color: darken(#f5ac2d, 10%);
+  }
+}
+
+.disclaimer {
+  color: #374151;
+  margin-top: var(--mantine-spacing-xs);
+}
+
+.link {
+  color: #f5ac2d;
+  text-decoration: none;
+
+  &:hover {
+    text-decoration: underline;
+  }
+}

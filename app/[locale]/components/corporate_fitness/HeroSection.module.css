@@ -1,0 +1,119 @@
+/* HeroSection.module.css */
+.section {
+  background-color: #fcfaf9;
+  padding: var(--mantine-spacing-xl) 0;
+
+  @media (min-width: $mantine-breakpoint-md) {
+    padding: calc(var(--mantine-spacing-xl) * 2) 0;
+  }
+
+  @media (min-width: $mantine-breakpoint-lg) {
+    padding: calc(var(--mantine-spacing-xl) * 3) 0;
+  }
+}
+
+.content {
+  display: flex;
+  flex-direction: column;
+  gap: var(--mantine-spacing-md);
+}
+
+.subtitle {
+  font-size: var(--mantine-font-size-sm);
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--mantine-color-gray-6);
+}
+
+.title {
+  font-size: rem(36px);
+  font-weight: 700;
+  line-height: 1.1;
+  color: #f5ac2d;
+
+  @media (min-width: $mantine-breakpoint-sm) {
+    font-size: rem(48px);
+  }
+
+  @media (min-width: $mantine-breakpoint-md) {
+    font-size: rem(56px);
+  }
+}
+
+.description {
+  max-width: rem(600px);
+  font-size: var(--mantine-font-size-lg);
+  color: #374151;
+}
+
+.inputGroup {
+  margin-top: var(--mantine-spacing-md);
+}
+
+.input {
+  flex: 1;
+}
+
+.button {
+  background-color: #f4b82c;
+  color: var(--mantine-color-white);
+
+  &:hover {
+    background-color: darken(#f4b82c, 10%);
+  }
+}
+
+.disclaimer {
+  color: var(--mantine-color-gray-6);
+}
+
+.link {
+  color: #f4b82c;
+  text-decoration: none;
+
+  &:hover {
+    text-decoration: underline;
+  }
+}
+
+.imageWrapper {
+  position: relative;
+  width: 100%;
+  height: rem(400px);
+  border-radius: rem(24px);
+  overflow: hidden;
+  background-color: #e6e0d8;
+}
+
+.image {
+  object-fit: cover;
+}
+
+.label {
+  position: absolute;
+  padding: var(--mantine-spacing-xs) var(--mantine-spacing-sm);
+  border-radius: rem(20px);
+  font-weight: 500;
+}
+
+.fitnessLabel {
+  top: var(--mantine-spacing-md);
+  right: var(--mantine-spacing-md);
+  background-color: #9f7aea;
+  color: var(--mantine-color-white);
+}
+
+.nutritionLabel {
+  bottom: rem(80px);
+  left: var(--mantine-spacing-md);
+  background-color: #d0fa50;
+  color: var(--mantine-color-dark);
+}
+
+.mindfulnessLabel {
+  bottom: var(--mantine-spacing-md);
+  right: var(--mantine-spacing-md);
+  background-color: #fda4af;
+  color: var(--mantine-color-dark);
+}
