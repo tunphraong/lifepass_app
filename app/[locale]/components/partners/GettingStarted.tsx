@@ -66,7 +66,7 @@ export default function GettingStarted() {
                 </List.Item>
               ))}
             </List>
-            <Button className={classes.button} >Partner with Wellhub</Button>
+            <Button className={classes.button} >Partner with LifePass</Button>
           </Grid.Col>
           <Grid.Col span={{ base: 12, lg:5  }}
           

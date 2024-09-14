@@ -32,7 +32,7 @@ export default function Component() {
       <Container size="xl">
         <Grid gutter="xl" align="center">
           <Grid.Col span={{ base: 12, md: 6 }}>
-            <AspectRatio ratio={395 / 812} className={classes.imageWrapper}>
+            <AspectRatio ratio={405 / 812} className={classes.imageWrapper}>
               <Image
                 width={395}
                 height={812}

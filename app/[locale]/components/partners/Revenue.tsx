@@ -37,7 +37,7 @@ export default function Revenue() {
     <section className={classes.section}>
       <Container size="lg">
         <Title order={2} ta="center" mb="sm" className={classes.title}>
-          Wellhub is free for every partner
+          LifePass is free for every partner
         </Title>
         <Text
           size="xl"
@@ -72,7 +72,7 @@ export default function Revenue() {
         </Grid>
         <Group justify="center">
           <Button className={classes.button} size="lg">
-            Partner with Wellhub
+            Partner with LifePass
           </Button>
         </Group>
       </Container>

@@ -6,13 +6,13 @@ export default function WhyLifepass() {
   const stats = [
     {
       number: "90%",
-      description: "of Wellhub members are new customers for our partners.",
+      description: "of LifePass members are new customers for our partners.",
       footnote: "1",
     },
     {
       number: "2 in 3",
       description:
-        "employees didn't have a gym membership a month prior to joining Wellhub.",
+        "employees didn't have a gym membership a month prior to joining LifePass.",
       footnote: "2",
     },
     {
@@ -22,7 +22,7 @@ export default function WhyLifepass() {
     },
     // {
     //   number: "14K+",
-    //   description: "companies and enterprise clients worldwide offer Wellhub.",
+    //   description: "companies and enterprise clients worldwide offer LifePass.",
     //   footnote: "4",
     // },
     // {
@@ -32,7 +32,7 @@ export default function WhyLifepass() {
     // },
     // {
     //   number: "300M+",
-    //   description: "Wellhub member visits to our network partners.",
+    //   description: "LifePass member visits to our network partners.",
     //   footnote: "6",
     // },
   ];
@@ -41,13 +41,13 @@ export default function WhyLifepass() {
     <section className={classes.section}>
       <Container size="lg">
         <div className={classes.header}>
-          <Text className={classes.uppercase}>WHY WELLHUB</Text>
+          <Text className={classes.uppercase}>WHY LifePass</Text>
           <Title order={2} className={classes.title}>
             Want more members? Let us do the heavy lifting.
           </Title>
           <Text size="xl" className={classes.description}>
             Local studios and global gym brands gain thousands of loyal members
-            on Wellhub.
+            on LifePass.
           </Text>
         </div>
         <Grid>

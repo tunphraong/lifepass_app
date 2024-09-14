@@ -17,9 +17,9 @@ export default function HeroPartners() {
         <Grid align="center">
           <Grid.Col span={{ base: 12, lg: 6 }}>
             <Stack gap="md" className={classes.stack_margin_bottom}>
-              <Text className={classes.uppercase}>WELLHUB FOR PARTNERS</Text>
+              <Text className={classes.uppercase}>LIFEPASS FOR PARTNERS</Text>
               <Title order={1} className={classes.heroTitle}>
-                Drive membership and revenue with Wellhub - for free!
+                Drive membership and revenue with LifePass - for free!
               </Title>
               <Text fw={600}>
                 Our corporate wellness platform provides employees support for
@@ -29,7 +29,7 @@ export default function HeroPartners() {
               <Button
               // className={classes.primaryButton}
               >
-                Partner with Wellhub
+                Partner with LifePass
               </Button>
             </Stack>
           </Grid.Col>
