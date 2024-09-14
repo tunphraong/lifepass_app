@@ -102,11 +102,11 @@ export default function GettingStarted() {
                   <Stack gap="xs">
                     <Group>
                       <IconMapPin size={16} />
-                      <Text>123 White St, New York, NY</Text>
+                      <Text>123 Hai Bà Trưng, Quận 1, Tp. Hồ Chí Minh</Text>
                     </Group>
                     <Group>
                       <IconPhone size={16} />
-                      <Text>+1 201-444-6879</Text>
+                      <Text>+1 035-444-6879</Text>
                     </Group>
                     <Group>
                       <IconWorld size={16} />
