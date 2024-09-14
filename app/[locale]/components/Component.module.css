@@ -1,0 +1,86 @@
+.wrapper {
+  background-color: #fdf5e6;
+  min-height: 100vh;
+  padding-bottom: 60px;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem;
+  background-color: white;
+}
+
+.flag {
+  width: 1.5rem;
+  height: 1.5rem;
+  border-radius: 50%;
+}
+
+.banner {
+  background-color: var(--mantine-color-red-6);
+  padding: 1rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.bannerButtonWhite {
+  background-color: white;
+  color: var(--mantine-color-red-6);
+}
+
+.bannerButtonWhite:hover {
+  background-color: var(--mantine-color-gray-1);
+}
+
+.bannerButtonOutline {
+  color: white;
+  border-color: white;
+  background-color: transparent;
+}
+
+.bannerButtonOutline:hover {
+  background-color: var(--mantine-color-red-7);
+}
+
+.bannerButtonGhost {
+  color: white;
+}
+
+.bannerButtonGhost:hover {
+  background-color: var(--mantine-color-red-7);
+}
+
+.content {
+  padding: 1rem 0;
+}
+
+.searchWrapper {
+  margin-bottom: 1rem;
+}
+
+.filterButtons {
+  overflow-x: auto;
+  padding-bottom: 0.5rem;
+}
+
+.facilityIcon {
+  width: 3rem;
+  height: 3rem;
+  border-radius: 0.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+}
+
+.footer {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 1rem;
+  background-color: white;
+}

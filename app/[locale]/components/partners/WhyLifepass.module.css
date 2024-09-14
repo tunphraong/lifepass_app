@@ -1,0 +1,55 @@
+.section {
+  padding: 4rem 0;
+  background-color: #f7eadb;
+  color: #323d56;
+}
+
+.header {
+  text-align: center;
+  margin-bottom: 3rem;
+}
+
+.uppercase {
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  font-size: 0.875rem;
+  margin-bottom: 1rem;
+}
+
+.title {
+  font-size: 2.25rem;
+  font-weight: bold;
+  margin-bottom: 1rem;
+}
+
+@media (min-width: 768px) {
+  .title {
+    font-size: 3rem;
+  }
+}
+
+.description {
+  max-width: 48rem;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.card {
+  background-color: #fdf5e6;
+  transition: box-shadow 0.3s ease;
+}
+
+.card:hover {
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+}
+
+.statNumber {
+  font-size: 2.25rem;
+  font-weight: bold;
+  margin-bottom: 1rem;
+}
+
+.footnote {
+  color: #ff6f61;
+  font-size: 0.875rem;
+}

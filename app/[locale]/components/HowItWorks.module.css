@@ -14,15 +14,15 @@
 
 .imageWrapper {
   position: relative;
-  max-width: 375px;
+  max-width: 395px;
   width: 100%;
   margin: 0 auto;
-  aspect-ratio: 375 / 812;
+  aspect-ratio: 415 / 812;
   overflow: hidden; /* Prevent image overflow */
 
-  @media (min-width: $mantine-breakpoint-md) {
+  /* @media (min-width: $mantine-breakpoint-md) {
     max-width: rem(400);
-  }
+  } */
 }
 
 .image {

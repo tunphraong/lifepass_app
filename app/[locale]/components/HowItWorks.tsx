@@ -32,10 +32,12 @@ export default function Component() {
       <Container size="xl">
         <Grid gutter="xl" align="center">
           <Grid.Col span={{ base: 12, md: 6 }}>
-            <AspectRatio ratio={375 / 812} className={classes.imageWrapper}>
+            <AspectRatio ratio={395 / 812} className={classes.imageWrapper}>
               <Image
+                width={395}
+                height={812}
                 src="/screenshot.png"
-                fill
+                // fill
                 alt="Fitness app interface showing various sports activities"
                 className={classes.image}
               />

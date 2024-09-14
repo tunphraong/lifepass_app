@@ -1,0 +1,98 @@
+.section {
+  background-color: #ff6f61;
+  color: white;
+  padding: 4rem 0;
+}
+
+.uppercase {
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  font-size: 0.875rem;
+  font-weight: 600;
+  margin-bottom: 1rem;
+}
+
+.title {
+  font-size: 2.25rem;
+  font-weight: bold;
+  margin-bottom: 1.5rem;
+}
+
+@media (min-width: 768px) {
+  .title {
+    font-size: 3rem;
+  }
+}
+
+.stepIcon {
+  width: 2rem;
+  height: 2rem;
+  border-radius: 50%;
+  background-color: white;
+  color: #ff6f61;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  margin-right: 1rem;
+}
+
+.button {
+  background-color: white;
+  color: #ff6f61;
+}
+
+.button:hover {
+  background-color: rgba(255, 255, 255, 0.9);
+}
+
+.phoneColumn {
+  display: none;
+}
+
+@media (min-width: 992px) {
+  .phoneColumn {
+    display: block;
+  }
+}
+
+.phoneWrapper {
+  position: relative;
+  max-width: 300px;
+  margin: 0 auto;
+}
+
+.phone {
+  position: relative;
+  border-radius: 40px;
+  overflow: hidden;
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+}
+
+.phoneNotch {
+  background-color: black;
+  height: 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.phoneNotchInner {
+  width: 4rem;
+  height: 1rem;
+  background-color: white;
+  border-radius: 9999px;
+}
+
+.phoneContent {
+  background-color: white;
+  color: black;
+  padding: 1rem;
+}
+
+.imagePreview {
+  width: 5rem;
+  height: 5rem;
+  background-color: #e5e7eb;
+  border-radius: 0.5rem;
+}

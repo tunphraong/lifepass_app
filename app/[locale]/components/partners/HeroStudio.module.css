@@ -1,0 +1,92 @@
+.container {
+    /* background: #fdf5e6; */
+    background-color: #F7F3E0;
+}
+
+.heroSection {
+  
+  padding: 4rem 0;
+  background-color: #f7eadb;
+  color: #323d56;
+}
+
+@media (min-width: 768px) {
+  .heroSection {
+    padding: 6rem 0;
+  }
+}
+
+.uppercase {
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  font-size: 0.875rem;
+}
+
+.heroTitle {
+  font-size: 2.25rem;
+  line-height: 1.2;
+}
+
+@media (min-width: 768px) {
+  .heroTitle {
+    font-size: 3rem;
+  }
+}
+
+.heroImage {
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+}
+
+.partnersSection {
+  padding: 3rem 0;
+  background-color: #f7f7f7;
+  border-radius: 0.5rem;
+}
+
+
+.hiddenMobile {
+  display: none;
+}
+
+@media (min-width: $mantine-breakpoint-lg) {
+  .hiddenMobile {
+    display: block;
+  }
+}
+
+.stack_margin_bottom {
+  margin-bottom: 2rem;
+}
+
+.partnerLogo {
+  width: 4rem;
+  height: 2rem;
+  background-color: #d1d5db;
+  border-radius: 0.25rem;
+}
+
+.featuresSection,
+.statsSection {
+  padding: 3rem 0;
+}
+
+.featureCard,
+.statCard {
+  background-color: #f7f7f7;
+  padding: 1.5rem;
+}
+
+.featureIcon {
+  color: #92d5c9;
+}
+
+.primaryButton {
+  /* background-color: #f4a5a5; */
+  background-color: var(--mantine-color-red);
+  color: white;
+}
+
+.primaryButton:hover {
+  background-color: #ff6f61;
+  opacity: 0.9;
+}
