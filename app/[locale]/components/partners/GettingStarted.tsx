@@ -99,7 +99,7 @@ export default function GettingStarted() {
                       <div key={i} className={classes.imagePreview}></div>
                     ))}
                   </Group>
-                  <Stack gap="xs"  size="sm">
+                  <Stack gap="xs">
                     <Group>
                       <IconMapPin size={16} />
                       <Text>123 White St, New York, NY</Text>
