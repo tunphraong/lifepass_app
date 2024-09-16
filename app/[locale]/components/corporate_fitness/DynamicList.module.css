@@ -64,11 +64,7 @@
 
 .button {
   /* background-color: #f5ac2d; */
-  color: white;
-
-  &:hover {
-    background-color: darken(#f5ac2d, 10%);
-  }
+  color: white;  
 }
 
 .disclaimer {
