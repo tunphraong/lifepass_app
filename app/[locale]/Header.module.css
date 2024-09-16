@@ -1,5 +1,5 @@
 .header {
-  background-color: var(--mantine-color-background-0);
+  background-color: var(--mantine-color-background-light);
   height: 60px;
   border-bottom: 1px solid #E0E0E0;
 }
@@ -17,8 +17,8 @@
   border-radius: 5px;
   text-decoration: none;
   color: #4A4A4A;
-  font-size: 20px;
-  font-weight: 700;
+  font-size: 16px;
+  font-weight: 500;
   transition: background-color 0.2s ease;
 }
 
@@ -26,20 +26,33 @@
   background-color: #E0E0E0;
 }
 
-.linkLabel {
-  margin-right: 5px;
+.menuButton {
+  display: none;
 }
 
-.getWellhubButton {
-  background-color: #D00;
-  color: white;
-  padding: 10px 20px;
-  border-radius: 20px;
-  text-decoration: none;
-  font-weight: 500;
-  transition: background-color 0.2s ease;
+.mobileMenu {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
 }
 
-.getWellhubButton:hover {
-  background-color: #B00;
+.mobileMenu .link {
+  width: 100%;
+  text-align: left;
+  padding: 15px 0;
+  border-bottom: 1px solid #E0E0E0;
+}
+
+.mobileMenu .link:last-child {
+  border-bottom: none;
+}
+
+@media (max-width: 768px) {
+  .desktopMenu {
+    display: none;
+  }
+
+  .menuButton {
+    display: block;
+  }
 }
