@@ -1,7 +1,7 @@
 .section {
   background-color: var(--mantine-color-rose-6);
   padding: var(--mantine-spacing-xl) 0;
-  color: var(--mantine-color-white-6);
+  color: #fff;
 
   @media (min-width: $mantine-breakpoint-md) {
     padding: calc(var(--mantine-spacing-xl) * 2) 0;
