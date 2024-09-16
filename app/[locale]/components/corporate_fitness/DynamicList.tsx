@@ -39,7 +39,7 @@ export default function DynamicList() {
             <Grid.Col key={index} span={{ base: 12, md: 4 }}>
               <Group gap="xs">
                 <IconCheck size={20} className={classes.checkIcon} />
-                <Text className={classes.benefitText}>{item}</Text>
+                <Text size="lg" className={classes.benefitText}>{item}</Text>
               </Group>
             </Grid.Col>
           ))}
