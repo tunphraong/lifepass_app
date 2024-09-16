@@ -1,18 +1,31 @@
 .container {
-    /* background: #fdf5e6; */
-    background-color: #F7F3E0;
+  /* background: #fdf5e6; */
 }
 
 .heroSection {
-  
   padding: 4rem 0;
-  background-color: #f7eadb;
+  /* background-color: #f7eadb; */
+  background-color: var(--mantine-color-background-light);
   color: #323d56;
 }
 
 @media (min-width: 768px) {
   .heroSection {
     padding: 6rem 0;
+  }
+}
+
+@media (max-width: $mantine-breakpoint-xl) {
+  .heroSection {
+    text-align: center;
+  }
+
+  .heroTitle {
+    text-align: center;
+  }
+
+  .uppercase {
+    text-align: center;
   }
 }
 
@@ -23,18 +36,13 @@
 }
 
 .heroTitle {
-  font-size: 2.25rem;
+  font-size: 64px;
   line-height: 1.2;
 }
 
-@media (min-width: 768px) {
-  .heroTitle {
-    font-size: 3rem;
-  }
-}
-
 .heroImage {
-  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1),
+    0 4px 6px -2px rgba(0, 0, 0, 0.05);
 }
 
 .partnersSection {
@@ -42,7 +50,6 @@
   background-color: #f7f7f7;
   border-radius: 0.5rem;
 }
-
 
 .hiddenMobile {
   display: none;
@@ -82,11 +89,11 @@
 
 .primaryButton {
   /* background-color: #f4a5a5; */
-  background-color: var(--mantine-color-red);
-  color: white;
-}
-
-.primaryButton:hover {
-  background-color: #ff6f61;
-  opacity: 0.9;
+  /* background-color: var(--mantine-color-red); */
+  /* color: white; */
+  margin: auto;
+  text-align: left;
+  @media (max-width: $mantine-breakpoint-xl) {
+    text-align: left;
+  }
 }

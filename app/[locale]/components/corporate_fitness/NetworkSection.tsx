@@ -101,6 +101,7 @@ export default function NetworkSection() {
             href="https://tally.so/r/mOLjDM"
             rightSection={<IconArrowRight size={14} />}
             className={classes.primaryButton}
+            radius="lg"
           >
             Get quote
           </Button>

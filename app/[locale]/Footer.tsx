@@ -206,7 +206,7 @@ const data = [
     title: "B2B",
     links: [
       { label: "Company Sports", link: "/en/companies" },
-      { label: "Become a Partner", link: "https://tally.so/r/mBGqV7" },
+      { label: "Become a Partner", link: "/en/partners" },
     ],
   },
   // {

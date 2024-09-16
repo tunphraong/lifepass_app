@@ -26,7 +26,6 @@ export default function CorporateFitness() {
                 href="/companies"
                 size="md"
                 radius="xl"
-                color="yellow"
                 style={{ width: "auto", alignSelf: "flex-start" }}
               >
                 More about corporate fitness

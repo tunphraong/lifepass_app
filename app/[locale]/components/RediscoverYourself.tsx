@@ -39,8 +39,7 @@ export default function RediscoverYourself() {
               href="/prices"
               radius="xl"
               size="lg"
-              color="yellow"
-              className={styles.button}
+              // className={styles.button}
             >
               View memberships
             </Button>

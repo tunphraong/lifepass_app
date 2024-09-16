@@ -21,34 +21,35 @@ const stats = [
   {
     icon: IconActivity,
     percentage: "178%",
-    description: "Boost in employees becoming physically active",
+    description: "Increase in employee physical activity engagement",
     footnote: "[1]",
   },
   {
     icon: IconBrain,
     percentage: "35%",
-    description: "Reduction in annual employee healthcare costs",
+    description: "Decrease in yearly employee health-related expenses",
     footnote: "[2]",
   },
   {
     icon: IconTrendingUp,
     percentage: "43%",
-    description: "Improvement in employee retention",
+    description: "Enhancement in staff retention rates",
     footnote: "[3]",
   },
 ];
 
-export  function BenefitSection() {
+export function BenefitSection() {
   return (
     <section className={classes.section}>
       <Container size="lg">
         <div className={classes.header}>
           <Title order={2} className={classes.title}>
-            Healthy people are good for business
+            Wellness fuels business success
           </Title>
           <Text className={classes.description}>
-            Work-life wellness with LifePass benefits everyone - healthier
-            people, happier companies, proven savings.
+            LifePass promotes work-life balance, resulting in healthier
+            employees, more satisfied organizations, and demonstrable cost
+            savings.
           </Text>
         </div>
         <Grid gutter="lg" className={classes.statsGrid}>
@@ -68,7 +69,7 @@ export  function BenefitSection() {
                 </Title>
                 <Text size="sm" c="dimmed" className={classes.statDescription}>
                   {item.description}
-                  <sup className={classes.footnote}>{item.footnote}</sup>
+                  {/* <sup className={classes.footnote}>{item.footnote}</sup> */}
                 </Text>
               </Paper>
             </Grid.Col>
@@ -80,8 +81,9 @@ export  function BenefitSection() {
             href="https://tally.so/r/mOLjDM"
             rightSection={<IconArrowRight size={14} />}
             className={classes.button}
+            radius="lg"
           >
-            Get quote
+            Request pricing
           </Button>
         </Group>
       </Container>

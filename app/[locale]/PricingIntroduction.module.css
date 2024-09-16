@@ -3,8 +3,12 @@
   padding-bottom: 4rem;
 }
 
+.section {
+  background-color:var(--mantine-color-background-light);
+}
+
 .title {
-    color: #f5ac2d;
+  color: var(--mantine-color-rose-6);
   font-size: rem(36px);
   font-weight: 700;
   line-height: 1.2;
@@ -58,10 +62,6 @@
   color: white; */
   padding-left: 2rem;
   padding-right: 2rem;
-}
-
-.button:hover {
-  background-color: var(--mantine-color-yellow-7);
 }
 
 .checkIcon {

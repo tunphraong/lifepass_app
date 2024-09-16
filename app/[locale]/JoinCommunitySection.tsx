@@ -26,7 +26,6 @@ function JoinCommunitySection() {
             href={"https://tally.so/r/3yxeAd"}
             size="md"
             radius="xl"
-            color="yellow"
             className={classes.primaryButton}
           >
             Sign Up Now

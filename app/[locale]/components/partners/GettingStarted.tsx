@@ -20,23 +20,23 @@ import {
   IconChevronRight,
 } from "@tabler/icons-react";
 import classes from "./GettingStarted.module.css";
+import { Link } from "../../../../navigation";
 
 export default function GettingStarted() {
   const steps = [
     {
-      title: "Create your profile",
+      title: "Set up your profile",
       description:
-        "Add your business info, branding, activities, and schedules.",
+        "Input your business details, brand elements, offered activities, and schedules.",
     },
     {
-      title: "Integrate CMS to increase membership",
-      description:
-        "Drive more visits and offer a seamless check-in experience.",
+      title: "Increase membership",
+      description: "Drive more visits.",
     },
     {
-      title: "Get paid each month",
+      title: "Receive monthly payments",
       description:
-        "Receive a direct-deposit for every visit in a monthly period.",
+        "Get bank-transfer for every visit in a monthly period.",
     },
   ];
 
@@ -44,14 +44,14 @@ export default function GettingStarted() {
     <section className={classes.section}>
       <Container size="lg">
         <Grid gutter="xl">
-          <Grid.Col span={{ base: 12, lg:7  }}>
-            <Text className={classes.uppercase}>GETTING STARTED</Text>
+          <Grid.Col span={{ base: 12, lg: 7 }}>
+            <Text className={classes.uppercase}>JOIN OUR NETWORK</Text>
             <Title order={2} className={classes.title}>
-              How to join our network for free
+              Become a LifePass partner for free
             </Title>
             <Text size="xl" mb="xl">
-              Send us a request to register your business, then get started in
-              just a few simple steps.
+              Apply to register your business, then get started in just a few
+              simple steps.
             </Text>
             <List spacing="lg" size="lg" mb="xl" center>
               {steps.map((step, index) => (
@@ -66,11 +66,17 @@ export default function GettingStarted() {
                 </List.Item>
               ))}
             </List>
-            <Button className={classes.button} >Partner with LifePass</Button>
+            <Button
+              className={classes.button}
+              component={Link}
+              href="https://tally.so/r/mBGqV7"
+              variant="light"
+              radius="xl"
+            >
+              Partner with LifePass
+            </Button>
           </Grid.Col>
-          <Grid.Col span={{ base: 12, lg:5  }}
-          
-          className={classes.phoneColumn}>
+          <Grid.Col span={{ base: 12, lg: 5 }} className={classes.phoneColumn}>
             <Box className={classes.phoneWrapper}>
               <div className={classes.phone}>
                 <div className={classes.phoneNotch}>
@@ -106,7 +112,7 @@ export default function GettingStarted() {
                     </Group>
                     <Group>
                       <IconPhone size={16} />
-                      <Text>+1 035-444-6879</Text>
+                      <Text>+84 035-444-6879</Text>
                     </Group>
                     <Group>
                       <IconWorld size={16} />

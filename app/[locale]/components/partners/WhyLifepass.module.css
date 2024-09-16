@@ -1,6 +1,6 @@
 .section {
   padding: 4rem 0;
-  background-color: #f7eadb;
+  background-color: var(--mantine-color-background-light);;
   color: #323d56;
 }
 
@@ -35,7 +35,7 @@
 }
 
 .card {
-  background-color: #fdf5e6;
+  background-color: var(--mantine-color-light_peach_cream-light);
   transition: box-shadow 0.3s ease;
 }
 

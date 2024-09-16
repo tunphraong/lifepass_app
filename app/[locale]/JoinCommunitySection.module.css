@@ -1,7 +1,7 @@
 .section {
   width: 100%;
   padding: 2rem;
-  background-color: var(--mantine-color-gray-3);
+  background-color: var(--mantine-color-light_peach_cream-1);
 }
 
 .content {
@@ -29,15 +29,6 @@
   gap: var(--mantine-spacing-sm);
 }
 
-.primaryButton {
-  /* background-color: var(--mantine-color-blue-6); */
-  /* color: var(--mantine-color-white); */
-    width: 100%;
-}
-
-.primaryButton:hover {
-  background-color: var(--mantine-color-yellow-7);
-}
 
 .secondaryButton {
   background-color: var(--mantine-color-white);

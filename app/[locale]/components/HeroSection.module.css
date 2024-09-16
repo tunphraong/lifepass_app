@@ -1,5 +1,5 @@
 .section {
-   background-color: #fcfaf9;
+   background-color: var(--mantine-color-background-light);
   padding: var(--mantine-spacing-xl) 0;
 
   @media (min-width: $mantine-breakpoint-md) {
@@ -19,7 +19,7 @@
 }
 
 .title {
-  color: #f5ac2d;
+  color: var(--mantine-color-rose);
   font-size: rem(36px);
   font-weight: 700;
   line-height: 1.2;

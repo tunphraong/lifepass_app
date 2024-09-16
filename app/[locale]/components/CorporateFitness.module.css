@@ -1,7 +1,7 @@
 .container {
   /* padding: 2rem; */
   padding: 60px 0;
-  background-color: #F5F0ED;
+  background-color: var(--mantine-color-background-light);
 }
 
 .textContainer {

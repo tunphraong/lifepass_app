@@ -14,12 +14,12 @@ import classes from "./DynamicList.module.css";
 import { Link } from "../../../../navigation";
 
 const benefits = [
-  "Support total wellbeing",
-  "Break the burnout cycle",
-  "Reduce healthcare costs",
-  "Attract and retain talent",
-  "Make your team happy",
-  "(Be an HR hero)",
+  "Enhance total wellbeing",
+  "Prevent employee burnout",
+  "Lower health-related expenses",
+  "Improve talent acquisition and retention",
+  "Boost team satisfaction",
+  "Become an HR champion",
 ];
 
 export default function DynamicList() {
@@ -55,7 +55,6 @@ export default function DynamicList() {
               component={Link}
               href="https://tally.so/r/mOLjDM"
               rightSection={<IconArrowRight size={14} />}
-              color="yellow"
               className={classes.button}
             >
               Get quote

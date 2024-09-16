@@ -15,17 +15,17 @@ const benefits = [
   {
     title: "1. Become the Employer of Choice",
     description:
-      "Create a Wellbeing culture that retains and attracts the best talent.",
+      "Foster a wellness-focused culture that attracts top talent and enhances employee loyalty.",
   },
   {
-    title: "2. Support your employees' physical and mental health",
+    title: "2. Enhance Employee Wellbeing",
     description:
-      "Sport and wellness activities have been proven to contribute to people's physical and mental health.",
+      "Fitness and wellness initiatives have demonstrated positive impacts on both physical health and mental resilience.",
   },
   {
-    title: "3. Improve team collaboration and culture",
+    title: "3. Boost Team Synergy and Corporate Culture",
     description:
-      "Employee Wellbeing programs promote teamwork and collaboration, and have a substantial positive impact on the work environment, fostering a shared sense of wellbeing.",
+      "Wellness programs encourage teamwork and interpersonal connections, significantly improving the work atmosphere and creating a collective sense of wellbeing.",
   },
 ];
 

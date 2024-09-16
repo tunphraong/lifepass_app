@@ -1,5 +1,6 @@
 .container {
-  background-color: #fcfaf9;
+  background-color: var(--mantine-color-light_peach_cream-1);
+  /* background-color: #f7eadb; */
   padding: 60px 0;
 }
 
@@ -39,7 +40,7 @@
 }
 
 .activeAvatar {
-  border: 2px solid #f5ac2d;
+  border: 2px solid #e0839a;
 }
 
 .quoteMarks {

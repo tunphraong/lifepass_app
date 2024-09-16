@@ -10,7 +10,7 @@ export default function HeroSection() {
           <Grid.Col span={{ base: 12, lg: 6 }}>
             <div className={styles.content}>
               <Title order={1} className={styles.title}>
-                Elevate Your Fitness and Wellness Journey in Vietnam
+                One Pass to Vietnam's Best Fitness & Wellness Studios
               </Title>
               <Text className={styles.description}>
                 Discover and choose from hundreds of studios across Vietnam with
@@ -22,8 +22,6 @@ export default function HeroSection() {
                   component={Link}
                   href="/prices"
                   size="md"
-                  color="yellow"
-                  className={styles.button}
                   prefetch={false}
                   radius="xl"
                 >

@@ -1,32 +1,45 @@
 .header {
-  /* background-color: #fcfaf9; nudge-white */
-  height: rem(60px);
-  border-bottom: rem(1px) solid light-dark(var(--mantine-color-gray-3), var(--mantine-color-dark-4));
+  background-color: var(--mantine-color-background-0);
+  height: 60px;
+  border-bottom: 1px solid #E0E0E0;
 }
 
 .inner {
-  /* height: rem(56px); */
   display: flex;
-  justify-content: space-between; /* Keep the logo on the left and other items on the right */
+  justify-content: space-between;
   align-items: center;
-  padding: 0 rem(20px); 
+  height: 100%;
 }
 
 .link {
-  display: block;
-  line-height: 1;
-  padding: rem(8px) rem(12px);
-  border-radius: var(--mantine-radius-sm);
+  display: inline-block;
+  padding: 8px 12px;
+  border-radius: 5px;
   text-decoration: none;
-  color: light-dark(var(--mantine-color-gray-7), var(--mantine-color-dark-0));
-  font-size: var(--mantine-font-size-sm);
-  font-weight: 500;
+  color: #4A4A4A;
+  font-size: 20px;
+  font-weight: 700;
+  transition: background-color 0.2s ease;
+}
 
-  @mixin hover {
-    background-color: light-dark(var(--mantine-color-gray-0), var(--mantine-color-dark-6));
-  }
+.link:hover {
+  background-color: #E0E0E0;
 }
 
 .linkLabel {
-  margin-right: rem(5px);
+  margin-right: 5px;
+}
+
+.getWellhubButton {
+  background-color: #D00;
+  color: white;
+  padding: 10px 20px;
+  border-radius: 20px;
+  text-decoration: none;
+  font-weight: 500;
+  transition: background-color 0.2s ease;
+}
+
+.getWellhubButton:hover {
+  background-color: #B00;
 }

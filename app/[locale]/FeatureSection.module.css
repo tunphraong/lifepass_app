@@ -1,6 +1,6 @@
 
 .featureSection {
-  background-color: #F5F0ED;
+  background-color: var(--mantine-color-background-light);
   /* color: var(--mantine-color-white); */
     padding: var(--mantine-spacing-xl) 0;
 

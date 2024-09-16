@@ -1,6 +1,6 @@
 .section {
-  background-color: #fff;
-  color: #374151;
+  background-color: var(--mantine-color-background-light);
+  /* color: #374151; */
   padding: var(--mantine-spacing-xl) 0;
 
   @media (min-width: $mantine-breakpoint-md) {
@@ -74,7 +74,7 @@
 .buttonGroup {
   margin-top: var(--mantine-spacing-xl);
 }
-
+/* 
 .primaryButton {
   background-color: #f4b82c;
   color: white;
@@ -82,7 +82,7 @@
   &:hover {
     background-color: darken(#f4b82c, 10%);
   }
-}
+} */
 
 .secondaryButton {
   background-color: transparent;

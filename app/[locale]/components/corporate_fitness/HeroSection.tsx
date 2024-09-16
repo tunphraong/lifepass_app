@@ -21,16 +21,18 @@ export default function HeroSection() {
         <Grid gutter="xl" align="center">
           <Grid.Col span={{ base: 12, lg: 7 }}>
             <Box className={classes.content}>
-              <Text className={classes.subtitle}>LIFEPASS FOR COMPANIES</Text>
+              <Text className={classes.subtitle}>
+                CORPORATE WELLNESS SOLUTIONS
+              </Text>
               <Title className={classes.title}>
-                Experience the
+                Discover the
                 <br />
-                LifePass Effect
+                LifePass Advantage
               </Title>
               <Text className={classes.description}>
-                With widespread adoption, LifePass offers corporate wellness
-                that drives better retention, higher productivity, and lower
-                healthcare costs.
+                Elevate your workforce with LifePass corporate wellness
+                programs, designed to enhance employee retention, boost
+                productivity, and reduce healthcare expenses.
               </Text>
               <Group align="flex-start" className={classes.inputGroup}>
                 {/* <TextInput placeholder="Work email" className={classes.input} /> */}
@@ -38,14 +40,16 @@ export default function HeroSection() {
                   component={Link}
                   href="https://tally.so/r/mOLjDM"
                   rightSection={<IconArrowRight size={14} />}
-                  className={classes.button}
+                  // className={classes.button}
+                  radius="lg"
                 >
                   Get quote
                 </Button>
               </Group>
               <Text size="xs" className={classes.disclaimer}>
-                You agree LifePass may use the information to contact you
-                regarding relevant products and services. Questions? See our{" "}
+                By submitting, you consent to LifePass contacting you about our
+                relevant services and offerings. For more information, please
+                review our{" "}
                 <a href="#" className={classes.link}>
                   Privacy Policy
                 </a>

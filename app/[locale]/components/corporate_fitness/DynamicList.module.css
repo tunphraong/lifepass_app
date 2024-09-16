@@ -1,5 +1,5 @@
 .section {
-  background-color: #f5ac2d;
+  background-color: var(--mantine-color-rose-6);
   padding: var(--mantine-spacing-xl) 0;
 
   @media (min-width: $mantine-breakpoint-md) {
@@ -76,7 +76,7 @@
 }
 
 .link {
-  color: #f5ac2d;
+  color: var(--mantine-color-rose-6);
   text-decoration: none;
 
   &:hover {

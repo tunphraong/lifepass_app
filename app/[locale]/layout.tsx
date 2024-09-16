@@ -53,12 +53,56 @@ const nudgeWhite: MantineColorsTuple = [
   "#744d3a",
 ];
 
+const lightVanilla: MantineColorsTuple = [
+  "#fdf8ed",
+  "#f7f0db",
+  "#f1dfaf",
+  "#eace81",
+  "#e5bf5b",
+  "#e1b543",
+  "#e0b036",
+  "#c79a29",
+  "#b08921",
+  "#997615",
+];
+
+const deepRoseRed: MantineColorsTuple = [
+  "#ffecf2",
+  "#fad8e0",
+  "#ecaebe",
+  "#e0839a",
+  "#d65f7c",
+  "#d04769",
+  "#ce3a5f",
+  "#b72c4f",
+  "#a42445",
+  "#91193c",
+];
+
+const lightPeachCream: MantineColorsTuple = [
+  "#fef4e9",
+  "#f6e8d8",
+  "#ecd0b1",
+  "#e1b685",
+  "#d8a05f",
+  "#d39248",
+  "#d18b3a",
+  "#b9772c",
+  "#a56925",
+  "#905a1a",
+];
+
+
+
 const theme = createTheme({
   colors: {
     yellow: myColor,
     white: nudgeWhite,
+    rose: deepRoseRed,
+    background: lightVanilla,
+    light_peach_cream: lightPeachCream
   },
-  primaryColor: 'yellow',
+  primaryColor: "rose",
   // autoContrast: true,
   luminanceThreshold: 0.31,
 });

@@ -8,28 +8,29 @@ import {
   Text,
   Title,
 } from "@mantine/core";
-import { IconLock, IconUser, IconDeviceMobile } from "@tabler/icons-react";
+import { IconMoneybag, IconUser, IconDeviceMobile } from "@tabler/icons-react";
 import classes from "./Revenue.module.css";
+import { Link } from "../../../../navigation";
 
 export default function Revenue() {
   const benefits = [
     {
-      icon: IconLock,
-      title: "Gyms & studios",
+      icon: IconMoneybag,
+      title: "Drive Revenue",
       description:
-        "Gain brand exposure, boost membership, and increase recurring revenue.",
+        "Increase your recurring revenue.",
     },
     {
       icon: IconUser,
-      title: "Personal trainers",
+      title: "Boost membership",
       description:
-        "Build a roster of regular clients, set your own schedule, and manage bookings.",
+        "First-time visitors can become your repeat customer",
     },
     {
       icon: IconDeviceMobile,
-      title: "Wellness apps",
+      title: "Brand visibility",
       description:
-        "Improve app ratings, engagement, and grow your word-of-mouth marketing.",
+        "Gain brand exposure to a lot of new customers.",
     },
   ];
 
@@ -37,11 +38,11 @@ export default function Revenue() {
     <section className={classes.section}>
       <Container size="lg">
         <Title order={2} ta="center" mb="sm" className={classes.title}>
-          LifePass is free for every partner
+          LifePass is free to join
         </Title>
         <Text
           size="xl"
-        //   c="dimmed"
+          //   c="dimmed"
           ta="center"
           mb="xl"
           fw={500}
@@ -71,7 +72,12 @@ export default function Revenue() {
           ))}
         </Grid>
         <Group justify="center">
-          <Button className={classes.button} size="lg">
+          <Button
+            component={Link}
+            href="https://tally.so/r/mBGqV7"
+            className={classes.button}
+            size="lg"
+          >
             Partner with LifePass
           </Button>
         </Group>

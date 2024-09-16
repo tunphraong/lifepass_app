@@ -1,5 +1,5 @@
 .wrapper {
-  background-color: #F5F0ED;
+  background-color: var(--mantine-color-background-light);
   /* color: var(--mantine-color-white); */
   padding: var(--mantine-spacing-xl);
 
@@ -55,7 +55,7 @@
 }
 
 .icon {
-  color: var(--mantine-color-yellow-4);
+  color: var(--mantine-color-rose-4);
 }
 
 .featureTitle {

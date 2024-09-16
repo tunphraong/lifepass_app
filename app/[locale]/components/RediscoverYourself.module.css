@@ -1,5 +1,5 @@
 .section {
-  background-color: #fcfaf9;
+  background-color: var(--mantine-color-light_peach_cream-1);
 }
 
 .container {
@@ -54,7 +54,7 @@
 }
 
 .title {
-  font-size: rem(36);
+  font-size: 45px;
   font-weight: 700;
   margin-bottom: var(--mantine-spacing-md);
 }

@@ -1,6 +1,5 @@
-/* CorporateWellness.module.css */
 .section {
-  background-color: #F5F0ED;
+  background-color: var(--mantine-color-light_peach_cream-1);
   padding: var(--mantine-spacing-xl) 0;
 
   @media (min-width: $mantine-breakpoint-md) {
@@ -43,6 +42,7 @@
 }
 
 .statCard {
+  background-color: var(--mantine-color-background-light);
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -53,7 +53,7 @@
   width: rem(48);
   height: rem(48);
   border-radius: var(--mantine-radius-xl);
-  background-color: var(--mantine-color-yellow-5);
+  background-color: var(--mantine-color-rose-6);
   margin-bottom: var(--mantine-spacing-md);
 }
 
@@ -73,13 +73,4 @@
 
 .footnote {
   color: var(--mantine-color-pink-6);
-}
-
-.button {
-  background-color: var(--mantine-color-yellow-4);
-  color: var(--mantine-color-white);
-
-  &:hover {
-    background-color: var(--mantine-color-yellow-7);
-  }
 }
