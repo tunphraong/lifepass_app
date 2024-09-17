@@ -22,6 +22,7 @@ import LoginForm from "../../components/LoginForm"; // Import LoginForm componen
 import styles from "./layout.module.css";
 import logo from "../../../public/lifepass.svg";
 import Image from "next/image";
+import Footer from "../Footer";
 
 export default function MobileNavbar({
   children,
@@ -229,6 +230,8 @@ Readonly<{
       <Modal opened={loginModalOpened} onClose={close} title="Login">
         <LoginForm onClose={close} />
       </Modal>
+
+      <Footer></Footer>
     </>
   );
 }
