@@ -12,7 +12,7 @@ const StudioAddress = ({ address }) => {
 
   return (
     <Group mt={3}>
-      <ThemeIcon size={24} radius="md" color="yellow">
+      <ThemeIcon size={24} radius="md" color="rose">
         <IconMapPin size={16} />
       </ThemeIcon>
       <Text size="sm" className={styles.address}>

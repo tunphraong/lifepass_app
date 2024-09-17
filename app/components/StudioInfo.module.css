@@ -31,3 +31,10 @@
 .spoilerContent {
   color: #323d56;
 }
+
+/* .container {
+  padding: var(--mantine-spacing-md);
+  background-color: var(--mantine-color-white);
+  border-radius: var(--mantine-radius-lg);
+  box-shadow: var(--mantine-shadow-sm);
+} */

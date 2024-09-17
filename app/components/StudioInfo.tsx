@@ -134,8 +134,8 @@ export function StudioInfo({ studio, loggedIn }: StudioInfoProps) {
           {selectedClass ? (
             <Spoiler
               maxHeight={60}
-              showLabel={<Text color="yellow">Read more</Text>}
-              hideLabel={<Text color="yellow">Hide</Text>}
+              showLabel={<Text c="rose">Read more</Text>}
+              hideLabel={<Text c="rose">Hide</Text>}
               mt="md"
             >
               <Text color="dimmed">{selectedClass.description}</Text>
@@ -169,8 +169,8 @@ export function StudioInfo({ studio, loggedIn }: StudioInfoProps) {
 
           <Spoiler
             maxHeight={60}
-            showLabel={<Text color="yellow">Read more</Text>}
-            hideLabel={<Text color="yellow">Hide</Text>}
+            showLabel={<Text c="rose">Read more</Text>}
+            hideLabel={<Text c="rose">Hide</Text>}
             mt="md"
           >
             <Text color="dimmed">{description}</Text>
@@ -180,7 +180,7 @@ export function StudioInfo({ studio, loggedIn }: StudioInfoProps) {
 
           <StudioAddress address={address}></StudioAddress>
           <Group mt={3} align="center">
-            <ThemeIcon size={24} radius="md" color="yellow">
+            <ThemeIcon size={24} radius="md" color="rose">
               <IconPhone size={16} />
             </ThemeIcon>
             <Text size="sm" color="dimmed">
@@ -190,7 +190,7 @@ export function StudioInfo({ studio, loggedIn }: StudioInfoProps) {
 
           {website && (
             <Group mt={3} align="center">
-              <ThemeIcon size={24} radius="md" color="yellow">
+              <ThemeIcon size={24} radius="md" color="rose">
                 <IconAt size={16} />
               </ThemeIcon>
               <Link
@@ -213,7 +213,7 @@ export function StudioInfo({ studio, loggedIn }: StudioInfoProps) {
                   rel="noopener noreferrer"
                   className={styles.link}
                 >
-                  <ThemeIcon size={24} radius="md" color="yellow">
+                  <ThemeIcon size={24} radius="md" color="rose">
                     <IconBrandInstagram size={24} />
                   </ThemeIcon>
                 </a>
@@ -230,7 +230,7 @@ export function StudioInfo({ studio, loggedIn }: StudioInfoProps) {
                   rel="noopener noreferrer"
                   className={styles.link}
                 >
-                  <ThemeIcon size={24} radius="md" color="yellow">
+                  <ThemeIcon size={24} radius="md" color="rose">
                     <IconBrandFacebook size={24} />
                   </ThemeIcon>
                 </a>
@@ -258,7 +258,17 @@ export function StudioInfo({ studio, loggedIn }: StudioInfoProps) {
 
           <Stack gap="sm">
             <Title order={3}>{t("preparation")}</Title>
-            <Text>{prepare}</Text>
+            <Spoiler
+              maxHeight={80}
+              showLabel="Đọc thêm"
+              hideLabel="Ẩn"
+              classNames={{
+                control: styles.spoilerControl,
+                content: styles.spoilerContent,
+              }}
+            >
+              <Text>{prepare}</Text>
+            </Spoiler>
           </Stack>
 
           <Divider my={20} />
@@ -268,7 +278,7 @@ export function StudioInfo({ studio, loggedIn }: StudioInfoProps) {
             <div className={styles.amenitiesGrid}>
               {amenities.map((amenity) => (
                 <Center key={amenity}>
-                  <ThemeIcon size={35} radius="md" color="yellow">
+                  <ThemeIcon size={35} radius="md" color="rose">
                     {amenityIcons[amenity]}
                   </ThemeIcon>
                   <Text>{amenity}</Text>
