@@ -7,10 +7,6 @@
 
 .button:hover {
    transform: scale(1.05);
-   background-color: #f4b82c;
-  /* background-color: var(
-    --yellowDiffShade
-  ); Assuming you have defined --yellowDiffShade somewhere in your CSS variables */
 }
 
 .classNameButton {
@@ -24,7 +20,7 @@
 
 .button:focus {
   outline: none;
-  box-shadow: 0 0 0 2px var(--yellow-200); /* focus:ring-yellow-200 */
+  box-shadow: 0 0 0 2px var(--rose-200);
 }
 
 .root {

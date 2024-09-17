@@ -182,7 +182,7 @@ const StudioSchedule = ({ studioId, filter, onClassClick, loggedIn }) => {
         <Group justify="center" style={{ width: "100%" }}>
           <Button
             variant="filled"
-            color="yellow"
+            color="rose"
             radius="xl"
             size={isSmallScreen ? "md" : "lg"}
             onClick={() => handleWeekChange(-1)}
@@ -209,7 +209,7 @@ const StudioSchedule = ({ studioId, filter, onClassClick, loggedIn }) => {
 
           <Button
             variant="filled"
-            color="yellow"
+            color="rose"
             radius="xl"
             size={isSmallScreen ? "md" : "lg"}
             onClick={() => handleWeekChange(1)}
@@ -225,7 +225,7 @@ const StudioSchedule = ({ studioId, filter, onClassClick, loggedIn }) => {
               <Button
                 key={i}
                 variant={selectedDay.isSame(day, "day") ? "filled" : "outline"}
-                color="yellow"
+                color="rose"
                 radius="xl"
                 size="md"
                 onClick={() => handleDayChange(day)}
@@ -275,7 +275,7 @@ const StudioSchedule = ({ studioId, filter, onClassClick, loggedIn }) => {
                   <Button
                     className={styles.button}
                     fullWidth
-                    color="yellow"
+                    color="rose"
                     onClick={() => handleEnroll(schedule)}
                     variant="filled"
                     radius="xl"
@@ -287,7 +287,7 @@ const StudioSchedule = ({ studioId, filter, onClassClick, loggedIn }) => {
                   <Button
                     className={styles.button}
                     fullWidth
-                    color="yellow"
+                    color="rose"
                     onClick={() => handleEnroll(schedule)}
                     variant="filled"
                     radius="xl"
@@ -316,7 +316,7 @@ const StudioSchedule = ({ studioId, filter, onClassClick, loggedIn }) => {
 
         <Button
           variant="outline"
-          color="yellow"
+          color="rose"
           radius="xl"
           size="md"
           onClick={() => handleDayChange(selectedDay.add(1, "day"))}
