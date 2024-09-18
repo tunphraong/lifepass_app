@@ -10,26 +10,9 @@ import {
   Card,
   Rating,
   Tabs,
-  Divider,
-  ActionIcon,
-  Stack,
-  Space,
-  Spoiler,
-  Center,
   Button,
-  CardSection,
 } from "@mantine/core";
 import {
-  IconUserPlus,
-  IconHeart,
-  IconStar,
-  IconMapPin,
-  IconInfoCircle,
-  IconPhone,
-  IconAt,
-  IconBrandFacebook,
-  IconBrandInstagram,
-  IconBrandTwitter,
   IconBath,
   IconLock,
   IconParking,
@@ -38,6 +21,8 @@ import {
   IconDroplet,
   IconCoffee,
   IconClock,
+  IconArrowLeft,
+  IconPhone
 } from "@tabler/icons-react";
 import Image from "next/image";
 import StudioSchedule from "./StudioSchedule";
@@ -48,6 +33,7 @@ import { useState } from "react"; // Import useState
 import { useTranslations } from "next-intl";
 import StudioImagesCarousel from "./StudioImagesCarousel";
 import ClassCard from "./ClassCard";
+import {useRouter} from "next/navigation";
 
 interface StudioInfoProps {
   studio: any;
@@ -78,7 +64,10 @@ export function StudioInfo({ studio, loggedIn }: StudioInfoProps) {
     prepare,
     categories
   } = studio;
-
+  const router = useRouter();
+  const handleBack = () => {
+    router.back();
+  };
   let logo;
   logo = "/test-icon.jpg";
   if (name == "Reborn Fitness & Health") {
@@ -154,6 +143,17 @@ export function StudioInfo({ studio, loggedIn }: StudioInfoProps) {
 
   return (
     <main className={styles.main}>
+      <Group mb="md">
+        <Button
+          leftSection={<IconArrowLeft size={16} />}
+          variant="filled"
+          color="dark"
+          radius="xl"
+          onClick={handleBack}
+        >
+          Back
+        </Button>
+      </Group>
       <div className={styles.gymInfo}>
         <h2 className={styles.gymTitle}>{name}</h2>
         <Group gap="xs" className={styles.gymLocation}>
@@ -232,7 +232,7 @@ export function StudioInfo({ studio, loggedIn }: StudioInfoProps) {
               ].map((day) => (
                 <Group
                   key={day}
-                  // position="apart"
+                  grow
                   className={styles.scheduleItem}
                 >
                   <Text>{day}</Text>
