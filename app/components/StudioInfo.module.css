@@ -1,40 +1,154 @@
-.studioImage {
-  border-radius: 50%;
-  border: 2px solid #f5ac2d;
+.container {
+  min-height: 100vh;
+  background-color: var(--mantine-background);
 }
 
-.link {
-  color: #f5ac2d;
-  text-decoration: none;
+.header {
+  background-color: white;
+  border-bottom: 1px solid #eee;
 }
 
-.link:hover {
-  text-decoration: underline;
+.headerContent {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 2rem;
 }
 
-.socialLink {
-  color: #f5ac2d;
-  margin-right: 10px;
+.title {
+  font-size: 2rem;
+  font-weight: bold;
+  color: var(--mantine-color-rose);
 }
 
-.amenitiesGrid {
+.main {
+  padding: 2rem;
+}
+
+.gymInfo {
+  margin-bottom: 2rem;
+}
+
+.gymTitle {
+  font-size: 2.5rem;
+  font-weight: bold;
+}
+
+.gymLocation,
+.gymDetails {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.gymDescription {
+  margin: 1rem 0;
+  /* color: #555; */
+}
+
+.actions {
+  margin: 1rem 0;
+}
+
+.categories {
+  margin-bottom: 1rem;
+}
+
+.categoryList {
   display: flex;
   flex-wrap: wrap;
-  gap: 10px;
+  gap: 0.5rem;
 }
 
-.spoilerControl {
-  color: #f5ac2d;
-  cursor: pointer;
+.categoryItem {
+  padding: 0.5rem 1rem;
+  background-color: #f3f3f3;
+  border-radius: 999px;
 }
 
-.spoilerContent {
-  color: #323d56;
+.photos {
+  margin-bottom: 1.5rem;
 }
 
-/* .container {
-  padding: var(--mantine-spacing-md);
-  background-color: var(--mantine-color-white);
-  border-radius: var(--mantine-radius-lg);
-  box-shadow: var(--mantine-shadow-sm);
-} */
+.photoGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  gap: 1rem;
+}
+
+.photo {
+  border-radius: 8px;
+}
+
+.scheduleItem {
+  padding: 0.5rem 0;
+}
+
+.card {
+  padding: 1rem;
+}
+
+
+.tab {
+  position: relative;
+  border: 1px solid light-dark(var(--mantine-color-gray-2), var(--mantine-color-dark-4));
+  background-color: light-dark(var(--mantine-color-white), var(--mantine-color-dark-6));
+
+  &:first-of-type {
+    border-radius: 4px 0 0 4px;
+
+    @mixin rtl {
+      border-radius: 0 4px 4px 0;
+    }
+  }
+
+  &:last-of-type {
+    border-radius: 0 4px 4px 0;
+
+    @mixin rtl {
+      border-radius: 4px 0 0 4px;
+    }
+  }
+
+  & + & {
+    border-left-width: 0;
+
+    @mixin rtl {
+      border-right-width: 0;
+      border-left-width: 1px;
+    }
+  }
+
+  @mixin hover {
+    background-color: light-dark(var(--mantine-color-gray-0), var(--mantine-color-dark-5));
+  }
+
+  &[data-active] {
+    z-index: 1;
+    background-color: var(--mantine-color-rose-filled);
+    border-color: var(--mantine-color-rose-filled);
+    color: var(--mantine-color-white);
+
+    @mixin hover {
+      background-color: var(--mantine-color-blue-filled-hover);
+    }
+  }
+}
+
+
+.amenitiesList {
+  padding: 16px;
+  border: 1px solid #eaeaea;
+  border-radius: 8px;
+  background-color: white;
+}
+
+.amenitiesList li {
+  margin-bottom: 8px;
+  color: #000;
+  font-size: 16px;
+}
+
+.amenitiesList li:last-child {
+  margin-bottom: 0;
+}

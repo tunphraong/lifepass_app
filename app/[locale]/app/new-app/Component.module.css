@@ -1,0 +1,97 @@
+.container {
+  min-height: 100vh;
+  background-color: var(--mantine-background);
+}
+
+.header {
+  background-color: white;
+  border-bottom: 1px solid #eee;
+}
+
+.headerContent {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 2rem;
+}
+
+.title {
+  font-size: 2rem;
+  font-weight: bold;
+  color: var(--mantine-color-rose);
+}
+
+.main {
+  padding: 2rem;
+}
+
+.gymInfo {
+  margin-bottom: 2rem;
+}
+
+.gymTitle {
+  font-size: 2.5rem;
+  font-weight: bold;
+}
+
+.gymLocation,
+.gymDetails {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.gymDescription {
+  margin: 1rem 0;
+  color: #555;
+}
+
+.grayText {
+  color: gray;
+}
+
+.actions {
+  margin: 1rem 0;
+}
+
+.categories {
+  margin-bottom: 1rem;
+}
+
+.categoryList {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.categoryItem {
+  padding: 0.5rem 1rem;
+  background-color: #f3f3f3;
+  border-radius: 999px;
+}
+
+.photos {
+  margin-bottom: 1.5rem;
+}
+
+.photoGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  gap: 1rem;
+}
+
+.photo {
+  border-radius: 8px;
+}
+
+.tabs {
+  margin-top: 2rem;
+}
+
+.scheduleItem {
+  padding: 0.5rem 0;
+}
+
+.card {
+  padding: 1rem;
+}

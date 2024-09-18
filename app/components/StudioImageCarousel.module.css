@@ -1,0 +1,15 @@
+/* .indicator {
+  width: 12px;
+  height: 4px;
+  transition: width 250ms ease;
+
+  &[data-active] {
+    width: 40px;
+  }
+} */
+
+.control {
+    /* outline: 2px solid #ff6f61; */
+    background-color: #fff;
+    opacity: 1;
+}

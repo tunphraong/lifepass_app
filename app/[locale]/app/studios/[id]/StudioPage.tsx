@@ -37,7 +37,7 @@ const StudioPage = ({ id, loggedIn }: any) => {
   if (!studio) return <div>Studio not found</div>;
   return (
     <>
-      <StudioImagesCarousel studio={studio} isLoading={isLoading} />
+      {/* <StudioImagesCarousel studio={studio} isLoading={isLoading} /> */}
       <StudioInfo studio={studio} loggedIn={isUserLoggedIn}></StudioInfo>
       {/* <StudioSchedule studioId={studio.id}></StudioSchedule> */}
     </>
