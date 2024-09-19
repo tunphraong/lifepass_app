@@ -211,7 +211,7 @@ export default function LoginPage(props: PaperProps) {
           </Stack>
 
           <Group justify="space-between" mt="xl">
-            <Anchor
+            {/* <Anchor
               component="button"
               type="button"
               c="dimmed"
@@ -221,7 +221,7 @@ export default function LoginPage(props: PaperProps) {
               {type === "register"
                 ? "Already have an account? Login"
                 : "Don't have an account? Register"}
-            </Anchor>
+            </Anchor> */}
             <Button type="submit" radius="xl" color="yellow">
               {upperFirst(type)}
             </Button>
