@@ -14,15 +14,24 @@ import classes from "./PricingIntroduction.module.css";
 import { Link } from "../../navigation";
 
 export default function PricingIntroduction() {
-  const plans = [
-    // { credits: 10, price: 200000 },
-    { credits: 22, price: 390000 },
-    { credits: 33, price: 548000 },
-    { credits: 68, price: 982000 },
-    { credits: 90, price: 1301000 },
-    { credits: 135, price: 1939000 },
-    { credits: 203, price: 2889000 },
-  ];
+  // const plans = [
+  //   { credits: 22, price: 390000 },
+  //   { credits: 33, price: 548000 },
+  //   { credits: 68, price: 982000 },
+  //   { credits: 90, price: 1301000 },
+  //   { credits: 135, price: 1939000 },
+  //   { credits: 203, price: 2889000 },
+  // ];
+
+const plans = [
+  { credits: 30, price: 300000 },
+  { credits: 66, price: 586000 },
+  { credits: 99, price: 821000 },
+  { credits: 204, price: 1473000 },
+  { credits: 270, price: 1952000 },
+  { credits: 405, price: 2908000 },
+  { credits: 608, price: 4333000 },
+];
 
   return (
     <section className={classes.section}>
