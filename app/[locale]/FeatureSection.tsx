@@ -10,6 +10,7 @@ import {
   Box,
 } from "@mantine/core";
 import styles from "./FeatureSection.module.css";
+import { useTranslations } from "next-intl";
 
 const activities = [
   { name: "Yoga", image: "/yoga.jpg?height=300&width=300" },
@@ -21,23 +22,22 @@ const activities = [
 ];
 
 export default function FeatureSection() {
+  const t = useTranslations("FeatureSection");
+
   return (
     <>
       <Container size="lg" className={styles.box}>
         <Center>
           <Title order={3} mb="md" className={styles.mainTitle}>
-            Get access to the top studios and many additional fitness and
-            wellness offers in your city and across Vietnam. Are you ready?
+            {t("mainTitle")}
           </Title>
         </Center>
       </Container>
       <div className={styles.featureSection}>
         <Container size="xl">
-          {/* <Title order={2} align="center" mb="xl" className={styles.mainTitle}> */}
-
           <div className={styles.mobileContent}>
             <Title order={2} mb="md">
-              Embark on a new kind of fitness journey
+              {t("journeyTitle")}
             </Title>
           </div>
 
@@ -55,14 +55,14 @@ export default function FeatureSection() {
                       <Card.Section>
                         <Image
                           src={activity.image}
-                          alt={activity.name}
+                          alt={t(`activities.${activity.name}`)}
                           width={300}
                           height={300}
                           className={styles.activityImage}
                         />
                       </Card.Section>
                       <Center>
-                        <Text mt="sm">{activity.name}</Text>
+                        <Text mt="sm">{t(`activities.${activity.name}`)}</Text>
                       </Center>
                     </Card>
                   ))}
@@ -70,10 +70,7 @@ export default function FeatureSection() {
               </ScrollArea>
 
               <div className={styles.mobileContent}>
-                <Text size="lg">
-                  Sick of the same old? You'll never get bored with us. Discover
-                  new activities every day.
-                </Text>
+                <Text size="lg">{t("mobileDescription")}</Text>
               </div>
 
               <Grid className={styles.desktopGrid}>
@@ -87,14 +84,14 @@ export default function FeatureSection() {
                       <Card.Section>
                         <Image
                           src={activity.image}
-                          alt={activity.name}
+                          alt={t(`activities.${activity.name}`)}
                           width={300}
                           height={300}
                           className={styles.activityImage}
                         />
                       </Card.Section>
                       <Text className={styles.activityName}>
-                        {activity.name}
+                        {t(`activities.${activity.name}`)}
                       </Text>
                     </Card>
                   </Grid.Col>
@@ -107,34 +104,26 @@ export default function FeatureSection() {
               className={styles.desktopContent}
             >
               <Title order={1} className={styles.title} mb="md">
-                Embark on a new kind of fitness journey
+                {t("journeyTitle")}
               </Title>
               <div className={styles.featureList}>
                 <div>
                   <Title order={2} size="h1" mb="xs">
-                    Endless variety
+                    {t("endlessVariety.title")}
                   </Title>
-                  <Text size="lg">
-                    Choose from many types of sports and wellness offered by our
-                    partners
-                  </Text>
+                  <Text size="lg">{t("endlessVariety.description")}</Text>
                 </div>
                 <div>
                   <Title order={2} size="h1" mb="xs">
-                    Discover something new
+                    {t("discoverNew.title")}
                   </Title>
-                  <Text size="lg">
-                    Sick of the same old? You'll never get bored with us.
-                    Discover new activities every day.
-                  </Text>
+                  <Text size="lg">{t("discoverNew.description")}</Text>
                 </div>
                 <div>
                   <Title order={2} size="h1" mb="xs">
-                    Save with a membership
+                    {t("saveMembership.title")}
                   </Title>
-                  <Text size="lg">
-                    Exclusive member rates and in-app promotions
-                  </Text>
+                  <Text size="lg">{t("saveMembership.description")}</Text>
                 </div>
               </div>
             </Grid.Col>

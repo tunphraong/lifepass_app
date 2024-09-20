@@ -1,8 +1,11 @@
 import { Container, Grid, Text, Title, Button, Image } from "@mantine/core";
 import { Link } from "../../../navigation";
 import styles from "./HeroSection.module.css";
+import { useTranslations } from "next-intl";
 
 export default function HeroSection() {
+  const t = useTranslations("HeroSection");
+
   return (
     <section className={styles.section}>
       <Container size="lg">
@@ -10,13 +13,9 @@ export default function HeroSection() {
           <Grid.Col span={{ base: 12, lg: 6 }}>
             <div className={styles.content}>
               <Title order={1} className={styles.title}>
-                One Pass to Vietnam's Best Fitness & Wellness Studios
+                {t("title")}
               </Title>
-              <Text className={styles.description}>
-                Discover and choose from hundreds of studios across Vietnam with
-                just one Lifepass application. Convenient, diverse and
-                economical!
-              </Text>
+              <Text className={styles.description}>{t("description")}</Text>
               <div className={styles.buttonWrapper}>
                 <Button
                   component={Link}
@@ -25,7 +24,7 @@ export default function HeroSection() {
                   prefetch={false}
                   radius="xl"
                 >
-                  View membership
+                  {t("viewMembership")}
                 </Button>
               </div>
             </div>
@@ -33,7 +32,7 @@ export default function HeroSection() {
           <Grid.Col span={{ base: 12, lg: 6 }}>
             <Image
               src="/lifepass_activities.png"
-              alt="Hero"
+              alt={t("imageAlt")}
               width={550}
               height={550}
               fit="cover"

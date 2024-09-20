@@ -1,8 +1,11 @@
 import { Button, Grid, Flex, Container, Title } from "@mantine/core";
 import styles from "./CorporateFitness.module.css";
 import { Link } from "../../../navigation";
+import { useTranslations } from "next-intl";
 
 export default function CorporateFitness() {
+  const t = useTranslations("CorporateFitness");
+
   return (
     <div className={styles.container}>
       <Container size="lg" mb={30} mt={20}>
@@ -14,13 +17,9 @@ export default function CorporateFitness() {
               justify="center"
             >
               <Title order={2} className={styles.title}>
-                Empower Your Teams with LifePass Corporate Fitness
+                {t("title")}
               </Title>
-              <p className={styles.description}>
-                Boost employee morale and health by offering exclusive fitness
-                and wellness benefits. LifePass provides flexible 
-                solutions that fit your company's unique needs.
-              </p>
+              <p className={styles.description}>{t("description")}</p>
               <Button
                 component={Link}
                 href="/companies"
@@ -28,7 +27,7 @@ export default function CorporateFitness() {
                 radius="xl"
                 style={{ width: "auto", alignSelf: "flex-start" }}
               >
-                More about corporate fitness
+                {t("buttonText")}
               </Button>
             </Flex>
           </Grid.Col>
@@ -37,7 +36,7 @@ export default function CorporateFitness() {
             <div className={styles.imageContainer}>
               <img
                 src="/corporate-fitness.jpg"
-                alt="Corporate fitness program"
+                alt={t("imageAlt")}
                 className={styles.image}
               />
             </div>

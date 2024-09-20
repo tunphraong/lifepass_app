@@ -1,19 +1,21 @@
 import { Container, Title, Text, Button, Box } from "@mantine/core";
 import styles from "./DiscoverPossibilities.module.css";
+import { useTranslations } from "next-intl";
 
 export default function DiscoverPossibilities() {
+  const t = useTranslations("DiscoverPossibilities");
+
   return (
     <Box className={styles.wrapper}>
       <Container size="md" className={styles.container}>
         <Title order={2} className={styles.title}>
-          Discover your possibilities
+          {t("title")}
         </Title>
         <Text fw={500} className={styles.description}>
-          Search and find all venues offering your favorite fitness and
-          wellness activities. In your area, your city, and anywhere in Vietnam.
+          {t("description")}
         </Text>
         <Button size="lg" radius="xl" className={styles.button}>
-          Find venues
+          {t("buttonText")}
         </Button>
       </Container>
     </Box>

@@ -66,5 +66,94 @@
     "cancellationPolicy": "You need to cancel the class 12 hours in advance to get a refund.",
     "paymentError": "Payment unsuccessful. Please contact LifePass if the problem persists.",
     "goBack": "Go Back"
+  },
+  "Header": {
+    "plansAndPricing": "Plans & Pricing",
+    "forCompanies": "For Companies",
+    "listMyBusiness": "List My Business",
+    "logoAlt": "LifePass Logo",
+    "menuTitle": "Menu"
+  },
+  "HeroSection": {
+    "title": "One Pass to Vietnam's Best Fitness & Wellness Studios",
+    "description": "Discover and choose from hundreds of studios across Vietnam with just one Lifepass application. Convenient, diverse and economical!",
+    "viewMembership": "View membership",
+    "imageAlt": "Hero"
+  },
+  "FeatureSection": {
+    "mainTitle": "Get access to the top studios and many additional fitness and wellness offers in your city and across Vietnam. Are you ready?",
+    "journeyTitle": "Embark on a new kind of fitness journey",
+    "activities": {
+      "Yoga": "Yoga",
+      "Cycling": "Cycling",
+      "Fitness": "Fitness",
+      "Bouldering": "Bouldering",
+      "Dance": "Dance",
+      "Wellness": "Wellness"
+    },
+    "mobileDescription": "Sick of the same old? You'll never get bored with us. Discover new activities every day.",
+    "endlessVariety": {
+      "title": "Endless variety",
+      "description": "Choose from many types of sports and wellness offered by our partners"
+    },
+    "discoverNew": {
+      "title": "Discover something new",
+      "description": "Sick of the same old? You'll never get bored with us. Discover new activities every day."
+    },
+    "saveMembership": {
+      "title": "Save with a membership",
+      "description": "Exclusive member rates and in-app promotions"
+    },
+    "DiscoverPossibilities": {
+      "title": "Discover your possibilities",
+      "description": "Search and find all venues offering your favorite fitness and wellness activities. In your area, your city, and anywhere in Vietnam.",
+      "buttonText": "Find venues"
+    },
+    "HowItWorks": {
+      "title": "Many activities to choose from in a single app",
+      "imageAlt": "Fitness app interface showing various sports activities",
+      "features": [
+        {
+          "title": "Become a member",
+          "description": "Select one of our flexible memberships to start your fitness journey. That's all it takes."
+        },
+        {
+          "title": "Get inspired",
+          "description": "Need some inspiration? Find partner venues and activities near you via your browser."
+        },
+        {
+          "title": "Book your workout",
+          "description": "Secure yourself a spot in a class or for a solo workout and enjoy flexible cancellation, just in case plans change."
+        },
+        {
+          "title": "Check in - just like that",
+          "description": "Arrive at your chosen venue, and check in with the confirmation email. It's that simple!"
+        }
+      ]
+    },
+    "TestimonialSection": {
+      "title": "What our members think about us",
+      "testimonials": [
+        {
+          "name": "Duc Nguyen",
+          "content": "1st time I used LifePass to book a cold plunge session at REBORN Fitness & Health in Thao Dien, and it was an amazing experience! The booking process was smooth, and I felt well taken care of during the session. LifePass offers a great variety of wellness activities like cold plunges, swimming, and personalized gym sessions at discounted prices, making it easy to discover new experiences. I'm excited to book more sessions at different locations through LifePass in the future. Highly recommended!"
+        },
+        {
+          "name": "Miley Le",
+          "content": "I've never been more motivated to work out. The variety of sports and facilities available is amazing!"
+        }
+      ]
+    },
+    "CorporateFitness": {
+      "title": "Empower Your Teams with LifePass Corporate Fitness",
+      "description": "Boost employee morale and health by offering exclusive fitness and wellness benefits. LifePass provides flexible solutions that fit your company's unique needs.",
+      "buttonText": "More about corporate fitness",
+      "imageAlt": "Corporate fitness program"
+    },
+    "JoinCommunitySection": {
+      "title": "Join the LifePass Community",
+      "description": "Subscribe to our newsletter and we'll update you when we onboard new partners and activities. You'll also have exclusive access to discounts, fitness, wellness, nutrition and lifestyle stories.",
+      "buttonText": "Sign Up Now"
+    }
   }
 }

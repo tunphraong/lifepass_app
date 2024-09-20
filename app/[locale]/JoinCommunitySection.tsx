@@ -1,8 +1,19 @@
-import { Container, Grid, Title, Text, Button, Box, Group } from "@mantine/core";
+import {
+  Container,
+  Grid,
+  Title,
+  Text,
+  Button,
+  Box,
+  Group,
+} from "@mantine/core";
 import { Link } from "../../navigation";
 import classes from "./JoinCommunitySection.module.css";
+import { useTranslations } from "next-intl";
 
 function JoinCommunitySection() {
+  const t = useTranslations("JoinCommunitySection");
+
   return (
     <Box component="section" className={classes.section}>
       <Container size="lg">
@@ -10,13 +21,9 @@ function JoinCommunitySection() {
           <Grid.Col>
             <Box className={classes.content}>
               <Title order={2} className={classes.title}>
-                Join the LifePass Community
+                {t("title")}
               </Title>
-              <Text className={classes.description}>
-                Subscribe to our newsletter and we’ll update you when we onboard
-                new partners and activities. You’ll also have exclusive
-                access to discounts, fitness, wellness, nutrition and lifestyle stories.
-              </Text>
+              <Text className={classes.description}>{t("description")}</Text>
             </Box>
           </Grid.Col>
         </Grid>
@@ -28,7 +35,7 @@ function JoinCommunitySection() {
             radius="xl"
             className={classes.primaryButton}
           >
-            Sign Up Now
+            {t("buttonText")}
           </Button>
         </Group>
       </Container>

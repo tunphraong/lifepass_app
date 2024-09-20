@@ -6,21 +6,25 @@ import LocaleSwitcher from "../components/LocaleSwitcher";
 import { Link } from "../../navigation";
 import logo from "../../public/lifepass.svg";
 import Image from "next/image";
+import { useTranslations } from "next-intl";
 
-const links = [
-  { link: "/prices", label: "Plans & Pricing" },
-  { link: "/companies", label: "For Companies" },
-  { link: "/partners", label: "List My Business" },
-];
+
 
 export default function Header() {
   const [mobileMenuOpened, setMobileMenuOpened] = useState(false);
+  const t = useTranslations("Header");
 
-  const items = links.map((link) => (
-    <Link key={link.label} href={link.link} className={classes.link}>
-      {link.label}
-    </Link>
-  ));
+   const links = [
+     { link: "/prices", labelKey: "plansAndPricing" },
+     { link: "/companies", labelKey: "forCompanies" },
+     { link: "/partners", labelKey: "listMyBusiness" },
+   ];
+
+   const items = links.map((link) => (
+     <Link key={link.labelKey} href={link.link} className={classes.link}>
+       {t(link.labelKey)}
+     </Link>
+   ));
 
   return (
     <header className={classes.header}>
