@@ -1,52 +1,29 @@
-import {
-  Container,
-  Title,
-  Text,
-  Grid,
-  Card,
-  Button,
-  Group,
-} from "@mantine/core";
+import { Container, Title, Text, Button, Group } from "@mantine/core";
 import { IconArrowRight } from "@tabler/icons-react";
 import classes from "./NetworkSection.module.css";
 import { Carousel } from "@mantine/carousel";
 import "@mantine/carousel/styles.css";
 import { Image } from "@mantine/core";
 import { Link } from "../../../../navigation";
-
-const stats = [
-  { number: "50,000+", description: "In-person gyms & studios" },
-  { number: "2,500+", description: "Virtual personal trainers" },
-  { number: "70+", description: "Premium wellbeing apps" },
-];
+import { useTranslations } from "next-intl";
 
 export default function NetworkSection() {
+  const t = useTranslations("companies.NetworkSection");
+
+  const carouselImages = t.raw("carouselImages");
+
   return (
     <section className={classes.section}>
       <Container size="lg">
         <div className={classes.header}>
-          <Text className={classes.subtitle}>LIFEPASS NETWORK</Text>
+          <Text className={classes.subtitle}>{t("subtitle")}</Text>
           <Title order={1} className={classes.title}>
-            Amazing variety of fitness and wellness facilities
+            {t("title")}
           </Title>
           <Text size="xl" className={classes.description}>
-            Employees get the most options to support their mental and physical
-            wellbeing.
+            {t("description")}
           </Text>
         </div>
-        {/* <Grid gutter="lg" className={classes.statsGrid}>
-          {stats.map((item, index) => (
-            <Grid.Col key={index} span={{ base: 12, md: 4 }}>
-              <Card className={classes.statCard}>
-                <div className={classes.imagePlaceholder}></div>
-                <Title order={3} className={classes.statNumber}>
-                  {item.number}
-                </Title>
-                <Text size="sm">{item.description}</Text>
-              </Card>
-            </Grid.Col>
-          ))}
-        </Grid> */}
         <Carousel
           withIndicators
           height={500}
@@ -55,45 +32,11 @@ export default function NetworkSection() {
           loop
           align="start"
         >
-          <Carousel.Slide>
-            <Image src="/acupunture.jpg" alt="acupunture" height="500" />
-          </Carousel.Slide>
-          <Carousel.Slide>
-            <Image
-              src="/pilates_class.jpg"
-              alt="boxing"
-              // width={500}
-              height={500}
-              // objectFit="cover"
-            />
-          </Carousel.Slide>
-          <Carousel.Slide>
-            <Image
-              src="/cycling.jpg"
-              alt="pilates"
-              // width={500}
-              height={500}
-              // objectFit="cover"
-            />
-          </Carousel.Slide>
-          <Carousel.Slide>
-            <Image
-              src="/bouldering.jpg"
-              alt="bouldering"
-              // width={500}
-              height={500}
-              // objectFit="cover"
-            />
-          </Carousel.Slide>
-          <Carousel.Slide>
-            <Image
-              src="/sound-healing.jpeg"
-              alt="sound-healing"
-              // width={500}
-              height={500}
-              // objectFit="cover"
-            />
-          </Carousel.Slide>
+          {carouselImages.map((image, index) => (
+            <Carousel.Slide key={index}>
+              <Image src={image.src} alt={image.alt} height="500" />
+            </Carousel.Slide>
+          ))}
         </Carousel>
         <Group justify="center" className={classes.buttonGroup}>
           <Button
@@ -103,11 +46,8 @@ export default function NetworkSection() {
             className={classes.primaryButton}
             radius="lg"
           >
-            Get quote
+            {t("getQuoteButton")}
           </Button>
-          {/* <Button variant="outline" className={classes.secondaryButton}>
-            Search gyms & studios
-          </Button> */}
         </Group>
       </Container>
     </section>

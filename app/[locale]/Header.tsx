@@ -63,11 +63,12 @@ export default function Header() {
           <LocaleSwitcher />
         </div> */}
         <div className={classes.mobileMenu}>
-          {links.map((link) => (
+          {/* {links.map((link) => (
             <Link key={link.label} href={link.link} className={classes.link}>
               {link.label}
             </Link>
-          ))}
+          ))} */}
+          {items}
           <LocaleSwitcher />
         </div>
       </Drawer>

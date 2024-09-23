@@ -40,7 +40,7 @@
     "bookClass": "Đặt lớp 🎟️",
     "preparation": "Chuẩn bị 📋",
     "amenities": "Tiện nghi 🛀",
-    "directions": "Chỉ dẫn đường 🗺️",
+    "directions": "Chỉ đường 🗺️",
     "readMore": "Đọc thêm",
     "hide": "Ẩn",
     "noClassSelected": "Không có lớp nào được chọn. Vui lòng chọn một lớp để xem mô tả."
@@ -75,14 +75,14 @@
     "menuTitle": "Menu"
   },
   "HeroSection": {
-    "title": "Một thẻ cho các phòng tập thể dục và sức khỏe tốt nhất Việt Nam",
-    "description": "Khám phá và lựa chọn từ hàng trăm phòng tập trên khắp Việt Nam chỉ với một ứng dụng Lifepass. Tiện lợi, đa dạng và tiết kiệm!",
+    "title": "Một ứng dụng cho các phòng tập thể dục và chặm sóc sức khỏe tốt nhất Việt Nam",
+    "description": "Khám phá và lựa chọn từ hàng trăm địa điểm trên khắp Việt Nam chỉ với một ứng dụng Lifepass. Tiện lợi, đa dạng và tiết kiệm!",
     "viewMembership": "Xem gói thành viên",
     "imageAlt": "Hình ảnh chính"
   },
   "FeatureSection": {
-    "mainTitle": "Truy cập vào các phòng tập hàng đầu và nhiều ưu đãi thể dục, sức khỏe bổ sung trong thành phố của bạn và trên khắp Việt Nam. Bạn đã sẵn sàng chưa?",
-    "journeyTitle": "Bắt đầu một hành trình thể dục mới",
+    "mainTitle": "Tìm kiếm và tập luyện tại các phòng tập hàng đầu cùng nhiều ưu đãi về thể dục và sức khỏe tại thành phố của bạn và trên khắp Việt Nam. Bạn đã sẵn sàng trải nghiệm chưa?",
+    "journeyTitle": "Bắt đầu một hành trình mới",
     "activities": {
       "Yoga": "Yoga",
       "Cycling": "Đạp xe",
@@ -91,22 +91,22 @@
       "Dance": "Khiêu vũ",
       "Wellness": "Sức khỏe"
     },
-    "mobileDescription": "Chán với những điều cũ kỹ? Bạn sẽ không bao giờ cảm thấy nhàm chán với chúng tôi. Khám phá các hoạt động mới mỗi ngày.",
+    "mobileDescription": "Đã chán với lối tập luyện cũ? Bạn sẽ không bao giờ cảm thấy nhàm chán với chúng tôi. Khám phá các hoạt động mới mỗi ngày.",
     "endlessVariety": {
-      "title": "Đa dạng vô tận",
-      "description": "Lựa chọn từ nhiều loại hình thể thao và sức khỏe được cung cấp bởi các đối tác của chúng tôi"
+      "title": "Đa dạng bộ môn",
+      "description": "Lựa chọn từ nhiều loại hình thể thao và sức khỏe được cung cấp bởi các đối tác của LifePass"
     },
     "discoverNew": {
-      "title": "Khám phá điều mới mẻ",
-      "description": "Chán với những điều cũ kỹ? Bạn sẽ không bao giờ cảm thấy nhàm chán với chúng tôi. Khám phá các hoạt động mới mỗi ngày."
+      "title": "Khám phá những điều mới mẻ",
+      "description": "Đã chán với lối tập luyện cũ? Bạn sẽ không bao giờ cảm thấy nhàm chán với LifePass. Khám phá các hoạt động mới mỗi ngày."
     },
     "saveMembership": {
-      "title": "Tiết kiệm với tư cách thành viên",
-      "description": "Giá thành viên độc quyền và khuyến mãi trong ứng dụng"
+      "title": "Tiết kiệm hơn",
+      "description": "Thành viên của LifePass sẽ nhận được khuyến mãi độc quyền"
     }
   },
   "DiscoverPossibilities": {
-    "title": "Khám phá các khả năng của bạn",
+    "title": "Đột phá giới hạn của bạn",
     "description": "Tìm kiếm và khám phá tất cả các địa điểm cung cấp các hoạt động thể dục và sức khỏe yêu thích của bạn. Trong khu vực của bạn, thành phố của bạn, và bất cứ đâu tại Việt Nam.",
     "buttonText": "Tìm địa điểm"
   },
@@ -116,19 +116,19 @@
     "features": [
       {
         "title": "Trở thành thành viên",
-        "description": "Chọn một trong các gói thành viên linh hoạt của chúng tôi để bắt đầu hành trình thể dục của bạn. Chỉ cần vậy thôi."
+        "description": "Chọn một trong các gói thành viên linh hoạt của LifePass để bắt đầu hành trình của bạn. Chỉ cần vậy thôi."
       },
       {
         "title": "Tìm cảm hứng",
-        "description": "Cần một chút cảm hứng? Tìm các địa điểm đối tác và hoạt động gần bạn thông qua trình duyệt của bạn."
+        "description": "Cần một chút cảm hứng? Tìm các địa điểm đối tác và hoạt động gần bạn thông qua ứng dụng."
       },
       {
         "title": "Đặt lịch tập",
-        "description": "Đảm bảo cho mình một chỗ trong lớp học hoặc cho buổi tập cá nhân và tận hưởng khả năng hủy linh hoạt, phòng khi kế hoạch thay đổi."
+        "description": "Đặt chỗ trong lớp học nhóm hoặc cho buổi tập cá nhân và tận hưởng khả năng hủy linh hoạt, phòng khi kế hoạch thay đổi."
       },
       {
-        "title": "Check in - đơn giản thế",
-        "description": "Đến địa điểm bạn đã chọn và check in bằng email xác nhận. Đơn giản vậy đó!"
+        "title": "Check in",
+        "description": "Đến địa điểm bạn đã chọn và check in bằng email xác nhận. Đơn giản thế thôi!"
       }
     ]
   },
@@ -137,7 +137,7 @@
     "testimonials": [
       {
         "name": "Đức Nguyễn",
-        "content": "Lần đầu tiên tôi sử dụng LifePass để đặt một buổi ngâm lạnh tại REBORN Fitness & Health ở Thảo Điền, và đó là một trải nghiệm tuyệt vời! Quá trình đặt chỗ diễn ra suôn sẻ, và tôi cảm thấy được chăm sóc tốt trong suốt buổi tập. LifePass cung cấp nhiều hoạt động sức khỏe đa dạng như ngâm lạnh, bơi lội và các buổi tập gym cá nhân với giá ưu đãi, giúp dễ dàng khám phá những trải nghiệm mới. Tôi rất hào hứng để đặt thêm nhiều buổi tập tại các địa điểm khác nhau thông qua LifePass trong tương lai. Rất đáng để thử!"
+        "content": "Lần đầu tiên tôi sử dụng LifePass để đặt một buổi ngâm nước đá tại REBORN Fitness & Health ở Thảo Điền, và đó là một trải nghiệm tuyệt vời! Quá trình đặt chỗ diễn ra suôn sẻ, và tôi cảm thấy được chăm sóc tốt trong suốt buổi tập. LifePass cung cấp nhiều hoạt động sức khỏe đa dạng như ngâm nước đá, bơi lội và các buổi tập gym cá nhân với giá ưu đãi, giúp dễ dàng khám phá những trải nghiệm mới. Tôi rất hào hứng để đặt thêm nhiều buổi tập tại các địa điểm khác nhau thông qua LifePass trong tương lai. Rất đáng để thử!"
       },
       {
         "name": "Miley Lê",
@@ -146,14 +146,206 @@
     ]
   },
   "CorporateFitness": {
-    "title": "Trao quyền cho đội ngũ của bạn với LifePass Fitness Doanh nghiệp",
-    "description": "Nâng cao tinh thần và sức khỏe nhân viên bằng cách cung cấp các lợi ích thể dục và sức khỏe độc quyền. LifePass cung cấp các giải pháp linh hoạt phù hợp với nhu cầu riêng của công ty bạn.",
+    "title": "Khích lệ nhân viên của bạn sống khỏe mạnh hơn với LifePass Fitness Doanh nghiệp",
+    "description": "Nâng cao tinh thần và sức khỏe của nhân viên bằng cách cung cấp các hoạt động về thể dục và sức khỏe. LifePass mang đến các giải pháp linh hoạt phù hợp với nhu cầu riêng của công ty bạn.",
     "buttonText": "Tìm hiểu thêm về fitness doanh nghiệp",
     "imageAlt": "Chương trình fitness doanh nghiệp"
   },
   "JoinCommunitySection": {
     "title": "Tham gia cộng đồng LifePass",
-    "description": "Đăng ký nhận bản tin của chúng tôi và chúng tôi sẽ cập nhật cho bạn khi chúng tôi có thêm đối tác và hoạt động mới. Bạn cũng sẽ có quyền truy cập độc quyền vào các ưu đãi, thông tin về thể dục, sức khỏe, dinh dưỡng và lối sống.",
+    "description": "Đăng ký nhận bản tin của LifePass và chúng mình sẽ cập nhật cho bạn khi chúng tôi có thêm đối tác và hoạt động mới. Bạn cũng sẽ được hưởng những ưu đãi, thông tin về thể dục, sức khỏe, dinh dưỡng và lối sống.",
     "buttonText": "Đăng Ký Ngay"
+  },
+  "RediscoverYourself": {
+    "title": "Khám phá bản thân",
+    "description": "Tăng thêm sự đa dạng cho kế hoạch tập luyện và sức khỏe của bạn bằng cách thử các hoạt động như Tắm Đá, Pilates hoặc Châm Cứu.",
+    "buttonText": "Xem các gói thành viên",
+    "image1Alt": "Châm cứu",
+    "image2Alt": "Lớp Pilates"
+  },
+  "Prices": {
+    "PricingIntroduction": {
+      "title": "Thể dục và Sức khỏe cho Mọi người",
+      "description": "Chọn gói phù hợp với ngân sách và nhu cầu thể dục của bạn.",
+      "credits": "điểm",
+      "perMonth": "/tháng",
+      "signUpButton": "Đăng ký",
+      "features": [
+        "Đặt lớp học & cuộc hẹn trên khắp Việt Nam",
+        "Hủy hoặc thay đổi gói gia hạn của bạn bất cứ lúc nào",
+        "Mời bạn bè tham gia cùng bạn và nhận phần thưởng cho mỗi người bạn đăng ký"
+      ]
+    }
+  },
+  "companies": {
+    "HeroSection": {
+      "subtitle": "GIẢI PHÁP SỨC KHỎE DOANH NGHIỆP",
+      "title": "Khám phá\nƯu điểm của LifePass",
+      "description": "Nâng cao đội ngũ của bạn với các chương trình sức khỏe doanh nghiệp LifePass, được thiết kế để tăng cường giữ chân nhân viên, thúc đẩy năng suất và giảm chi phí chăm sóc sức khỏe.",
+      "getQuoteButton": "Nhận báo giá",
+      "disclaimer": "Bằng cách nhận báo giá, bạn đồng ý cho LifePass liên hệ với bạn về các dịch vụ và ưu đãi liên quan. Để biết thêm thông tin, vui lòng xem",
+      "privacyPolicy": "Chính sách Bảo mật",
+      "imageAlt": "Người dùng Wellhub",
+      "fitnessLabel": "Thể dục",
+      "wellnessLabel": "Sức khỏe",
+      "mindfulnessLabel": "Thiền định"
+    },
+    "BenefitSection": {
+      "title": "Sức khỏe thúc đẩy thành công trong kinh doanh",
+      "description": "LifePass thúc đẩy cân bằng công việc-cuộc sống, dẫn đến nhân viên khỏe mạnh hơn, tổ chức hài lòng hơn và tiết kiệm chi phí đáng kể.",
+      "stats": [
+        {
+          "percentage": "178%",
+          "description": "Tăng mức độ tham gia hoạt động thể chất của nhân viên"
+        },
+        {
+          "percentage": "35%",
+          "description": "Giảm chi phí liên quan đến sức khỏe hàng năm của nhân viên"
+        },
+        {
+          "percentage": "43%",
+          "description": "Cải thiện tỷ lệ giữ chân nhân viên"
+        }
+      ],
+      "requestPricingButton": "Nhận báo giá"
+    },
+    "NetworkSection": {
+      "subtitle": "MẠNG LƯỚI LIFEPASS",
+      "title": "Đa dạng bộ môn và địa điểm",
+      "description": "Nhân viên có nhiều lựa chọn nhất để hỗ trợ sức khỏe tinh thần và thể chất.",
+      "stats": [
+        {
+          "number": "50,000+",
+          "description": "Phòng tập gym & studio trực tiếp"
+        },
+        {
+          "number": "2,500+",
+          "description": "Huấn luyện viên cá nhân trực tuyến"
+        },
+        { "number": "70+", "description": "Ứng dụng sức khỏe cao cấp" }
+      ],
+      "carouselImages": [
+        { "src": "/acupunture.jpg", "alt": "Châm cứu" },
+        { "src": "/pilates_class.jpg", "alt": "Quyền Anh" },
+        { "src": "/cycling.jpg", "alt": "Pilates" },
+        { "src": "/bouldering.jpg", "alt": "Leo núi nhân tạo" },
+        { "src": "/sound-healing.jpeg", "alt": "Chữa lành bằng âm thanh" }
+      ],
+      "getQuoteButton": "Nhận báo giá"
+    },
+    "BenefitsForCompany": {
+      "title": "Lợi ích cho công ty của bạn",
+      "benefits": [
+        {
+          "title": "1. Trở thành Nhà tuyển dụng được ưa chuộng",
+          "description": "Xây dựng văn hóa tập trung vào sức khỏe thu hút nhân tài và tăng cường lòng trung thành của nhân viên."
+        },
+        {
+          "title": "2. Nâng cao sức khỏe nhân viên",
+          "description": "Thể dục và sức khỏe đã chứng minh tác động tích cực đến cả sức khỏe thể chất và tinh thần."
+        },
+        {
+          "title": "3. Tăng cường sự hợp tác của đội ngũ và văn hóa doanh nghiệp",
+          "description": "Các chương trình sức khỏe khuyến khích làm việc nhóm và kết nối cá nhân, cải thiện đáng kể bầu không khí làm việc và tạo ra cảm giác hạnh phúc tập thể."
+        }
+      ],
+      "images": {
+        "yoga": "Lớp học yoga",
+        "spa": "Người dùng điện thoại thông minh",
+        "dance": "Người tập thể dục"
+      }
+    },
+    "DynamicList": {
+      "title": "Sử dụng LifePass và hỗ trợ lực lượng lao động khỏe mạnh nhất của bạn",
+      "description": "Trở thành công ty chăm sóc sức khỏe ngay hôm nay.",
+      "benefits": [
+        "Nâng cao sức khỏe toàn diện",
+        "Ngăn ngừa kiệt sức cho nhân viên",
+        "Giảm chi phí liên quan đến sức khỏe",
+        "Cải thiện việc tuyển dụng và giữ chân nhân tài",
+        "Tăng cường sự hài lòng của đội ngũ",
+        "Trở thành người tiên phong trong lĩnh vực nhân sự"
+      ],
+      "getQuoteButton": "Nhận báo giá",
+      "disclaimer": "Bạn đồng ý rằng LifePass có thể sử dụng thông tin để liên hệ với bạn về các sản phẩm và dịch vụ liên quan. Có câu hỏi? Xem",
+      "privacyPolicy": "Chính sách Bảo mật"
+    }
+  },
+  "partners": {
+    "HeroPartners": {
+      "subtitle": "LIFEPASS CHO ĐỐI TÁC",
+      "title": "Tăng thành viên và doanh thu với LifePass - hoàn toàn miễn phí!",
+      "description": "Nền tảng sức khỏe toàn diện của chúng tôi kết nối nhân viên với các dịch vụ bao gồm thể dục, sức khỏe tâm thần, dinh dưỡng và giấc ngủ. Tham gia mạng lưới đối tác của chúng tôi để mở rộng phạm vi tiếp cận và phát triển doanh nghiệp của bạn.",
+      "buttonText": "Đăng ký làm đối tác của LifePass",
+      "imageAlt": "Mọi người tập thể dục"
+    },
+    "Revenue": {
+      "title": "Tham gia LifePass hoàn toàn miễn phí",
+      "description": "Không phải trả bất kỳ chi phí nào để tăng doanh thu, số lượng thành viên và khả năng nhận diện thương hiệu cho doanh nghiệp của bạn.",
+      "benefits": [
+        {
+          "title": "Tăng doanh thu",
+          "description": "Tăng doanh thu định kỳ của bạn."
+        },
+        {
+          "title": "Tăng số lượng thành viên",
+          "description": "Khách hàng lần đầu có thể trở thành khách hàng thường xuyên của bạn"
+        },
+        {
+          "title": "Khả năng nhận diện thương hiệu",
+          "description": "Tiếp cận thương hiệu với nhiều khách hàng mới."
+        }
+      ],
+      "buttonText": "Trở thành đối tác của LifePass"
+    },
+    "WhyLifepass": {
+      "subtitle": "TẠI SAO CHỌN Lifepass",
+      "title": "Mở rộng tệp khách hàng của bạn một cách dễ dàng với nền tảng của chúng tôi.",
+      "description": "Lifepass giúp các phòng tập thể dục và sức khỏe thu hút và giữ chân các thành viên mới.",
+      "stats": [
+        {
+          "number": "90%",
+          "description": "người dùng Lifepass là khách hàng lần đầu tiên đối với các cơ sở đối tác của chúng tôi."
+        },
+        {
+          "number": "2 trong số 3",
+          "description": "người dùng không phải là thành viên phòng tập trong tháng trước khi tham gia Lifepass."
+        },
+        {
+          "number": "75%",
+          "description": "khách hàng lần đầu trở thành khách hàng thường xuyên của phòng tập"
+        }
+      ]
+    },
+    "GettingStarted": {
+      "subtitle": "THAM GIA MẠNG LƯỚI CỦA CHÚNG TÔI",
+      "title": "Trở thành đối tác LifePass miễn phí",
+      "description": "Đăng ký doanh nghiệp của bạn, sau đó bắt đầu chỉ với một vài bước đơn giản.",
+      "steps": [
+        {
+          "title": "Thiết lập hồ sơ của bạn",
+          "description": "Nhập thông tin doanh nghiệp, thương hiệu, và các lớp tập."
+        },
+        {
+          "title": "Tăng số lượng thành viên",
+          "description": "Người dùng sẽ đặt lịch tập cũng như những dịch vụ ban cung cấp"
+        },
+        {
+          "title": "Nhận thanh toán hàng tháng",
+          "description": "Nhận chuyển khoản ngân hàng cho mỗi lượt ghé thăm trong một kỳ hạn tháng."
+        }
+      ],
+      "buttonText": "Trở thành đối tác của LifePass",
+      "phoneDemo": {
+        "rating": "4.7",
+        "reviews": "(100)",
+        "title": "Phòng tập Yoga",
+        "facilityType": "Cơ sở",
+        "address": "123 Hai Bà Trưng, Quận 1, Tp. Hồ Chí Minh",
+        "phone": "+84 035-444-6879",
+        "website": "yogastudio.com",
+        "about": "Về Phòng tập Yoga"
+      }
+    }
   }
 }

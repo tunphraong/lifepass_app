@@ -4,7 +4,6 @@ import {
   Text,
   Grid,
   Group,
-  TextInput,
   Button,
   Box,
   Stack,
@@ -12,26 +11,22 @@ import {
 import { IconCheck, IconArrowRight } from "@tabler/icons-react";
 import classes from "./DynamicList.module.css";
 import { Link } from "../../../../navigation";
-
-const benefits = [
-  "Enhance total wellbeing",
-  "Prevent employee burnout",
-  "Lower health-related expenses",
-  "Improve talent acquisition and retention",
-  "Boost team satisfaction",
-  "Become an HR champion",
-];
+import { useTranslations } from "next-intl";
 
 export default function DynamicList() {
+  const t = useTranslations("companies.DynamicList");
+
+  const benefits = t.raw("benefits");
+
   return (
     <Box className={classes.section}>
       <Container size="lg">
         <Stack align="center" gap="md" className={classes.header}>
           <Title order={1} className={classes.title}>
-            Get LifePass and support your healthiest workforce
+            {t("title")}
           </Title>
           <Text size="xl" className={classes.description}>
-            Become a wellness company today.
+            {t("description")}
           </Text>
         </Stack>
         <Grid gutter="md" className={classes.benefitsGrid}>
@@ -39,32 +34,28 @@ export default function DynamicList() {
             <Grid.Col key={index} span={{ base: 12, md: 4 }}>
               <Group gap="xs">
                 <IconCheck size={20} className={classes.checkIcon} />
-                <Text size="lg" className={classes.benefitText}>{item}</Text>
+                <Text size="lg" className={classes.benefitText}>
+                  {item}
+                </Text>
               </Group>
             </Grid.Col>
           ))}
         </Grid>
         <Box className={classes.formWrapper}>
           <Group align="flex-start">
-            {/* <TextInput
-              placeholder="Work email"
-              type="email"
-              className={classes.input}
-            /> */}
             <Button
               component={Link}
               href="https://tally.so/r/mOLjDM"
               rightSection={<IconArrowRight size={14} />}
               className={classes.button}
             >
-              Get quote
+              {t("getQuoteButton")}
             </Button>
           </Group>
           <Text size="xs" className={classes.disclaimer}>
-            You agree LifePass may use the information to contact you regarding
-            relevant products and services. Questions? See our{" "}
+            {t("disclaimer")}{" "}
             <a href="#" className={classes.link}>
-              Privacy Policy
+              {t("privacyPolicy")}
             </a>
             .
           </Text>

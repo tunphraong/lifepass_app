@@ -3,34 +3,22 @@ import { Container, Text, Avatar, Stack } from "@mantine/core";
 import styles from "./TestimonialSection.module.css";
 import { useTranslations } from "next-intl";
 
-interface Testimonial {
-  id: number;
-  name: string;
-  content: string;
-  avatar: string;
-}
-
 const avatars = [
   "/testimonials/1.jpg?height=80&width=80",
   "/testimonials/2.jpeg?height=80&width=80",
 ];
 
 export default function TestimonialSection() {
- const t = useTranslations("TestimonialSection");
+  const t = useTranslations("TestimonialSection");
 
- const rawTestimonials = t.raw("testimonials");
- const testimonials: Testimonial[] = Array.isArray(rawTestimonials)
-   ? rawTestimonials.map((testimonial, index) => ({
-       id: index + 1,
-       name: testimonial.name,
-       content: testimonial.content,
-       avatar: avatars[index],
-     }))
-   : [];
+  const testimonials = t.raw("testimonials").map((testimonial, index) => ({
+    id: index + 1,
+    name: testimonial.name,
+    content: testimonial.content,
+    avatar: avatars[index],
+  }));
 
-    const [activeTestimonial, setActiveTestimonial] = useState(
-      testimonials[0] || null
-    );
+  const [activeTestimonial, setActiveTestimonial] = useState(testimonials[0]);
 
   return (
     <div className={styles.container}>

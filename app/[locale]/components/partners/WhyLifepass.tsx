@@ -1,35 +1,23 @@
 import React from "react";
 import { Card, Container, Grid, Group, Text, Title } from "@mantine/core";
 import classes from "./WhyLifepass.module.css";
+import { useTranslations } from "next-intl";
 
 export default function WhyLifepass() {
-  const stats = [
-    {
-      number: "90%",
-      description:
-        "of Lifepass users are first-time customers for our partner facilities.",
-    },
-    {
-      number: "2 out of 3",
-      description:
-        "employees were not gym members in the month before joining Lifepass.",
-    },
-    {
-      number: "75%",
-      description: "of initial visitors become regular patrons.",
-    },
-  ];
+  const t = useTranslations("partners.WhyLifepass");
+
+  const stats = t.raw("stats");
 
   return (
     <section className={classes.section}>
       <Container size="lg">
         <div className={classes.header}>
-          <Text className={classes.uppercase}>WHY Lifepass</Text>
+          <Text className={classes.uppercase}>{t("subtitle")}</Text>
           <Title order={2} className={classes.title}>
-            Expand your client base effortlessly with our platform.
+            {t("title")}
           </Title>
           <Text size="xl" className={classes.description}>
-            Lifepass helps fitness and wellness studios attract and retain dedicated members.
+            {t("description")}
           </Text>
         </div>
         <Grid>

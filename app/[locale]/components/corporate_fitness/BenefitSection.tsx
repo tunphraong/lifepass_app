@@ -16,41 +16,26 @@ import {
 } from "@tabler/icons-react";
 import classes from "./BenefitSection.module.css";
 import { Link } from "../../../../navigation";
+import { useTranslations } from "next-intl";
 
-const stats = [
-  {
-    icon: IconActivity,
-    percentage: "178%",
-    description: "Increase in employee physical activity engagement",
-    footnote: "[1]",
-  },
-  {
-    icon: IconBrain,
-    percentage: "35%",
-    description: "Decrease in yearly employee health-related expenses",
-    footnote: "[2]",
-  },
-  {
-    icon: IconTrendingUp,
-    percentage: "43%",
-    description: "Enhancement in staff retention rates",
-    footnote: "[3]",
-  },
-];
+const statIcons = [IconActivity, IconBrain, IconTrendingUp];
 
 export function BenefitSection() {
+  const t = useTranslations("companies.BenefitSection");
+
+  const stats = t.raw("stats").map((stat, index) => ({
+    ...stat,
+    icon: statIcons[index],
+  }));
+
   return (
     <section className={classes.section}>
       <Container size="lg">
         <div className={classes.header}>
           <Title order={2} className={classes.title}>
-            Wellness fuels business success
+            {t("title")}
           </Title>
-          <Text className={classes.description}>
-            LifePass promotes work-life balance, resulting in healthier
-            employees, more satisfied organizations, and demonstrable cost
-            savings.
-          </Text>
+          <Text className={classes.description}>{t("description")}</Text>
         </div>
         <Grid gutter="lg" className={classes.statsGrid}>
           {stats.map((item, index) => (
@@ -69,7 +54,6 @@ export function BenefitSection() {
                 </Title>
                 <Text size="sm" c="dimmed" className={classes.statDescription}>
                   {item.description}
-                  {/* <sup className={classes.footnote}>{item.footnote}</sup> */}
                 </Text>
               </Paper>
             </Grid.Col>
@@ -83,7 +67,7 @@ export function BenefitSection() {
             className={classes.button}
             radius="lg"
           >
-            Request pricing
+            {t("requestPricingButton")}
           </Button>
         </Group>
       </Container>

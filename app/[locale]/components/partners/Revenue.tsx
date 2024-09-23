@@ -11,46 +11,33 @@ import {
 import { IconMoneybag, IconUser, IconDeviceMobile } from "@tabler/icons-react";
 import classes from "./Revenue.module.css";
 import { Link } from "../../../../navigation";
+import { useTranslations } from "next-intl";
 
 export default function Revenue() {
-  const benefits = [
-    {
-      icon: IconMoneybag,
-      title: "Drive Revenue",
-      description:
-        "Increase your recurring revenue.",
-    },
-    {
-      icon: IconUser,
-      title: "Boost membership",
-      description:
-        "First-time visitors can become your repeat customer",
-    },
-    {
-      icon: IconDeviceMobile,
-      title: "Brand visibility",
-      description:
-        "Gain brand exposure to a lot of new customers.",
-    },
-  ];
+  const t = useTranslations("partners.Revenue");
+
+  const benefitIcons = [IconMoneybag, IconUser, IconDeviceMobile];
+
+  const benefits = t.raw("benefits").map((benefit, index) => ({
+    ...benefit,
+    icon: benefitIcons[index],
+  }));
 
   return (
     <section className={classes.section}>
       <Container size="lg">
         <Title order={2} ta="center" mb="sm" className={classes.title}>
-          LifePass is free to join
+          {t("title")}
         </Title>
         <Text
           size="xl"
-          //   c="dimmed"
           ta="center"
           mb="xl"
           fw={500}
           mx="auto"
           className={classes.description}
         >
-          Pay absolutely nothing to drive more revenue, membership, and brand
-          visibility for your business.
+          {t("description")}
         </Text>
         <Grid mb="xl">
           {benefits.map((benefit, index) => (
@@ -78,7 +65,7 @@ export default function Revenue() {
             className={classes.button}
             size="lg"
           >
-            Partner with LifePass
+            {t("buttonText")}
           </Button>
         </Group>
       </Container>

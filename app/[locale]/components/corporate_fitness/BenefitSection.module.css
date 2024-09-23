@@ -42,7 +42,7 @@
 }
 
 .statCard {
-  background-color: var(--mantine-color-background-light);
+  background-color: var(--mantine-color-background-0);
   display: flex;
   flex-direction: column;
   align-items: center;

@@ -21,37 +21,24 @@ import {
 } from "@tabler/icons-react";
 import classes from "./GettingStarted.module.css";
 import { Link } from "../../../../navigation";
+import { useTranslations } from "next-intl";
 
 export default function GettingStarted() {
-  const steps = [
-    {
-      title: "Set up your profile",
-      description:
-        "Input your business details, brand elements, offered activities, and schedules.",
-    },
-    {
-      title: "Increase membership",
-      description: "Drive more visits.",
-    },
-    {
-      title: "Receive monthly payments",
-      description:
-        "Get bank-transfer for every visit in a monthly period.",
-    },
-  ];
+  const t = useTranslations("partners.GettingStarted");
+
+  const steps = t.raw("steps");
 
   return (
     <section className={classes.section}>
       <Container size="lg">
         <Grid gutter="xl">
           <Grid.Col span={{ base: 12, lg: 7 }}>
-            <Text className={classes.uppercase}>JOIN OUR NETWORK</Text>
+            <Text className={classes.uppercase}>{t("subtitle")}</Text>
             <Title order={2} className={classes.title}>
-              Become a LifePass partner for free
+              {t("title")}
             </Title>
             <Text size="xl" mb="xl">
-              Apply to register your business, then get started in just a few
-              simple steps.
+              {t("description")}
             </Text>
             <List spacing="lg" size="lg" mb="xl" center>
               {steps.map((step, index) => (
@@ -73,7 +60,7 @@ export default function GettingStarted() {
               variant="light"
               radius="xl"
             >
-              Partner with LifePass
+              {t("buttonText")}
             </Button>
           </Grid.Col>
           <Grid.Col span={{ base: 12, lg: 5 }} className={classes.phoneColumn}>
@@ -89,16 +76,16 @@ export default function GettingStarted() {
                   </Group>
                   <Group mb="xs">
                     <Text fw={700} size="xl">
-                      4.7
+                      {t("phoneDemo.rating")}
                     </Text>
                     <Text c="yellow">★★★★★</Text>
-                    <Text c="dimmed">(100)</Text>
+                    <Text c="dimmed">{t("phoneDemo.reviews")}</Text>
                   </Group>
                   <Title order={3} mb="xs">
-                    Yoga Studio
+                    {t("phoneDemo.title")}
                   </Title>
                   <Text c="dimmed" mb="md">
-                    Facility
+                    {t("phoneDemo.facilityType")}
                   </Text>
                   <Group mb="md">
                     {[...Array(3)].map((_, i) => (
@@ -108,19 +95,19 @@ export default function GettingStarted() {
                   <Stack gap="xs">
                     <Group>
                       <IconMapPin size={16} />
-                      <Text>123 Hai Bà Trưng, Quận 1, Tp. Hồ Chí Minh</Text>
+                      <Text>{t("phoneDemo.address")}</Text>
                     </Group>
                     <Group>
                       <IconPhone size={16} />
-                      <Text>+84 035-444-6879</Text>
+                      <Text>{t("phoneDemo.phone")}</Text>
                     </Group>
                     <Group>
                       <IconWorld size={16} />
-                      <Text>yogastudio.com</Text>
+                      <Text>{t("phoneDemo.website")}</Text>
                     </Group>
                   </Stack>
                   <Group justify="space-between" mt="md">
-                    <Text fw={600}>About Yoga Studio</Text>
+                    <Text fw={600}>{t("phoneDemo.about")}</Text>
                     <IconChevronRight size={24} />
                   </Group>
                 </div>
