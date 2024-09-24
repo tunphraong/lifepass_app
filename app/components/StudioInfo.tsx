@@ -11,6 +11,7 @@ import {
   Rating,
   Tabs,
   Button,
+  rem
 } from "@mantine/core";
 import {
   IconBath,
@@ -23,6 +24,8 @@ import {
   IconClock,
   IconArrowLeft,
   IconPhone,
+  IconStar,
+  IconCalendar
 } from "@tabler/icons-react";
 import Image from "next/image";
 import StudioSchedule from "./StudioSchedule";
@@ -42,13 +45,6 @@ interface StudioInfoProps {
 }
 
 export function StudioInfo({ studio, loggedIn }: StudioInfoProps) {
-  // const categories = ["Rock Climbing", "Bouldering", "Fitness", "Yoga"];
-  const photos = [
-    { src: "/placeholder.svg?height=400&width=600", alt: "Climbing wall" },
-    { src: "/placeholder.svg?height=400&width=600", alt: "Bouldering area" },
-    { src: "/placeholder.svg?height=400&width=600", alt: "Fitness area" },
-    { src: "/placeholder.svg?height=400&width=600", alt: "Yoga studio" },
-  ];
   const t = useTranslations("StudioInfo");
   const {
     name,
@@ -70,11 +66,11 @@ export function StudioInfo({ studio, loggedIn }: StudioInfoProps) {
     router.back();
   };
 
-  const scheduleRef = useRef<HTMLDivElement>(null); // Create ref for the StudioSchedule section
+  const scheduleRef = useRef<HTMLDivElement>(null);
 
   const handleBookSessionClick = () => {
     if (scheduleRef.current) {
-      scheduleRef.current.scrollIntoView({ behavior: "smooth" }); // Smooth scroll to StudioSchedule section
+      scheduleRef.current.scrollIntoView({ behavior: "smooth" });
     }
   };
 
@@ -83,44 +79,6 @@ export function StudioInfo({ studio, loggedIn }: StudioInfoProps) {
   if (name == "Reborn Fitness & Health") {
     logo = "/reborn.png";
   }
-
-  const classes = [
-    {
-      name: "Beginner Bouldering",
-      time: "Today, 2:00 PM",
-      duration: "90 min",
-      spots: 3,
-      type: "Bouldering",
-    },
-    {
-      name: "Lead Climbing Basics",
-      time: "Tomorrow, 10:00 AM",
-      duration: "2 hours",
-      spots: 5,
-      type: "Rock Climbing",
-    },
-    {
-      name: "Advanced Technique Workshop",
-      time: "Sat, 1:00 PM",
-      duration: "3 hours",
-      spots: 2,
-      type: "Rock Climbing",
-    },
-    {
-      name: "Yoga for Climbers",
-      time: "Today, 6:00 PM",
-      duration: "60 min",
-      spots: 8,
-      type: "Yoga",
-    },
-    {
-      name: "Core Strength for Climbing",
-      time: "Tomorrow, 5:00 PM",
-      duration: "45 min",
-      spots: 10,
-      type: "Fitness",
-    },
-  ];
 
   // Map amenities to corresponding icons (you'll need to import these icons)
   const amenityIcons = {
@@ -133,14 +91,6 @@ export function StudioInfo({ studio, loggedIn }: StudioInfoProps) {
     Coffee: <IconCoffee size={16} />,
     // Add more amenity mappings as needed
   };
-
-  const [activeTab, setActiveTab] = useState<string | null>("info"); // State for active tab
-  // const handleTabChange = (value: string | null) => {
-  //   setActiveTab(value);
-  //   if (value === "info") {
-  //     setSelectedClassName(null); // Reset selected class when switching to Info tab
-  //   }
-  // };
 
   const [selectedClass, setSelectedClass] = useState(null); // State to manage selected class
   const [classFilter, setClassFilter] = useState(""); // State to manage class filter
@@ -223,14 +173,35 @@ export function StudioInfo({ studio, loggedIn }: StudioInfoProps) {
 
       <Tabs defaultValue="schedule" className={styles.tab}>
         <Tabs.List grow>
-          <Tabs.Tab value="schedule">Schedule</Tabs.Tab>
-          <Tabs.Tab value="amenities">Amenities</Tabs.Tab>
-          <Tabs.Tab value="reviews">Reviews</Tabs.Tab>
+          <Tabs.Tab
+            leftSection={
+              <IconCalendar style={{ width: rem(16), height: rem(16) }} />
+            }
+            value="schedule"
+          >
+            Schedule
+          </Tabs.Tab>
+          <Tabs.Tab
+            leftSection={
+              <IconCoffee style={{ width: rem(16), height: rem(16) }} />
+            }
+            value="amenities"
+          >
+            Amenities
+          </Tabs.Tab>
+          <Tabs.Tab
+            leftSection={
+              <IconStar style={{ width: rem(16), height: rem(16) }} />
+            }
+            value="reviews"
+          >
+            Reviews
+          </Tabs.Tab>
         </Tabs.List>
 
         <Tabs.Panel value="schedule">
           {/* <Card> */}
-            {/* <div>
+          {/* <div>
               {[
                 "Monday",
                 "Tuesday",
@@ -246,7 +217,7 @@ export function StudioInfo({ studio, loggedIn }: StudioInfoProps) {
                 </Group>
               ))}
             </div> */}
-            <StudioHours studioId={studio.id}></StudioHours>
+          <StudioHours studioId={studio.id}></StudioHours>
           {/* </Card> */}
         </Tabs.Panel>
 
