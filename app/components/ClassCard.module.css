@@ -1,0 +1,39 @@
+.card {
+  border: 1px solid #e6e6e6;
+  border-radius: 10px;
+  padding: 16px;
+  margin-bottom: 12px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.details {
+  display: flex;
+  flex-direction: column;
+}
+
+.time {
+  font-size: 14px;
+  color: #6b6b6b;
+}
+
+.duration {
+  font-size: 14px;
+  color: #6b6b6b;
+}
+
+.spotsLeft {
+  color: red;
+  font-weight: bold;
+  margin-top: 8px;
+}
+
+.bookButton {
+  background-color: black;
+  color: white;
+  padding: 8px 16px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}

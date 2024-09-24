@@ -15,10 +15,10 @@ const StudioAddress = ({ address }) => {
       <ThemeIcon size={24} radius="md" color="rose">
         <IconMapPin size={16} />
       </ThemeIcon>
-      <Text size="sm" className={styles.address}>
-        <Link href={googleMapsUrl} target="_blank">
+      <Text className={styles.address}>
+        {/* <Link href={googleMapsUrl} target="_blank"> */}
           {address}
-        </Link>
+        {/* </Link> */}
       </Text>
     </Group>
   );
