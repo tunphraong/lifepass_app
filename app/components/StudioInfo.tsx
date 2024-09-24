@@ -12,6 +12,7 @@ import {
   Tabs,
   Button,
   rem,
+  Spoiler
 } from "@mantine/core";
 import {
   IconBath,
@@ -144,9 +145,11 @@ export function StudioInfo({ studio, loggedIn }: StudioInfoProps) {
             <Text className={styles.grayText}>Open until 10:00 PM</Text>
           </Group> */}
         </Group>
-        <Text size="lg" fw={600} className={styles.gymDescription}>
-          {description}
-        </Text>
+        <Spoiler maxHeight={100} mb={30} showLabel="Read more" hideLabel="Hide">
+          <Text size="lg" fw={600} className={styles.gymDescription}>
+            {description}
+          </Text>
+        </Spoiler>
 
         <Group className={styles.actions}>
           <Button onClick={handleBookSessionClick}>Book a Session</Button>
