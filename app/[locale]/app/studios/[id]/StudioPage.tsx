@@ -14,8 +14,6 @@ const StudioPage = ({ id, loggedIn }: any) => {
 
   const isUserLoggedIn = loggedIn;
 
-  console.log('logged in', loggedIn);
-
   if (error) {
     return (
       <Center className="my-6">

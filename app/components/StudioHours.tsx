@@ -1,6 +1,7 @@
-import { useState, useEffect } from 'react';
-import useSWR from 'swr';
-import { Loader, Text, Table, Group, Card } from '@mantine/core';
+import { useState, useEffect } from "react";
+import useSWR from "swr";
+import { Loader, Text, Group, Card, Box } from "@mantine/core";
+import styles from "./StudioHours.module.css";
 
 const fetcher = (url: string) => fetch(url).then((res) => res.json());
 
@@ -11,7 +12,15 @@ interface StudioHour {
   close_time: string;
 }
 
-const dayOrder = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
+const dayOrder = [
+  "Monday",
+  "Tuesday",
+  "Wednesday",
+  "Thursday",
+  "Friday",
+  "Saturday",
+  "Sunday",
+];
 
 const formatTime = (time: string) => {
   const [hours, minutes] = time.split(":");
@@ -28,8 +37,7 @@ export default function StudioHours({ studioId }: { studioId: string }) {
 
   if (error) return <Text c="red">Failed to load studio hours.</Text>;
   if (!data) return <Loader />;
-  
-  // Extract the studio_hours array from the response object
+
   const studioHours = data.studio_hours ?? [];
 
   const groupedByDay = dayOrder.map((day) => ({
@@ -40,11 +48,20 @@ export default function StudioHours({ studioId }: { studioId: string }) {
   return (
     <Card>
       {groupedByDay.map(({ day, hours }) => (
-        <Group key={day} grow>
+        <Group
+          key={day}
+          className={styles.hourRow}
+          wrap="nowrap"
+          justify="space-between"
+        >
           <Text>{day}</Text>
-          {hours
-            ? `${formatTime(hours.open_time)} - ${formatTime(hours.close_time)}`
-            : "Closed"}
+          <Box className={styles.hourBox}>
+            {hours
+              ? `${formatTime(hours.open_time)} - ${formatTime(
+                  hours.close_time
+                )}`
+              : "Closed"}
+          </Box>
         </Group>
       ))}
     </Card>

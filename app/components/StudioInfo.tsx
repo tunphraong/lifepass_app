@@ -139,10 +139,10 @@ export function StudioInfo({ studio, loggedIn }: StudioInfoProps) {
             <Text>4.8</Text>
             <Text className={styles.grayText}>(120 reviews)</Text>
           </Group> */}
-          <Group gap="xs">
+          {/* <Group gap="xs">
             <IconClock size={16} />
             <Text className={styles.grayText}>Open until 10:00 PM</Text>
-          </Group>
+          </Group> */}
         </Group>
         <Text size="lg" fw={600} className={styles.gymDescription}>
           {description}

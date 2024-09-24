@@ -43,7 +43,6 @@ const StudioImagesCarousel: React.FC<StudioCarouselProps> = ({
 
   // Fetch image URLs from Supabase Storage
   const imageUrls = [studio.imageUrl, ...studio.images].map((imagePath) => {
-    console.log(imagePath);
     const url = supabase.storage.from("public_photos").getPublicUrl(imagePath)
       .data.publicUrl;
     return url;
