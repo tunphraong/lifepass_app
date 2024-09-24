@@ -8,10 +8,10 @@ import {
   ThemeIcon,
   Title,
   Card,
-  Rating,
+  Modal,
   Tabs,
   Button,
-  rem
+  rem,
 } from "@mantine/core";
 import {
   IconBath,
@@ -25,7 +25,12 @@ import {
   IconArrowLeft,
   IconPhone,
   IconStar,
-  IconCalendar
+  IconCalendar,
+  IconMap,
+  IconMail,
+  IconBrandFacebook,
+  IconBrandTwitter,
+  IconBrandInstagram,
 } from "@tabler/icons-react";
 import Image from "next/image";
 import StudioSchedule from "./StudioSchedule";
@@ -52,6 +57,7 @@ export function StudioInfo({ studio, loggedIn }: StudioInfoProps) {
     location,
     imageUrl,
     rating,
+    email,
     phoneNumber,
     website,
     socialMedia,
@@ -73,6 +79,7 @@ export function StudioInfo({ studio, loggedIn }: StudioInfoProps) {
       scheduleRef.current.scrollIntoView({ behavior: "smooth" });
     }
   };
+  const [modalOpened, setModalOpened] = useState(false);
 
   let logo;
   logo = "/test-icon.jpg";
@@ -100,6 +107,11 @@ export function StudioInfo({ studio, loggedIn }: StudioInfoProps) {
     setClassFilter(classInfo.name);
     // setActiveTab("schedule");
   };
+
+    const handleContactClick = () => {
+      setModalOpened(true); // Open the modal
+    };
+
 
   return (
     <main className={styles.main}>
@@ -138,10 +150,87 @@ export function StudioInfo({ studio, loggedIn }: StudioInfoProps) {
 
         <Group className={styles.actions}>
           <Button onClick={handleBookSessionClick}>Book a Session</Button>
-          <Button variant="outline" leftSection={<IconPhone size={16} />}>
+          <Button
+            variant="outline"
+            leftSection={<IconPhone size={16} />}
+            onClick={handleContactClick}
+          >
             Contact
           </Button>
         </Group>
+
+        {/* Modal for contact info */}
+        <Modal
+          opened={modalOpened}
+          onClose={() => setModalOpened(false)}
+          title={
+            <Text fw={600} size="lg">
+              Contact Information
+            </Text>
+          }
+          centered
+          padding="lg"
+          // overlayProps={0.55}
+          // overlayBlur={3}
+          radius="md"
+        >
+          <Group gap="xs" mb="md">
+            <IconPhone size={20} stroke={1.5} />
+            <Text>{phoneNumber}</Text>
+          </Group>
+
+          <Group gap="xs" mb="md">
+            <IconMail size={20} stroke={1.5} />
+            <Text>{email}</Text>
+          </Group>
+
+          <Group gap="xs" mb="md">
+            <IconMap size={20} stroke={1.5} />
+            <Text>{address}</Text>
+          </Group>
+
+          <Group gap="xs">
+            {socialMedia.facebook && (
+              <a
+                href={socialMedia.facebook}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <IconBrandFacebook size={24} color="#4267B2" />
+              </a>
+            )}
+            {socialMedia.twitter && (
+              <a
+                href={socialMedia.twitter}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <IconBrandTwitter size={24} color="#1DA1F2" />
+              </a>
+            )}
+            {socialMedia.instagram && (
+              <a
+                href={socialMedia.instagram}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <IconBrandInstagram size={24} color="#C13584" />
+              </a>
+            )}
+          </Group>
+
+          <Button
+            fullWidth
+            mt="lg"
+            size="md"
+            variant="filled"
+            color="dark"
+            radius="md"
+            onClick={() => setModalOpened(false)}
+          >
+            Close
+          </Button>
+        </Modal>
 
         <div className={styles.categories}>
           <h3>Categories</h3>
