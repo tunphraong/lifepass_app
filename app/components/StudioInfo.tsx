@@ -22,18 +22,19 @@ import {
   IconCoffee,
   IconClock,
   IconArrowLeft,
-  IconPhone
+  IconPhone,
 } from "@tabler/icons-react";
 import Image from "next/image";
 import StudioSchedule from "./StudioSchedule";
 import styles from "./StudioInfo.module.css";
 import { Link } from "../../navigation";
 import StudioAddress from "./StudioAddress";
-import { useState } from "react"; // Import useState
+import { useState, useRef } from "react"; // Import useState
 import { useTranslations } from "next-intl";
 import StudioImagesCarousel from "./StudioImagesCarousel";
 import ClassCard from "./ClassCard";
-import {useRouter} from "next/navigation";
+import { useRouter } from "next/navigation";
+import StudioHours from "./StudioHours";
 
 interface StudioInfoProps {
   studio: any;
@@ -62,55 +63,64 @@ export function StudioInfo({ studio, loggedIn }: StudioInfoProps) {
     amenities,
     directions,
     prepare,
-    categories
+    categories,
   } = studio;
   const router = useRouter();
   const handleBack = () => {
     router.back();
   };
+
+  const scheduleRef = useRef<HTMLDivElement>(null); // Create ref for the StudioSchedule section
+
+  const handleBookSessionClick = () => {
+    if (scheduleRef.current) {
+      scheduleRef.current.scrollIntoView({ behavior: "smooth" }); // Smooth scroll to StudioSchedule section
+    }
+  };
+
   let logo;
   logo = "/test-icon.jpg";
   if (name == "Reborn Fitness & Health") {
     logo = "/reborn.png";
   }
 
-      const classes = [
-        {
-          name: "Beginner Bouldering",
-          time: "Today, 2:00 PM",
-          duration: "90 min",
-          spots: 3,
-          type: "Bouldering",
-        },
-        {
-          name: "Lead Climbing Basics",
-          time: "Tomorrow, 10:00 AM",
-          duration: "2 hours",
-          spots: 5,
-          type: "Rock Climbing",
-        },
-        {
-          name: "Advanced Technique Workshop",
-          time: "Sat, 1:00 PM",
-          duration: "3 hours",
-          spots: 2,
-          type: "Rock Climbing",
-        },
-        {
-          name: "Yoga for Climbers",
-          time: "Today, 6:00 PM",
-          duration: "60 min",
-          spots: 8,
-          type: "Yoga",
-        },
-        {
-          name: "Core Strength for Climbing",
-          time: "Tomorrow, 5:00 PM",
-          duration: "45 min",
-          spots: 10,
-          type: "Fitness",
-        },
-      ];
+  const classes = [
+    {
+      name: "Beginner Bouldering",
+      time: "Today, 2:00 PM",
+      duration: "90 min",
+      spots: 3,
+      type: "Bouldering",
+    },
+    {
+      name: "Lead Climbing Basics",
+      time: "Tomorrow, 10:00 AM",
+      duration: "2 hours",
+      spots: 5,
+      type: "Rock Climbing",
+    },
+    {
+      name: "Advanced Technique Workshop",
+      time: "Sat, 1:00 PM",
+      duration: "3 hours",
+      spots: 2,
+      type: "Rock Climbing",
+    },
+    {
+      name: "Yoga for Climbers",
+      time: "Today, 6:00 PM",
+      duration: "60 min",
+      spots: 8,
+      type: "Yoga",
+    },
+    {
+      name: "Core Strength for Climbing",
+      time: "Tomorrow, 5:00 PM",
+      duration: "45 min",
+      spots: 10,
+      type: "Fitness",
+    },
+  ];
 
   // Map amenities to corresponding icons (you'll need to import these icons)
   const amenityIcons = {
@@ -177,7 +187,7 @@ export function StudioInfo({ studio, loggedIn }: StudioInfoProps) {
         </Text>
 
         <Group className={styles.actions}>
-          <Button>Book a Session</Button>
+          <Button onClick={handleBookSessionClick}>Book a Session</Button>
           <Button variant="outline" leftSection={<IconPhone size={16} />}>
             Contact
           </Button>
@@ -219,8 +229,8 @@ export function StudioInfo({ studio, loggedIn }: StudioInfoProps) {
         </Tabs.List>
 
         <Tabs.Panel value="schedule">
-          <Card>
-            <div>
+          {/* <Card> */}
+            {/* <div>
               {[
                 "Monday",
                 "Tuesday",
@@ -230,17 +240,14 @@ export function StudioInfo({ studio, loggedIn }: StudioInfoProps) {
                 "Saturday",
                 "Sunday",
               ].map((day) => (
-                <Group
-                  key={day}
-                  grow
-                  className={styles.scheduleItem}
-                >
+                <Group key={day} grow className={styles.scheduleItem}>
                   <Text>{day}</Text>
-                  <Text>8:00 AM - 10:00 PM</Text>
+                  <Text>8:00 AM - 07:00 PM</Text>
                 </Group>
               ))}
-            </div>
-          </Card>
+            </div> */}
+            <StudioHours studioId={studio.id}></StudioHours>
+          {/* </Card> */}
         </Tabs.Panel>
 
         <Tabs.Panel className={styles.tabPanel} value="amenities">
@@ -258,7 +265,7 @@ export function StudioInfo({ studio, loggedIn }: StudioInfoProps) {
         {/* Other Tab Content */}
       </Tabs>
 
-      <div>
+      <div ref={scheduleRef}>
         <h3>Upcoming Classes</h3>
         {/* {classes.map((cls, index) => (
           <ClassCard
