@@ -46,6 +46,8 @@ export async function GET(request, { params }) {
         description,
         difficulty,
         duration,
+        how_to_get_there,
+        how_to_prepare,
         price,
         type
       )

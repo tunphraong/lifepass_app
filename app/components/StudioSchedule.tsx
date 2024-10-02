@@ -1,4 +1,4 @@
-import { useState} from "react";
+import { useState } from "react";
 import {
   Card,
   Text,
@@ -12,6 +12,8 @@ import {
   Title,
   Center,
   Box,
+  List,
+  ThemeIcon,
   Collapse,
   Skeleton,
   useMantineTheme,
@@ -27,7 +29,7 @@ import {
 import styles from "./StudioSchedule.module.css";
 import { useDisclosure, useMediaQuery } from "@mantine/hooks";
 import { useRouter } from "../../navigation";
-import { IconChevronRight, IconCalendar } from "@tabler/icons-react";
+import { IconChevronRight, IconInfoCircle, IconMapPin, IconCalendar } from "@tabler/icons-react";
 import { createClient } from "../../utils/supabase/client";
 import isSameOrBefore from "dayjs/plugin/isSameOrBefore"; // ES 2015
 import { useTranslations } from "next-intl";
@@ -58,6 +60,7 @@ const StudioSchedule = ({ studioId, filter, onClassClick, loggedIn }) => {
   const [userSession, setUserSession] = useState(null); // State to hold user session
   const router = useRouter();
   // const [opened, { toggle }] = useDisclosure(false);
+  const [opened, { open, close }] = useDisclosure(false);
   const [selectedSchedule, setSelectedSchedule] = useState(null);
   const [date, setDate] = useState(dayjs().format("YYYY-MM-DD"));
   const startDate = dayjs(date).startOf("week").format("YYYY-MM-DD");
@@ -78,9 +81,9 @@ const StudioSchedule = ({ studioId, filter, onClassClick, loggedIn }) => {
     );
   };
 
-    const handleClassClick = (scheduleId) => {
-      setSelectedClassId(selectedClassId === scheduleId ? null : scheduleId);
-    };
+  const handleClassClick = (scheduleId) => {
+    setSelectedClassId(selectedClassId === scheduleId ? null : scheduleId);
+  };
 
   const weekStart = selectedDay.startOf("week").format("YYYY-MM-DD");
   const weekEnd = selectedDay.endOf("week").format("YYYY-MM-DD");
@@ -92,7 +95,13 @@ const StudioSchedule = ({ studioId, filter, onClassClick, loggedIn }) => {
   } = useSWR(
     `/api/studio/${studioId}/schedules?weekStart=${weekStart}&weekEnd=${weekEnd}`,
     fetcher
-  );  
+  );
+
+  const handlePriceClick = (schedule) => {
+    setSelectedSchedule(schedule);
+    console.log('schedule', schedule);
+    open(); // Open the modal
+  };
 
   if (error) return <div>{t("failedToLoad")}</div>;
   if (isLoading) {
@@ -107,14 +116,14 @@ const StudioSchedule = ({ studioId, filter, onClassClick, loggedIn }) => {
 
   if (!schedules) return <div>{t("loading")}</div>;
 
-   const handleDayChange = (newDay) => {
-     if (newDay.isAfter(dayjs().startOf("day").subtract(1, "day"))) {
-       if (newDay.isAfter(selectedDay.endOf("week"))) {
-         handleWeekChange(1);
-       }
-       setSelectedDay(newDay);
-     }
-   };
+  const handleDayChange = (newDay) => {
+    if (newDay.isAfter(dayjs().startOf("day").subtract(1, "day"))) {
+      if (newDay.isAfter(selectedDay.endOf("week"))) {
+        handleWeekChange(1);
+      }
+      setSelectedDay(newDay);
+    }
+  };
 
   //  const handleDayChange = useCallback((newDay) => {
   //    if (newDay.isAfter(dayjs().startOf("day").subtract(1, "day"))) {
@@ -130,16 +139,16 @@ const StudioSchedule = ({ studioId, filter, onClassClick, loggedIn }) => {
     }
   };
 
-    // const handleWeekChange = useCallback(
-    //   (direction) => {
-    //     const newDate = currentDate.add(direction, "week");
-    //     if (newDate.isAfter(dayjs().startOf("week").subtract(1, "week"))) {
-    //       setCurrentDate(newDate);
-    //       setSelectedDay(newDate.startOf("week"));
-    //     }
-    //   },
-    //   [currentDate]
-    // );
+  // const handleWeekChange = useCallback(
+  //   (direction) => {
+  //     const newDate = currentDate.add(direction, "week");
+  //     if (newDate.isAfter(dayjs().startOf("week").subtract(1, "week"))) {
+  //       setCurrentDate(newDate);
+  //       setSelectedDay(newDate.startOf("week"));
+  //     }
+  //   },
+  //   [currentDate]
+  // );
 
   const formatPrice = (price: number) => {
     return new Intl.NumberFormat("vi-VN", {
@@ -157,7 +166,6 @@ const StudioSchedule = ({ studioId, filter, onClassClick, loggedIn }) => {
       schedule.price > 0 &&
       (!filter || schedule.classes.name === filter) // Apply filter
   );
-
 
   // const filteredSchedules = useMemo(() => {
   //   return (
@@ -276,7 +284,8 @@ const StudioSchedule = ({ studioId, filter, onClassClick, loggedIn }) => {
                     className={styles.button}
                     fullWidth
                     color="rose"
-                    onClick={() => handleEnroll(schedule)}
+                    // onClick={() => handleEnroll(schedule)}
+                    onClick={() => handlePriceClick(schedule)}
                     variant="filled"
                     radius="xl"
                     size="sm"
@@ -324,6 +333,56 @@ const StudioSchedule = ({ studioId, filter, onClassClick, loggedIn }) => {
           {t("nextDay")}
         </Button>
       </Stack>
+
+      <Modal
+        opened={opened}
+        onClose={close}
+        title={<Title order={2}>Information</Title>}
+        centered
+        size="lg"
+        padding="lg"
+        radius="md"
+      >
+        {selectedSchedule && (
+          <Stack gap="md">
+            <Title order={3}>Price</Title>
+            <Text>{formatPrice(selectedSchedule.price)}</Text>
+
+            <Title order={3}>Start Time</Title>
+            <Text>{dayjs(selectedSchedule.start_time).format("h:mm A")}</Text>
+
+            <Title order={3}>Date</Title>
+            <Text>
+              {dayjs(selectedSchedule.start_time).format("MMMM D, YYYY")}
+            </Text>
+
+            
+            <Group position="apart">
+              <Title order={3}>Preparation</Title>
+              <ThemeIcon color="blue" size={24} radius="xl">
+                <IconInfoCircle size={16} />
+              </ThemeIcon>
+            </Group>
+            <Text>{selectedSchedule.classes.how_to_prepare}</Text>
+
+            <Group gap="apart">
+              <Title order={3}>Directions</Title>
+              <ThemeIcon color="green" size={24} radius="xl">
+                <IconMapPin size={16} />
+              </ThemeIcon>
+            </Group>
+            <Text>{selectedSchedule.classes.how_to_get_there}</Text>
+
+            <Button
+              onClick={() => handleEnroll(selectedSchedule)}
+              fullWidth
+              variant="filled"
+            >
+              Proceed to Payment
+            </Button>
+          </Stack>
+        )}
+      </Modal>
     </>
   );
 };
