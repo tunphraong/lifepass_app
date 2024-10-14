@@ -357,7 +357,7 @@ const StudioSchedule = ({ studioId, filter, onClassClick, loggedIn }) => {
             </Text>
 
             
-            <Group position="apart">
+            <Group gap="apart">
               <Title order={3}>Preparation</Title>
               <ThemeIcon color="blue" size={24} radius="xl">
                 <IconInfoCircle size={16} />
