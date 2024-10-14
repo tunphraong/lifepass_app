@@ -46,20 +46,33 @@
 }
 
 .buttonWrapper {
-  display: flex;
-  flex-direction: column;
-  gap: var(--mantine-spacing-xs);
+   display: flex;
+  /* Ensure alignment remains consistent regardless of breakpoint */
+  justify-content: space-between;  
+  align-items: center;  
 
-  @media (min-width: $mantine-breakpoint-xs) {
-    flex-direction: row;
+  @media (max-width: $mantine-breakpoint-xs) { 
+    /* On small screens, maintain flexibility but ensure centering */
+    justify-content: center;   
+    align-items: center;   
+    width: 100%;
+
+    /* Adjust gaps to prevent overlap */
+    gap: var(--mantine-spacing-xs);    
+  }
+
+  @media (min-width: $mantine-breakpoint-xs) { 
+    /* On larger screens, switch back to row direction */
+    flex-direction: row;     
   }
 }
 
 .button {
+  
   width: 100%;
-
   @media (min-width: $mantine-breakpoint-xs) {
     width: auto;
+    
   }
 }
 

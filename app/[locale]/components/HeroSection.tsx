@@ -1,4 +1,4 @@
-import { Container, Grid, Text, Title, Button, Image } from "@mantine/core";
+import { Container, Grid, Text, Title, Button, Image, Group } from "@mantine/core";
 import { Link } from "../../../navigation";
 import styles from "./HeroSection.module.css";
 import { useTranslations } from "next-intl";
@@ -16,17 +16,34 @@ export default function HeroSection() {
                 {t("title")}
               </Title>
               <Text className={styles.description}>{t("description")}</Text>
-              <div className={styles.buttonWrapper}>
-                <Button
-                  component={Link}
-                  href="/prices"
-                  size="md"
-                  prefetch={false}
-                  radius="xl"
-                >
-                  {t("viewMembership")}
-                </Button>
-              </div>
+              <Group>
+                <div className={styles.buttonWrapper}>
+                  <Button
+                    className={styles.button}
+                    component={Link}
+                    href="/prices"
+                    size="md"
+                    prefetch={false}
+                    radius="xl"
+                  >
+                    {t("viewMembership")}
+                  </Button>
+                </div>
+
+                <div className={styles.buttonWrapper}>
+                  <Button
+                    className={styles.button}
+                    component={Link}
+                    variant="outline"
+                    href="/app"
+                    size="md"
+                    prefetch={false}
+                    radius="xl"
+                  >
+                    {t("searchGym")}
+                  </Button>
+                </div>
+              </Group>
             </div>
           </Grid.Col>
           <Grid.Col span={{ base: 12, lg: 6 }}>
