@@ -38,8 +38,9 @@ export async function login(formData: FormData) {
 }
 
 export async function signup(formData: FormData) {
-  console.log(formData);
-  const supabase = createClient();
+  // console.log(formData);
+  // redirect("/app");
+  // const supabase = createClient();
   // const result = signupSchema.safeParse(formData);
   //todo check formdata backend
   // if (!result.success) {
@@ -54,21 +55,21 @@ export async function signup(formData: FormData) {
   //    };
   // }
 
-  const { data, error } = await supabase.auth.signUp({
-    email: formData.get("email") as string,
-    password: formData.get("password") as string,
-    options: {
-      data: {
-        first_name: formData.get("first_name") as string,
-        last_name: formData.get("last_name") as string,
-      },
-    },
-  });
+  // const { data, error } = await supabase.auth.signUp({
+  //   email: formData.get("email") as string,
+  //   password: formData.get("password") as string,
+  //   options: {
+  //     data: {
+  //       first_name: formData.get("first_name") as string,
+  //       last_name: formData.get("last_name") as string,
+  //     },
+  //   },
+  // });
 
-  if (error) {
-    redirect("/app/error");
-  }
+  // if (error) {
+  //   redirect("/app/error");
+  // }
 
-  revalidatePath("/app/search", "layout");
+  // revalidatePath("/app/search", "layout");
   redirect("/app/search");
 }

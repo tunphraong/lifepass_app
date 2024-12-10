@@ -26,7 +26,6 @@ import { useRouter } from "../../../../navigation";
 import styles from "./search.module.css";
 import { useState } from "react";
 import { ActivitiesDropdown } from "./ActivitiesDropdown";
-import Footer from "../../Footer";
 
 const supabase = createClient();
 
